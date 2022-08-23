@@ -20,31 +20,37 @@
                         <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" Text="Connect to Ethereum" x:Name="adressLabel"/>
                         <Editor HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="320" HeightRequest="100" x:Name="wordPhraseEditor"
                                     Placeholder="Word phrase (mnemonics)" TextColor="White" BackgroundColor="#222"/>-->
-                        
-                        <AbsoluteLayout HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="360" HeightRequest="270">
-                            <Image x:Name="link" Source="loadingqrcode.png" IsAnimationPlaying="True" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="270" HeightRequest="270"
-                                   AbsoluteLayout.LayoutBounds="0.5, 0.5, 270, 270" AbsoluteLayout.LayoutFlags="PositionProportional"/>
-                            <StackLayout x:Name="nftLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional">
-                                
-                            </StackLayout>
-                        </AbsoluteLayout>
-                        
-                        
+                        <BoxView HeightRequest="10"/>
+
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="360" MinimumHeightRequest = "195"
+                                     x:Name="mainStackLayout">
+
+                        </StackLayout>
+
+                        <BoxView HeightRequest="120"/>
+
                         <!--
                         <Button HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="DarkBlue" Text="Connect to Wallet" TextColor="White" Clicked="OnWalletButtonClicked" />
                         -->
-                        
-                        <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" Text="Connect your wallet" x:Name="linkLabel" FontSize="20"/>
 
-                        <Button HorizontalOptions="Center" VerticalOptions="Center" Text="Mint NFT" BackgroundColor="DarkBlue" CornerRadius="30" FontFamily="BigNoodleTitling" Clicked="SingTransaction" 
+                        <!--<Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" Text="Connect your wallet" x:Name="linkLabel" FontSize="20"/>
+
+                        <Button HorizontalOptions="Center" VerticalOptions="Center" Text="Mint NFT" BackgroundColor="Green" HeightRequest="60" CornerRadius="30" FontFamily="BigNoodleTitling" Clicked="SingTransaction" 
                                 x:Name="singTransactionButton"  IsVisible="false"/>
                         <BoxView HeightRequest="60" />
                         <Button HorizontalOptions="Center" VerticalOptions="Center" Text="Log out" BackgroundColor="DarkRed" CornerRadius="30" FontFamily="BigNoodleTitling" Clicked="OnLogOutClicked" 
-                                x:Name="logOutButton"  />
-                        <BoxView HeightRequest="120"/>
+                                x:Name="logOutButton" HeightRequest="60"/>
+                        -->
                     </StackLayout>
                 </AbsoluteLayout>
             </ScrollView>
+            <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1"  AbsoluteLayout.LayoutFlags="All" x:Name="qrCodeLayout" BackgroundColor="#88000000" IsVisible="false" Opacity="0">
+                <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 270, 270"  AbsoluteLayout.LayoutFlags="PositionProportional" Source="contract.png"/>
+
+                <AbsoluteLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnQRCodeLayoutClicked"/>
+                </AbsoluteLayout.GestureRecognizers>
+            </AbsoluteLayout> 
         </AbsoluteLayout>
     </AbsoluteLayout>
 </ContentPage>

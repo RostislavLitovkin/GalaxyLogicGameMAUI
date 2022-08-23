@@ -59,9 +59,17 @@ namespace GalaxyLogicGame
 
 
             stackLayout.Children.Add(new ShootingStarEvent().GetEventDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(new BlindnessEvent().GetEventDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(new ThreeInRowEvent().GetEventDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(new Polymorph().GetEventDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(new AbsoluteLayout
             {
                 WidthRequest = 320, HeightRequest = 125, HorizontalOptions = LayoutOptions.Center,
@@ -80,7 +88,11 @@ namespace GalaxyLogicGame
                     binaryTapGesture
                 }
             });
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(new AstronautEvent().GetEventDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(new AbsoluteLayout
             {
                 WidthRequest = 320, HeightRequest = 125, HorizontalOptions = LayoutOptions.Center,
@@ -101,7 +113,11 @@ namespace GalaxyLogicGame
             });
             //stackLayout.Children.Add(new AtomicBombEvent().GetEventDescription);
             //stackLayout.Children.Add(new ChristmasEvent().GetEventDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(new WorldUpsideDownEvent().GetEventDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(new BlueberriesEvent().GetEventDescription);
 
             stackLayout.Children.Add(new BoxView { HeightRequest = 120 });
@@ -120,9 +136,14 @@ namespace GalaxyLogicGame
             starsLayout.Children.Clear();
         }
 
-        private BoxView GenerateBackground()
+        private Button GenerateBackground()
         {
-            BoxView background = new BoxView { BackgroundColor = Color.FromHex("1f1f1f"), CornerRadius = 30 };
+            Button background = new Button
+            {
+                BackgroundColor = Color.FromHex("1f1f1f"),
+                CornerRadius = 30,
+            };
+            //BoxView background = new BoxView { BackgroundColor = Color.FromHex("1f1f1f"), CornerRadius = 30 };
             AbsoluteLayout.SetLayoutBounds(background, new Rect(0.5, 0.5, 1, 1));
             AbsoluteLayout.SetLayoutFlags(background, AbsoluteLayoutFlags.All);
 

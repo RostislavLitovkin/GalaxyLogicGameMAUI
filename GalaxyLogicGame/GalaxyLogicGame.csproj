@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
@@ -425,7 +425,13 @@
 
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0" />
     <PackageReference Include="Nethereum.Web3" Version="4.5.0" />
+    <PackageReference Include="Solnet.Extensions" Version="6.1.0" />
+    <PackageReference Include="Solnet.KeyStore" Version="6.1.0" />
+    <PackageReference Include="Solnet.Programs" Version="6.1.0" />
+    <PackageReference Include="Solnet.Rpc" Version="6.1.0" />
+    <PackageReference Include="Solnet.Wallet" Version="6.1.0" />
     <PackageReference Include="WalletConnect.Desktop" Version="1.7.1" />
     <PackageReference Include="WalletConnect.NEthereum" Version="1.7.1" />
   </ItemGroup>

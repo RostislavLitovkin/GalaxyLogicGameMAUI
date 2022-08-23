@@ -1,4 +1,5 @@
-﻿using GalaxyLogicGame.Mobile;
+﻿using CommunityToolkit.Maui;
+using GalaxyLogicGame.Mobile;
 
 namespace GalaxyLogicGameMAUI;
 
@@ -14,7 +15,8 @@ public static class MauiProgram
 				fonts.AddFont("SamsungOne700.ttf", "SamsungOne");
 				fonts.AddFont("bignoodletitling.ttf", "BigNoodleTitling");
 
-            });
+            })
+            .UseMauiCommunityToolkit();
 
 		return builder.Build();
 	}

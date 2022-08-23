@@ -5,7 +5,7 @@
              AbsoluteLayout.LayoutBounds="0, 0, 360, 80" >
     <StackLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional">
         <Label Text="Connect wallet" x:Name="label" TextColor="White" FontSize="24" FontAttributes="Bold"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                VerticalOptions="Center" HorizontalTextAlignment="Center"
+                HorizontalOptions="Center" HeightRequest="60"/>
     </StackLayout>
 </AbsoluteLayout>

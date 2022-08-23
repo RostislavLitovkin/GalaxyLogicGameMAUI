@@ -115,11 +115,23 @@ namespace GalaxyLogicGame
             //debris.Planet.Children.Add(debrisObject, new Rect(.5, .5, 60, 60), AbsoluteLayoutFlags.PositionProportional);
 
             stackLayout.Children.Add(planetDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(plusDescription);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(blackhole);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(star);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(shrinkingGiant);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(debris);
+            stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
             stackLayout.Children.Add(blueberry);
 
 

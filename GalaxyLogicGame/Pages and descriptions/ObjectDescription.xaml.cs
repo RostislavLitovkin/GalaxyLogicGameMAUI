@@ -20,7 +20,7 @@ namespace GalaxyLogicGame
         {
             InitializeComponent();
 
-            if (Device.RuntimePlatform == Device.Tizen)
+            if (true)//(Device.RuntimePlatform == Device.Tizen)
             {
                 bg = new ButtonBG { CornerRadius = 30, BackgroundColor = Color.FromHex("2f2f2f"), };
             }

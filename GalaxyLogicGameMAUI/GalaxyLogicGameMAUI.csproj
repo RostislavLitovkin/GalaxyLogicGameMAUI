@@ -12,10 +12,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>GLG T2 MAUI</ApplicationTitle>
+		<ApplicationTitle>Galaxy Logic Game</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.galaxylogicgame.mobileTEST</ApplicationId>
+		<ApplicationId>com.companyname.galaxylogicgame.mobile</ApplicationId>
 		<ApplicationIdGuid>4BDBEAD9-5C0C-4C74-B970-B3581365394E</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -32,14 +32,13 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\galaxylogo.png" Color="#000000" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\galaxylogo360.png" Color="#2b2b2b" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#000000" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\galaxylogogray.jpg" Color="#000000" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />

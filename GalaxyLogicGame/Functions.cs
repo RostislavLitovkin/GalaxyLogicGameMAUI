@@ -16,6 +16,7 @@ namespace GalaxyLogicGame
             return int.Parse(p.Text);
         }
 
+
         public static Color[] GetColors()
         {
             Color[] colors = { Color.FromArgb("FF87CEEB"), Color.FromArgb("FF66CDAA"), Color.FromArgb("FAFAD2"), Color.FromArgb("F4A460"), Color.FromArgb("6495ED"), Color.FromArgb("FF2E8B57"), Color.FromArgb("FF4500"), Color.FromArgb("008080"),
@@ -31,11 +32,11 @@ namespace GalaxyLogicGame
         public static Color GetColor(int index)
         {
             Color[] colors = { Color.FromArgb("FF87CEEB"), Color.FromArgb("FF66CDAA"), Color.FromArgb("FAFAD2"), Color.FromArgb("F4A460"), Color.FromArgb("6495ED"), Color.FromArgb("FF2E8B57"), Color.FromArgb("FF4500"), Color.FromArgb("008080"),
-                Color.FromArgb("FF9370DB"), Color.FromArgb("FFEE82EE"), Color.FromArgb("ffa500"), Color.FromArgb("FF32CD32"), 
+                Color.FromArgb("FF9370DB"), Color.FromArgb("FFEE82EE"), Color.FromArgb("ffa500"), Color.FromArgb("FF32CD32"),
                 Color.FromArgb("FF483D8B"), Color.FromArgb("FFADD8E6"), Color.FromArgb("ffff00"), Color.FromArgb("FFFF8C00"), Color.FromArgb("FFF08080"), Color.FromArgb("FFFF69B4"), 
             
                 //lateColors
-                Color.FromArgb("000080"), Color.FromArgb("FF8B0000"), Color.FromArgb("FF8B008B"), Color.FromArgb("FFE6E6FA"), Color.FromArgb("FFD2691E"), 
+                Color.FromArgb("000080"), Color.FromArgb("FF8B0000"), Color.FromArgb("FF8B008B"), Color.FromArgb("FFE6E6FA"), Color.FromArgb("FFD2691E"),
                 Color.FromArgb("FF006400"), Color.FromArgb("FF1E90FF"), Color.FromArgb("FF2F4F4F"), Color.FromArgb("FF98FB98"), Color.FromArgb("FFD2B48C"), Color.FromArgb("ff66ff"),
                 Color.FromArgb("FFDC143C"), Color.FromArgb("FF7FFFD4"), Color.FromArgb("00ff00"), Color.FromArgb("800080") };
             if (index < colors.Length) return colors[index];

@@ -6,7 +6,7 @@
                 WidthRequest="320" HeightRequest="85"
                 HorizontalOptions="Center">
     <Button AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
-        BackgroundColor="#2f2f2f" CornerRadius="30"/>
+        BackgroundColor="#2f2f2f" CornerRadius="30" IsEnabled="False"/>
     <AbsoluteLayout AbsoluteLayout.LayoutBounds="0, 0, 85, 85">
         <Image x:Name="thumbnail"
            Aspect="AspectFit"

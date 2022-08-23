@@ -1,4 +1,5 @@
-﻿using GalaxyLogicGame.Mobile;
+﻿using CommunityToolkit.Maui;
+using GalaxyLogicGame.Mobile;
 
 namespace GalaxyLogicGameWearOS
 {
@@ -13,7 +14,8 @@ namespace GalaxyLogicGameWearOS
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                })
+                .UseMauiCommunityToolkit(); ;
 
             return builder.Build();
         }

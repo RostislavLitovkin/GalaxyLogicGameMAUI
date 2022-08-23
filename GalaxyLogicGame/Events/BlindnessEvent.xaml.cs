@@ -85,12 +85,11 @@ namespace GalaxyLogicGame.Events
                     Source = "empty.png",
                     TranslationX = p.X,
                     TranslationY = p.Y,
-                    
                 };
 
                 if (p.Distance(center) > 180) planet.Opacity = 0;
                 blindPlanets.Children.Add(planet);
-                AbsoluteLayout.SetLayoutBounds(planet, new Rect(0.5, 0.5, 1, 1));
+                AbsoluteLayout.SetLayoutBounds(planet, new Rect(0.5, 0.5, 60, 60));
                 AbsoluteLayout.SetLayoutFlags(planet, AbsoluteLayoutFlags.PositionProportional);
 
             }
