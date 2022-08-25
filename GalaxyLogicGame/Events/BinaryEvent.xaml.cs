@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GalaxyLogicGame.Events.EventChallengesBoards;
 using GalaxyLogicGame.Pages_and_descriptions;
 using GalaxyLogicGame.Planet_objects;
+using GalaxyLogicGame.Types;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 
@@ -26,18 +27,19 @@ namespace GalaxyLogicGame.Events
         {
             InitializeComponent();
         }
+        public Label EventTitle => eventTitle;
         public string GetTitle => eventTitle.Text;
         public Color GetColor => eventTitle.TextColor;
         public ImageSource GetIcon => eventIcon.Source;
         public string Name => NAME;
         private bool IsActivated(GameWithEvents game)
         {
-            return !game.CustomMode || Preferences.Get(NAME, true);
+            return game.CustomMode && Preferences.Get(NAME, true);
         }
         public EventDescription GetEventDescription => new EventDescription
         {
             Title = eventTitle.Text, TitleColor = eventTitle.TextColor, IconImageSource = eventIcon.Source,
-            Description = "A special challenging event. Click here for more info."
+            Description = "This is a legacy event available only in custom gamemode."
         };
         public bool Prerequisites(GameWithEvents game)
         {

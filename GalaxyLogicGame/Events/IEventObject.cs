@@ -7,6 +7,7 @@ namespace GalaxyLogicGame.Events
 {
     public interface IEventObject
     {
+        Label EventTitle { get; }
         Task Move();
     }
 }

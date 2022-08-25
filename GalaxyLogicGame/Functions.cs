@@ -82,7 +82,7 @@ namespace GalaxyLogicGame
             else
             {
                 await Task.WhenAll(
-                    title.TranslateTo(0, 250, 500, Easing.SpringOut),
+                    title.TranslateTo(0, 205, 500, Easing.SpringOut),
                     title.ScaleTo(1.2, 500),
                     darken.FadeTo(0, 250));
             }
@@ -269,7 +269,7 @@ namespace GalaxyLogicGame
             else
             {
                 await Task.WhenAll(
-                    title.TranslateTo(0, 250, 500, Easing.SpringOut),
+                    title.TranslateTo(0, 205, 500, Easing.SpringOut),
                     title.ScaleTo(1.2, 500));
             }
         }

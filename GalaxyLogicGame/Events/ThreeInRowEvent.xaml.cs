@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaxyLogicGame.Pages_and_descriptions;
+using GalaxyLogicGame.Types;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 
@@ -25,10 +26,11 @@ namespace GalaxyLogicGame.Events
         public string GetTitle => eventTitle.Text;
         public Color GetColor => eventTitle.TextColor;
         public ImageSource GetIcon => eventIcon.Source;
+        public Label EventTitle => eventTitle;
         public string Name => NAME;
         private bool IsActivated(GameWithEvents game)
         {
-            return !game.CustomMode || Preferences.Get(NAME, true);
+            return (!game.CustomMode || Preferences.Get(NAME, true)) && (game.Gamemode == Gamemode.Clasic || game.Gamemode == Gamemode.GameJam);
         }
         public EventDescription GetEventDescription => new EventDescription
         {

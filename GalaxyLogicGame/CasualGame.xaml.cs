@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
-
+using GalaxyLogicGame.Powerups;
 
 [assembly: ExportFont("bignoodletitling.ttf", Alias = "BigNoodleTitling")]
 
@@ -261,6 +261,8 @@ namespace GalaxyLogicGame
             {
                 Clicked = false;
 
+                TurnPlusPlus();
+
                 await AddingPlanet(index);
                 //await Task.Delay(delay);
                 await MergeAtoms();
@@ -331,6 +333,8 @@ namespace GalaxyLogicGame
             if (Clicked)
             {
                 Clicked = false;
+
+                TurnPlusPlus();
 
                 degreClicked = offset + ((ClickableArea)sender).Index * degre;
                 degre = CirclePosition.CalculateDegre(atoms.Count - 1);
@@ -709,7 +713,7 @@ namespace GalaxyLogicGame
         }
         public void AddBlackholeAreas()
         {
-            turn++;
+            CheckPowerupPrerequisites();
 
             clickableAreaLayout.Children.Clear();
             clickableAreas.Clear();
@@ -752,7 +756,7 @@ namespace GalaxyLogicGame
         }
         public void AddClickableAreasToLayout()
         {
-            turn++;
+            CheckPowerupPrerequisites();
 
             clickableAreaLayout.Children.Clear();
             clickableAreas.Clear();
@@ -954,8 +958,28 @@ namespace GalaxyLogicGame
             this.offset = offset;
 
             await MoveAtoms();
-        }
 
+            TurnPlusPlus();
+        }
+        /**
+         * This method is used to count up the total number of turns and to update all the things that rely on it
+         */
+        public void TurnPlusPlus()
+        {
+            turn++;
+
+            foreach (PowerupBase powerup in BG.Powerups)
+            {
+                powerup.UpdateCooldown();
+            }
+        }
+        public void CheckPowerupPrerequisites()
+        {
+            foreach (PowerupBase powerup in BG.Powerups)
+            {
+                powerup.Prerequisites();
+            }
+        }
         public AbsoluteLayout EventCounterLayout { get => eventCounterLayout; set { eventCounterLayout = value; } }
         public AbsoluteLayout BlindnessLayout { get => blindnessLayout; set { blindnessLayout = value; } }
         public AbsoluteLayout AtomsLayout { get { return atomsLayout; } set { atomsLayout = value; } }

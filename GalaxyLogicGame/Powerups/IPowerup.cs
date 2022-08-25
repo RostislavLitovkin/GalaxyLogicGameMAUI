@@ -7,7 +7,7 @@ namespace GalaxyLogicGame.Powerups
     public interface IPowerup
     {
         void Prerequisites();
-        bool Equiped { get; set; }
-        bool Owned { get; set; }
+        static bool Equiped { get; set; }
+        static bool Owned { get; set; }
     }
 }

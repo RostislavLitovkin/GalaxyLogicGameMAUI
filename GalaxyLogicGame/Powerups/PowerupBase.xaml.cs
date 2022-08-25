@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Shapes;
+using Microsoft.Maui.Platform;
 
 namespace GalaxyLogicGame.Powerups
 {
 
     public abstract partial class PowerupBase : AbsoluteLayout
     {
+        private bool allowed = true;
         private int cooldown;
-        private IGameBG bg;
+        private IGameBG gameBG;
         private IPowerupView powerupView;
         private int lastTurn = 0;
         private bool clicked = true;
@@ -24,24 +27,38 @@ namespace GalaxyLogicGame.Powerups
         public int Cooldown { set { cooldown = value; lastTurn = -value; } }
         public void UpdateCooldown()
         {
-            if (bg.Game.Turn - lastTurn < cooldown)
+            if (gameBG.Game.Turn - lastTurn < cooldown)
             {
-                int height = (int)((double)(bg.Game.Turn - lastTurn) / cooldown * 170);
-                int width = 0;
-                if (height < 30)
-                {
-                    width = 30 - height;
-                }
-                AbsoluteLayout.SetLayoutBounds(filledBG, new Rect(5 + width/2, 175 - height, 170 - width, height));
+                int height = (int)((double)(gameBG.Game.Turn - lastTurn) / cooldown * 60);
+                //AbsoluteLayout.SetLayoutBounds(fill, );
+                fill.Clip = new RectangleGeometry(new Rect(0, 60-height, 60, height));
             }
-            else AbsoluteLayout.SetLayoutBounds(filledBG, new Rect(5, 5, 170, 170));
+            else
+            {
+                fill.Clip = new RectangleGeometry(new Rect(0, 0, 60, 60));
+                //AbsoluteLayout.SetLayoutBounds(fill, new Rect(15, 15, 60, 60));
+                shiny.IsVisible = true;
+            }
         }
 
-        public Color BGColor { set { filledBG.BackgroundColor = value; } }
-        public string Icon { set { icon.Source = value; } }
-
-        public bool IsAllowed { get { return !allowed.IsVisible; } set { allowed.IsVisible = !value; protectiveLayer.IsVisible = !value; } }
-        public IGameBG BG { get => bg; set { bg = value; } }
+        public bool IsAllowed { get { return allowed; } set { 
+                allowed = value;
+                if (value)
+                {
+                    shiny.Opacity = 1;
+                    fill.Opacity = 1;
+                }
+                else
+                {
+                    shiny.Opacity = 0;
+                    fill.Opacity = 0.5;
+                }
+            } }
+        public string BGImage { set { bg.Source = value; } }
+        public string FillImage { set { fill.Source = value; } }
+        public string ShinyImage { set { shiny.Source = value; } }
+        public abstract void Prerequisites();
+        public IGameBG BG { get => gameBG; set { gameBG = value; } }
         public IPowerupView PowerupView { set { powerupView = value; } }
 
         public int LastTurn { get => lastTurn; set { lastTurn = value; } }
@@ -50,50 +67,14 @@ namespace GalaxyLogicGame.Powerups
         
         public async void OnUsePowerupClicked(object sender, EventArgs args)
         {
-            if (bg.Game.Turn - lastTurn >= cooldown && IsAllowed && clicked)
+            if (gameBG.Game.Turn - lastTurn >= cooldown && IsAllowed && gameBG.Game.Clicked && clicked)
             {
                 clicked = false;
-                uint duration = 750;
-                int yOffset = 80;
-                //bg.PowerUpAnimationLayout.IsVisible = true;
-                //bg.PowerUpAnimationLayout.Children.Add(this);
 
-
-                // maybe a animation here
-                BoxView protectiveLayer = new BoxView();
-
+                shiny.IsVisible = false;
                 if (powerupView != null) powerupView.Disappear();
-                bg.MainLayout.Children.Add(this);
-                this.TranslationY = yOffset;
-                await Task.WhenAll(
-                    this.TranslateTo(0, yOffset-80, duration, Easing.SinInOut),
-                    this.ScaleTo(1.2, duration, Easing.SinOut)
-                    /*,Task.Run(async() => {
-                        await this.ScaleYTo(0.9, duration/2, Easing.SinIn);
-                        await this.ScaleYTo(1, duration/2, Easing.SinOut);
-                    })*/);
-                await Task.Delay(100);
-                await Task.WhenAll(
-                    //this.TranslateTo(0, yOffset-50, duration/2, Easing.SinIn),
-                    Task.Run(async() => { await this.ScaleTo(1, 100, Easing.SinOut); await this.ScaleTo(2.5, duration / 2 - 100, Easing.SinIn); }),
-                    this.FadeTo(0, duration/2, Easing.SinIn));
 
-                //bg.PowerUpAnimationLayout.IsVisible = false;
-                //bg.PowerUpAnimationLayout.Children.Remove(this);
-                bg.MainLayout.Children.Remove(this);
-
-
-                this.Opacity = 1;
-                this.Scale = 1;
-                //this.TranslationX = 0; //not needed
-                this.TranslationY = 0;
-                
-                //await Task.Delay(1000);
-                // needs major improvements
-
-
-
-                
+                // Animation here
 
                 UsePowerupClicked();
                 lastTurn = BG.Game.Turn;

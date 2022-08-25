@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaxyLogicGame.Events.EventChallengesBoards;
 using GalaxyLogicGame.Planet_objects;
+using GalaxyLogicGame.Powerups;
 using GalaxyLogicGame.Tutorial;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -12,6 +13,7 @@ namespace GalaxyLogicGame
 {
     public interface IGameBG
     {
+        List<PowerupBase> Powerups { get; }
         CasualGame Game { get; }
         void ResetTime();
         void UpdateScore();

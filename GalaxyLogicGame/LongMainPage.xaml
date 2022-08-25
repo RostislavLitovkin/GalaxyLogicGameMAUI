@@ -20,15 +20,23 @@
                             
                             <BoxView HeightRequest="30"/>
                             <Label x:Name="playButton" 
-                        HorizontalOptions="Center"
-                            Text="Play"
-                           Style="{StaticResource Key=mainPageLabel}"
-                           TextColor="#45ffed" FontAttributes="Bold"
-                         FontSize="50">
+                                   HorizontalOptions="Center"
+                                   Text="Play"
+                                   Style="{StaticResource Key=mainPageLabel}"
+                                   TextColor="#45ffed" FontAttributes="Bold"
+                                   FontSize="50">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnPlayEventfulClicked"/>
                                 </Label.GestureRecognizers>
                             </Label>
+                            <Image HeightRequest="60" WidthRequest="200" Source="playgamejam.png" x:Name="playGameJam">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPlayGameJamClicked" />
+
+                                </Image.GestureRecognizers>
+                                
+                            </Image>
+                            
                             <!--
                             <Label x:Name="playCustom"
                             Text="Custom Mode"
@@ -45,7 +53,7 @@
                                     <TapGestureRecognizer Tapped="OnChallengesClicked"/>
                                 </Label.GestureRecognizers>
                             </Label>
-
+                            <BoxView HeightRequest="5"/>
                             <Label x:Name="aboutEventsButton" 
                             Text="Events description"
                            Style="{StaticResource Key=mainPageLabel}"
@@ -54,7 +62,7 @@
                                     <TapGestureRecognizer Tapped="OnAboutEventfulClicked"/>
                                 </Label.GestureRecognizers>
                             </Label>
-
+                            <BoxView HeightRequest="5"/>
                             <Label x:Name="objectsDescriptionButton" 
                            Text="Objects description"
                         Style="{StaticResource Key=mainPageLabel}"
@@ -63,6 +71,7 @@
                                     <TapGestureRecognizer Tapped="OnObjectsInfoClicked"/>
                                 </Label.GestureRecognizers>
                             </Label>
+                            <BoxView HeightRequest="5"/>
                             <!--
                             <Label x:Name="aboutDevelopmentButton"
                            TextColor="#2fd2c1"
@@ -79,6 +88,7 @@
                                     <TapGestureRecognizer Tapped="OnTutorialClicked"/>
                                 </Label.GestureRecognizers>
                             </Label>
+                            <BoxView HeightRequest="5"/>
                             <Label x:Name="creditsButton"   
                         Style="{StaticResource Key=mainPageLabel}"
                             Text="Credits">

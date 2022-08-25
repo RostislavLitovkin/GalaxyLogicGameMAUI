@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<galaxylogicgame:GameBGBase xmlns:galaxylogicgame="clr-namespace:GalaxyLogicGame;assembly=GalaxyLogicGame"  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+<galaxylogicgame:GameBGBase xmlns:galaxylogicgame="clr-namespace:GalaxyLogicGame;assembly=GalaxyLogicGame"
+                            xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                            xmlns:powerups="clr-namespace:GalaxyLogicGame.Powerups"
                             x:Class="GalaxyLogicGame.Mobile.GameBG" BackgroundColor="Black">
     <galaxylogicgame:GameBGBase.Content>
         <AbsoluteLayout x:Name="mainLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 720" AbsoluteLayout.LayoutFlags="PositionProportional">
@@ -66,8 +68,9 @@
             -->
             
             <!-- Tady budou power-upy -->
-            
-            
+            <powerups:PowerupsLayout x:Name="powerupsLayout"/>
+
+
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" x:Name="eventLayout" IsVisible="false"/>
 
             

@@ -51,14 +51,16 @@ namespace GalaxyLogicGame.Mobile
 
             if (!Preferences.Get("tutorialCompleted", false))
             {
-                tutorialButtonsLayout.TranslationX = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
+                /*tutorialButtonsLayout.TranslationX = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
 
                 tutorialLayout.IsVisible = true;
 
                 Task.Run(async () => {
                     await Task.Delay(500);
                     await tutorialButtonsLayout.TranslateTo(0, 0, 500, Easing.SpringOut);
-                });
+                });*/
+
+                //NavigateToGame(new GameBG(Color.FromHex("222")), new TutorialPlacingPlanets());
             }
             else
             {

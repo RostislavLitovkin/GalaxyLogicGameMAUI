@@ -1,6 +1,7 @@
 ﻿using GalaxyLogicGame.Pages_and_descriptions;
 using GalaxyLogicGame.Particles;
 using GalaxyLogicGame.Planet_objects;
+using GalaxyLogicGame.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace GalaxyLogicGame.Events
         public string Name => NAME;
         private bool IsActivated(GameWithEvents game)
         {
-            return !game.CustomMode || Preferences.Get(NAME, true);
+            return (!game.CustomMode || Preferences.Get(NAME, true)) && (game.Gamemode == Gamemode.Clasic || game.Gamemode == Gamemode.GameJam);
         }
         public EventDescription GetEventDescription => new EventDescription
         {

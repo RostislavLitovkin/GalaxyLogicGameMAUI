@@ -43,7 +43,6 @@ namespace GalaxyLogicGame.Planet_objects
                 if (starBG.Rotation >= 360) starBG.Rotation -= 360;
                 angularValue = (angularValue + 0.025) % (Math.PI * 2);
                 if (!Text.Equals("0")) starRing.Scale = Math.Sin(angularValue) * 0.15 + 1;
-                starGradient.Opacity = Math.Sin(angularValue) * 0.5 + 0.5;
             }
             get { return starBG.Rotation; }
         }
@@ -52,7 +51,6 @@ namespace GalaxyLogicGame.Planet_objects
         public async Task FadeStarBase(int delay)
         {
             await Task.WhenAll(
-                starGradient.FadeTo(0, (uint)delay),
                 starBase.FadeTo(0, (uint)delay));
         }
         public override BinaryIndicator Binary => binary;

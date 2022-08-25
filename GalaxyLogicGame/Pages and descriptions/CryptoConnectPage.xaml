@@ -14,7 +14,7 @@
             <ScrollView x:Name="scroll" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" HorizontalScrollBarVisibility="Never" Orientation="Vertical">
                 <AbsoluteLayout x:Name="mainLayout" AbsoluteLayout.LayoutBounds="0, 0, 360, AutoSize"  TranslationY="180" Opacity="0">
                     <StackLayout x:Name="stackLayout" AbsoluteLayout.LayoutBounds="0, 0, 360, AutoSize">
-                        <pages_and_descriptions:Header TitleText="Connect NFTs" SmallTitleText="using: https://kovan.optimism.io/"/>
+                        <pages_and_descriptions:Header TitleText="Connect NFTs" SmallTitleText="using: https://goerli.optimism.io"/>
 
                         <!--<Button HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="DarkBlue" Text="Connect to Ethereum" Clicked="OnEthereumButtonClicked" />
                         <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" Text="Connect to Ethereum" x:Name="adressLabel"/>

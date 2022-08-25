@@ -20,12 +20,13 @@ namespace GalaxyLogicGame.Tutorial
         
         public override async Task Setup()
         {
-
             await SetupTutorial();
+            Clicked = true;
 
         }
         public override void SetupBase()
         {
+            Clicked = false;
             base.SetupBase();
             
             BG.LowerUILayout.IsVisible = false;
@@ -37,7 +38,7 @@ namespace GalaxyLogicGame.Tutorial
                 BG.BackgroundImage.Source = "starssky.png";
                 BG.TransitionLayout.BackgroundColor = Color.FromArgb("f00");
             }
-            BG.TutorialLayout.IsVisible = true;            
+            BG.TutorialLayout.IsVisible = true;
         }
 
         public abstract Task SetupTutorial();
@@ -179,15 +180,12 @@ namespace GalaxyLogicGame.Tutorial
                 {
                     if (Clicked)
                     {
-                        
                         Clicked = false;
                         await tempLayout.FadeTo(0, 500);
                         tempLayout.IsVisible = false;
                         BG.TutorialLayout.Children.Remove(tempLayout);
 
                         await BG.NavigateToOtherTutorial(nextTutorial);
-                        Clicked = true;
-                        
                     }
                 })
             });

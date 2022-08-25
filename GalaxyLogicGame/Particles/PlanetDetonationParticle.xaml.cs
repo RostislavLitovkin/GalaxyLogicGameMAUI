@@ -47,12 +47,9 @@ namespace GalaxyLogicGame.Particles
                 Position p = CirclePosition.CalculatePosition(random.Next(0, 90) + corner, random.Next(80, 120));
                 parts[i].TranslateTo(p.X, p.Y, 500, Easing.CubicIn);
                 parts[i].RotateTo(random.Next(-360, 360), 500, Easing.CubicIn);
-                Task.Run(async () => {
-                    await Task.Delay(2000);
-                    await parts[i].FadeTo(0, 500, Easing.SinIn);
-                });
+                parts[i].FadeTo(0, 500, Easing.SinIn);
             }
-            await Task.Delay(500);
+            await Task.Delay(2500);
         }
     }
 }

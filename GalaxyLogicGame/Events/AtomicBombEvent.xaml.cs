@@ -68,7 +68,7 @@ namespace GalaxyLogicGame.Events
             if (game is GameWithEvents)
             {
                 if (((GameWithEvents)game).TIR != null) ((GameWithEvents)game).TIR.FadeTo(0, 500);
-                else if (((GameWithEvents)game).Blindness != null) ((GameWithEvents)game).Blindness.EventTitle.FadeTo(0, 500);
+                else if (((GameWithEvents)game).EventObject != null) ((GameWithEvents)game).EventObject.EventTitle.FadeTo(0, 500);
             }
             await Task.WhenAll(
                 Functions.EventTitleAnimation(eventTitle, eventIcon)
@@ -154,7 +154,7 @@ namespace GalaxyLogicGame.Events
                 if (game is GameWithEvents)
                 {
                     if (((GameWithEvents)game).TIR != null) ((GameWithEvents)game).TIR.FadeTo(1, 500);
-                    else if (((GameWithEvents)game).Blindness != null) ((GameWithEvents)game).Blindness.EventTitle.FadeTo(1, 500);
+                    else if (((GameWithEvents)game).EventObject != null) ((GameWithEvents)game).EventObject.EventTitle.FadeTo(1, 500);
                 }
 
                 // add a radioactive thing

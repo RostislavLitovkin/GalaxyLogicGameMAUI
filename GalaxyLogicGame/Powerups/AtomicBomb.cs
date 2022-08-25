@@ -13,11 +13,14 @@ namespace GalaxyLogicGame.Powerups
         {
             //BGColor = Color.LightGreen;
             Cooldown = 40;
-            Icon = "atomicBombFrame.png";
+            BGImage = "AtomicBombBG.png";
+            FillImage = "AtomicBombFill.png";
+            ShinyImage = "AtomicBombShiny.png";
         }
-        public void Prerequisites()
+        public override void Prerequisites()
         {
-            IsAllowed = BG.Game.Atoms.Count > 1;
+            if (BG.Game is GameWithEvents) IsAllowed = BG.Game.Atoms.Count > 1 && !((GameWithEvents)BG.Game).EventHappening;
+            else IsAllowed = BG.Game.Atoms.Count > 1;
         }
 
         public override async void UsePowerupClicked()
@@ -30,10 +33,10 @@ namespace GalaxyLogicGame.Powerups
         public override void SeePowerupDetailsClicked()
         {
             if (BG.Game.Atoms.Count  <= 1) FullscreenTitlePopup.Appear(BG.MainLayout, "You need to have at least 2 planets", Color.FromArgb("fff"), 0.5);
-            // add details page
+            // add details page maybe
         }
 
-        public bool Equiped { get => Preferences.Get("org.tizen.myApp.challenge11", false); set { Preferences.Set("atomicBombEquiped", value); } } // change to false
-        public bool Owned { get => Preferences.Get("atomicBombOwned", true); set { Preferences.Set("atomicBombOwned", value); } } // change to false
+        public static bool Equiped { get => Preferences.Get(EthFunctions.GetEthereumContractAddress, false); /*Preferences.Get("org.tizen.myApp.challenge11", false);*/ set { Preferences.Set("atomicBombEquiped", value); } } // change to false
+        public static bool Owned { get => Preferences.Get("atomicBombOwned", true); set { Preferences.Set("atomicBombOwned", value); } } // change to false
     }
 }

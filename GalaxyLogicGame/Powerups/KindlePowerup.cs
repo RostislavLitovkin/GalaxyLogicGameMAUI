@@ -13,12 +13,11 @@ namespace GalaxyLogicGame.Powerups
         {
             //BGColor = Color.Orange;
             Cooldown = 30;
-            Icon = "kindleFrame.png";
 
             // more
         }
 
-        public void Prerequisites()
+        public override void Prerequisites()
         {
             IsAllowed = BG.Game is GameWithEvents && ((GameWithEvents)BG.Game).Blindness != null;
         }

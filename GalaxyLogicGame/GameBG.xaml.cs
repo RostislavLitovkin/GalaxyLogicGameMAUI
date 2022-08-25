@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using GalaxyLogicGame.Events.EventChallengesBoards;
 using GalaxyLogicGame.Particles;
 using GalaxyLogicGame.Planet_objects;
+using GalaxyLogicGame.Powerups;
 using GalaxyLogicGame.Tutorial;
 //using MarcTron.Plugin;
 using Microsoft.Maui;
@@ -16,10 +18,9 @@ using Microsoft.Maui.Controls;
 
 namespace GalaxyLogicGame.Mobile
 {
-
-
     public partial class GameBG : GameBGBase, IGameBG
     {
+        private List<PowerupBase> powerups = new List<PowerupBase>();
         //private Accelerometer _accelerometer;
         /*private CasualGame game;
         private IBoard board;
@@ -65,6 +66,7 @@ namespace GalaxyLogicGame.Mobile
 
             isTutorial = true;
             this.BackgroundColor = bg;
+            powerupsLayout.IsVisible = false;
 
             Accelerometer.ReadingChanged += Loop;
             Functions.ScaleToScreen(this, mainLayout, 720);
@@ -197,6 +199,8 @@ namespace GalaxyLogicGame.Mobile
             this.game = game;
             gameLayout.Children.Add(game);
 
+            SetupPowerupsLayout();
+
             // setting layouts
             lostScreen.IsVisible = false;
             lostScreenText.IsVisible = false;
@@ -208,6 +212,27 @@ namespace GalaxyLogicGame.Mobile
             transition.Stop();
 
             await game.Setup();
+        }
+        private void SetupPowerupsLayout()
+        {
+            if (Functions.IsSquareScreen())
+            {
+                powerupsLayout.IsVisible = false;
+                
+            }
+            else
+            {
+                if (AtomicBomb.Equiped)
+                {
+                    AtomicBomb atomicBomb = new AtomicBomb
+                    {
+                        BG = this,
+                    };
+                    powerupsLayout.Children.Add(atomicBomb);
+                    powerups.Add(atomicBomb);
+                }
+                    
+            }
         }
         public void StartLoop()
         {
@@ -443,7 +468,7 @@ namespace GalaxyLogicGame.Mobile
         public IBoard Board { set { board = value; } }
         public Astronaut Astronaut { set { astronaut = value; } }
         public bool PowerupsAllowed { set { /* .. */ } }
-
+        public List<PowerupBase> Powerups { get => powerups; }
         public AbsoluteLayout PowerUpAnimationLayout => throw new NotImplementedException();
     }
 

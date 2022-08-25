@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GalaxyLogicGame.Pages_and_descriptions;
 using GalaxyLogicGame.Particles;
 using GalaxyLogicGame.Tutorial;
+using GalaxyLogicGame.Types;
 //using MarcTron.Plugin;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -26,7 +27,7 @@ namespace GalaxyLogicGame.Mobile
         public IGameBG gameBG;
         private bool clicked = true;
         //private TutorialGameplay tutorial;
-        private Label[] buttonsArray = new Label[6];
+        private View[] buttonsArray = new View[7];
         public LongMainPage(StarsParticlesLayout stars)
         {
 
@@ -50,11 +51,12 @@ namespace GalaxyLogicGame.Mobile
             */
 
             buttonsArray[0] = playButton;
-            buttonsArray[1] = challengesButton;
-            buttonsArray[2] = aboutEventsButton;
-            buttonsArray[3] = objectsDescriptionButton;
-            buttonsArray[4] = tutorialButton;
-            buttonsArray[5] = creditsButton;
+            buttonsArray[1] = playGameJam;
+            buttonsArray[2] = challengesButton;
+            buttonsArray[3] = aboutEventsButton;
+            buttonsArray[4] = objectsDescriptionButton;
+            buttonsArray[5] = tutorialButton;
+            buttonsArray[6] = creditsButton;
 
             // Set animation
 
@@ -274,5 +276,9 @@ namespace GalaxyLogicGame.Mobile
             }
         }
 
+        private async void OnPlayGameJamClicked(object sender, EventArgs e)
+        {
+            await NavigateToGame(new GameBG(), new GameWithEvents(Gamemode.GameJam));
+        }
     }
 }

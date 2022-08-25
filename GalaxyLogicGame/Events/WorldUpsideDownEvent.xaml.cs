@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaxyLogicGame.Pages_and_descriptions;
 using GalaxyLogicGame.Planet_objects;
+using GalaxyLogicGame.Types;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 
@@ -23,13 +24,24 @@ namespace GalaxyLogicGame.Events
             Title = eventTitle.Text, TitleColor = eventTitle.TextColor, IconImageSource = eventIcon.Source,
             Description = "For this one moment, everything is upside down and everything is posible meaning even planets far apart can combine."
         };
+        public GameJamEventDescription GetGameJamEventDescription(TapGestureRecognizer openGameJamPage)
+        {
+            return new GameJamEventDescription
+            {
+                Title = eventTitle.Text,
+                TitleColor = eventTitle.TextColor,
+                IconImageSource = eventIcon.Source,
+                Description = "For this one moment, everything is upside down and everything is posible meaning even planets far apart can combine.",
+                OpenGameJamPage = openGameJamPage,
+            };
+        }
         public string GetTitle => eventTitle.Text;
         public Color GetColor => eventTitle.TextColor;
         public ImageSource GetIcon => eventIcon.Source;
         public string Name => NAME;
         private bool IsActivated(GameWithEvents game)
         {
-            return !game.CustomMode || Preferences.Get(NAME, true);
+            return (!game.CustomMode || Preferences.Get(NAME, true)) && game.Gamemode == Gamemode.GameJam;
         }
         public bool Prerequisites(GameWithEvents game)
         {

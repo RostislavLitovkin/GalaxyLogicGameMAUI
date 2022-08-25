@@ -107,7 +107,7 @@ namespace GalaxyLogicGame
             ObjectDescription blueberry = new ObjectDescription
             {
                 Title = "Blueberry",
-                Description = "You may at first compare this to debris, however in a few turns, it can surprise you by doing something usefull."
+                Description = "You may at first compare this to debris, however, in a few turns, it can surprise you by doing something usefull."
             };
             blueberry.Planet.Children.Add(blueberryPlanet);
             AbsoluteLayout.SetLayoutBounds(blueberryPlanet, new Rect(0.5, 0.5, 60, 60));

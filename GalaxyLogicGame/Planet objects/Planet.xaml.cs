@@ -33,7 +33,7 @@ namespace GalaxyLogicGame.Planet_objects
 
             if (true)// (Device.RuntimePlatform == Device.Tizen)
             {
-                bg = new ButtonBG { CornerRadius = 30 };
+                bg = new ButtonBG { CornerRadius = 30, IsEnabled = false, };
             }
             else
             {

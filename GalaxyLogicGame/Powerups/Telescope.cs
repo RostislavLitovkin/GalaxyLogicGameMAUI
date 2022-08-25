@@ -13,10 +13,9 @@ namespace GalaxyLogicGame.Powerups
         {
             //BGColor = Color.Blue;
             Cooldown = 30;
-            Icon = "telescopeFrame.png";
         }
 
-        public void Prerequisites()
+        public override void Prerequisites()
         {
             IsAllowed = true;
         }

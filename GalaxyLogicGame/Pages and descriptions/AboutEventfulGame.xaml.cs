@@ -15,6 +15,7 @@ namespace GalaxyLogicGame
 
     public partial class AboutEventfulGame : ContentPage, IStarsPage
     {
+        private bool clicked = true;
         private StarsParticlesLayout stars;
         public AboutEventfulGame()
         {
@@ -55,8 +56,8 @@ namespace GalaxyLogicGame
             binaryTapGesture.Tapped += OnBinaryInfoClicked;
             TapGestureRecognizer dreamsTapGesture = new TapGestureRecognizer();
             dreamsTapGesture.Tapped += OnDreamsInfoClicked;
-
-
+            TapGestureRecognizer gameJamTapGesture = new TapGestureRecognizer();
+            gameJamTapGesture.Tapped += OnGameJamPageClicked;
 
             stackLayout.Children.Add(new ShootingStarEvent().GetEventDescription);
             stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
@@ -81,12 +82,9 @@ namespace GalaxyLogicGame
                             new BinaryEvent().GetEventDescription
                         }
                     },
-                    GenerateMoreInfoLayout()
+                    GenerateMoreInfoLayout(),
+                    GenerateProtectiveLayout(binaryTapGesture),
                 },
-                GestureRecognizers =
-                {
-                    binaryTapGesture
-                }
             });
             stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
 
@@ -104,21 +102,19 @@ namespace GalaxyLogicGame
                             new DreamsEvent().GetEventDescription
                         }
                     },
-                    GenerateMoreInfoLayout()
+                    GenerateMoreInfoLayout(),
+                    GenerateProtectiveLayout(dreamsTapGesture),
                 },
-                GestureRecognizers =
-                {
-                    dreamsTapGesture
-                }
+
             });
             //stackLayout.Children.Add(new AtomicBombEvent().GetEventDescription);
             //stackLayout.Children.Add(new ChristmasEvent().GetEventDescription);
             stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
 
-            stackLayout.Children.Add(new WorldUpsideDownEvent().GetEventDescription);
+            stackLayout.Children.Add(new WorldUpsideDownEvent().GetGameJamEventDescription(gameJamTapGesture));
             stackLayout.Children.Add(new BoxView { HeightRequest = 10 });
 
-            stackLayout.Children.Add(new BlueberriesEvent().GetEventDescription);
+            stackLayout.Children.Add(new BlueberriesEvent().GetGameJamEventDescription(gameJamTapGesture));
 
             stackLayout.Children.Add(new BoxView { HeightRequest = 120 });
 
@@ -142,6 +138,23 @@ namespace GalaxyLogicGame
             {
                 BackgroundColor = Color.FromHex("1f1f1f"),
                 CornerRadius = 30,
+                IsEnabled = false,
+            };
+            //BoxView background = new BoxView { BackgroundColor = Color.FromHex("1f1f1f"), CornerRadius = 30 };
+            AbsoluteLayout.SetLayoutBounds(background, new Rect(0.5, 0.5, 1, 1));
+            AbsoluteLayout.SetLayoutFlags(background, AbsoluteLayoutFlags.All);
+
+            return background;
+        }
+        private BoxView GenerateProtectiveLayout(TapGestureRecognizer tap)
+        {
+            BoxView background = new BoxView
+            {
+                Opacity = 0,
+                GestureRecognizers =
+                {
+                    tap,
+                },
             };
             //BoxView background = new BoxView { BackgroundColor = Color.FromHex("1f1f1f"), CornerRadius = 30 };
             AbsoluteLayout.SetLayoutBounds(background, new Rect(0.5, 0.5, 1, 1));
@@ -184,6 +197,42 @@ namespace GalaxyLogicGame
         private async void OnDreamsInfoClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new DreamsInfoPage());
+        }
+
+        private async void OnGameJamPageClicked(object sender, EventArgs e)
+        {
+            if (clicked)
+            {
+                clicked = false;
+                await TransitionOut(new GameJamPage());
+                clicked = true;
+            }
+        }
+
+        private async Task TransitionOut(IStarsPage page)
+        {
+            DisplayInfo display = DeviceDisplay.MainDisplayInfo;
+            double ratio = display.Height / display.Width > 1 ? display.Height / display.Width : 1;
+
+            await Task.WhenAll(
+                this.stars.TransitionUpIn(),
+
+                mainLayout.TranslateTo(0, -360 * ratio, 500, Easing.SinIn),
+
+                //wallpaper.TranslateTo(0, -180, 500, Easing.SinIn),
+                wallpaper.FadeTo(0, 500, Easing.SinIn));
+
+            starsLayout.Children.Remove(this.stars);
+            page.AssingStars(stars);
+            await Navigation.PushAsync((Page)page, false);
+            await page.TransitionIn();
+
+            mainLayout.TranslationX = 0;
+            mainLayout.TranslationY = 0;
+            wallpaper.Opacity = 1;
+
+            this.stars = new StarsParticlesLayout();
+            starsLayout.Children.Add(this.stars);
         }
     }
 }

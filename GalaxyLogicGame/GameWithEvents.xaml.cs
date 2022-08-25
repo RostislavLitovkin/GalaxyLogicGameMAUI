@@ -9,11 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using GalaxyLogicGame.Types;
 
 namespace GalaxyLogicGame
 {
     public partial class GameWithEvents : CasualGame
     {
+        private Gamemode gamemode = Gamemode.Clasic;
         private int eventCounter;
         private bool generateNewPlanet = true;
 
@@ -33,10 +35,11 @@ namespace GalaxyLogicGame
         public GameWithEvents()
         {
             InitializeComponent();
-
-            //Setup();
-
-            // add event counter
+        }
+        public GameWithEvents(Gamemode gamemode)
+        {
+            InitializeComponent();
+            this.gamemode = gamemode;
         }
         public override async Task Setup()
         {
@@ -54,6 +57,8 @@ namespace GalaxyLogicGame
             if (Clicked)
             {
                 Clicked = false;
+
+                TurnPlusPlus();
 
                 await AddingPlanet(index);
                 if (binary != null) await binary.CheckFormation();
@@ -142,6 +147,7 @@ namespace GalaxyLogicGame
             }
             await tempEvent.Appear(this);
 
+            CheckPowerupPrerequisites();
             // this is needed to fully await the event procedure
             while (eventHappening)
             {
@@ -234,7 +240,6 @@ namespace GalaxyLogicGame
             {
                 return new WorldUpsideDownEvent();
             }
-
             else if (i == 10)
             {
                 return new BlueberriesEvent();
@@ -287,7 +292,8 @@ namespace GalaxyLogicGame
         public PolymorphParticle PolyParticle { get => polymorphParticle; set { polymorphParticle = value; } }
 
         public override bool BinaryActivated => binary != null;
-        public IEventObject EventObject { set { eventObject = value; } }
+        public IEventObject EventObject { set { eventObject = value; } get => eventObject; }
         public bool CustomMode { get => customMode; set { customMode = value; } }
+        public Gamemode Gamemode { get => gamemode; }
     }
 }

@@ -155,7 +155,7 @@ public partial class CryptoConnectPage : ContentPage
                 }
                 catch (Exception ex)
                 {
-
+                    OfferDownloadingWallet();
                 }
             }
 
@@ -193,6 +193,18 @@ public partial class CryptoConnectPage : ContentPage
         {
             NoInternetError();
         }
+    }
+
+    private async Task OfferDownloadingWallet()
+    {
+        mainStackLayout.Children.Add(new WalletDownloadThumbnail
+        {
+            Icon = "metamask.png",
+            Title = "Metamask",
+            Description = "The most popular Ethereum wallet",
+            Link = "https://play.google.com/store/apps/details?id=io.metamask",
+            ConnectWalletMethod = OfferConnectingNewWallet,
+        });
     }
     private void OfferMinting()
     {
@@ -232,8 +244,16 @@ public partial class CryptoConnectPage : ContentPage
 
         string[] address = { contractAddress };
         var tempWeb3 = new Web3(providerAddress);
-        var thing = await tempWeb3.Eth.ERC721.GetAllTokenUrlsOfOwnerUsingTokenOfOwnerByIndexAndMultiCallAsync(Preferences.Get("pubKey", "Failed"), address);
-        template.TokenIdLabel.Text = "Token ID: " + thing[0].TokenId;
+        try
+        {
+            var thing = await tempWeb3.Eth.ERC721.GetAllTokenUrlsOfOwnerUsingTokenOfOwnerByIndexAndMultiCallAsync(Preferences.Get("pubKey", "Failed"), address);
+            template.TokenIdLabel.Text = "Token ID: " + thing[0].TokenId;
+        }
+        catch
+        {
+            template.TokenIdLabel.Text = "Token ID not loaded";
+            template.TokenIdLabel.TextColor = Color.FromArgb("bbb");
+        }
 
         template.AddPowerupDescription(new AtomicBombEvent().GetEventDescription);
         mainStackLayout.Children.Add(template);
@@ -376,11 +396,11 @@ public partial class CryptoConnectPage : ContentPage
     [Function("mint", "int")]
     public class MintFunction : FunctionMessage
     {
-        [Parameter("string", "_uri", 1)]
-        public string Uri { get; set; }
-
-        [Parameter("address", "_account", 2)]
+        [Parameter("address", "payer", 1)]
         public string Address { get; set; }
+
+        [Parameter("string", "tokenURI", 2)]
+        public string Uri { get; set; }
     }
 
     public class PostData
