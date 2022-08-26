@@ -1,5 +1,7 @@
 # GalaxyLogicGameMAUI
 
+![GithubPreview](https://user-images.githubusercontent.com/77352013/186893566-edaca4e1-90ed-4a70-a4b1-b8c9adc01bfb.png)
+
 ### What is this?
 
 Galaxy Logic Game is a logical game for multiple popular platforms
