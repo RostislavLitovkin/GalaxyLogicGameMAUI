@@ -6,28 +6,25 @@
              AbsoluteLayout.LayoutBounds="0.5, 0.5, 120, 60"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 x:Name="mainLayout">
-
     
-    <AbsoluteLayout AbsoluteLayout.LayoutBounds=".5, .5, AutoSize, AutoSize"
-                    AbsoluteLayout.LayoutFlags="PositionProportional">
-        <Label x:Name="label"
-           
+    <Label AbsoluteLayout.LayoutBounds=".5, .5, 60, 60"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+                x:Name="label"
                FontSize="40"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                FontFamily="SamsungOne"/>
-    </AbsoluteLayout>
-    
+
     <planet_objects:BinaryIndicator x:Name="binary" IsVisible="false"/>
-    
+
     <AbsoluteLayout x:Name="dreamNumberLayout"
         Scale="0.5" TranslationX="15" TranslationY="15"
                 AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" IsVisible="false">
         <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" Source="dreamNumberCloud.png"/>
         <Label x:Name="dreamNumberLabel" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-           TextColor="Black"
+               TextColor="Black"
                FontSize="40"
-               AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional"
+               AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 50" AbsoluteLayout.LayoutFlags="PositionProportional"
                FontFamily="SamsungOne"/>
     </AbsoluteLayout>
 </planet_objects:PlanetBase>

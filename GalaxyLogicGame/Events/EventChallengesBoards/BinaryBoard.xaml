@@ -6,7 +6,7 @@
                 Opacity="0">
     <Image Source="BoardBackground.png"/>
     <Label x:Name="title" Text="Binary" FontSize="20" FontAttributes="Bold" FontFamily="SamsungOne" TextColor="DarkGreen" HorizontalTextAlignment="Center"
-           AbsoluteLayout.LayoutBounds="0.5, 7, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional"/>
+           AbsoluteLayout.LayoutBounds="0.5, 7, 260, 20" AbsoluteLayout.LayoutFlags="XProportional"/>
         
     <AbsoluteLayout AbsoluteLayout.LayoutBounds="0, 30, 260, 55"
                     x:Name="binaryLayout">
@@ -15,7 +15,7 @@
     <AbsoluteLayout AbsoluteLayout.LayoutBounds="0, 30, 260, 55"
                     x:Name="textLayout" Opacity="0">
         <Label x:Name="leftLabel" FontSize="40" FontAttributes="Bold" FontFamily="BigNoodleTitling" TextColor="DarkRed" HorizontalTextAlignment="Center"
-           AbsoluteLayout.LayoutBounds="0.5, 0.5, 320, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional"
+           AbsoluteLayout.LayoutBounds="0.5, 0.5, 320, 40" AbsoluteLayout.LayoutFlags="PositionProportional"
                Text ="3 moves left"/>
     </AbsoluteLayout>
 </AbsoluteLayout>

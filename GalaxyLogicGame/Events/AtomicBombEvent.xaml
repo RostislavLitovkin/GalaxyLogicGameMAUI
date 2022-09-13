@@ -10,17 +10,14 @@
     <AbsoluteLayout x:Name="choiceLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
                    BackgroundColor="#33000000"
                    Opacity="0">
-        <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 360" AbsoluteLayout.LayoutFlags="PositionProportional">
-            <Label Text="Choose a planet to detonate" TextColor="White" FontAttributes="Bold" FontSize="20" HorizontalTextAlignment="Center"
-               AbsoluteLayout.LayoutBounds="0.5, 0.5, 220, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional"/>
-        </AbsoluteLayout>
-
+        <Label Text="Choose a planet to detonate" TextColor="White" FontAttributes="Bold" FontSize="20" HorizontalTextAlignment="Center"
+               AbsoluteLayout.LayoutBounds="0.5, 0.5, 220, 25" AbsoluteLayout.LayoutFlags="PositionProportional"/>
 
     </AbsoluteLayout>
 
-    <Image x:Name="eventIcon" AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0" TranslationY="-60"
+    <Image x:Name="eventIcon" AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0" TranslationY="-60"
            Source="atomicBomb.png"/>
-    <Label x:Name="eventTitle" AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0"
+    <Label x:Name="eventTitle" AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 30" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0"
            Text="Atomic Bomb" TextColor="LightGreen" FontAttributes="Bold"
-           FontSize="{OnPlatform Android=24, UWP=24}"/>
+           FontSize="24" HorizontalTextAlignment="Center"/>
 </AbsoluteLayout>

@@ -10,14 +10,14 @@
                    Opacity="0">
         <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 360" AbsoluteLayout.LayoutFlags="PositionProportional">
             <Label Text="Achieve this order" TextColor="White" FontAttributes="Bold" x:Name="chooseOneLabel" FontSize="20"
-               AbsoluteLayout.LayoutBounds="0.5, 0.25, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional"/>
-            <Label AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional" TranslationY="95"
+               AbsoluteLayout.LayoutBounds="0.5, 0.25, 200, 20" AbsoluteLayout.LayoutFlags="PositionProportional"/>
+            <Label AbsoluteLayout.LayoutBounds="0.5, 0.5, 200, 40" AbsoluteLayout.LayoutFlags="PositionProportional" TranslationY="95"
                    TextColor="#45ffed" Text="Continue" FontFamily="BigNoodleTitling" FontSize="40">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnContinueClicked"/>
                 </Label.GestureRecognizers>
             </Label>
-            <Label AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional" TranslationY="150"
+            <Label AbsoluteLayout.LayoutBounds="0.5, 0.5, 200, 30" AbsoluteLayout.LayoutFlags="PositionProportional" TranslationY="150"
                    TextColor="#ddd" Text="Info" FontFamily="BigNoodleTitling" FontSize="30">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnInfoClicked"/>
@@ -27,8 +27,8 @@
 
 
     </AbsoluteLayout>
-    <Image x:Name="eventIcon" AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0" TranslationY="-60"
+    <Image x:Name="eventIcon" AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0" TranslationY="-60"
            Source="binary.png"/>
-    <Label x:Name="eventTitle" AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0"
-           Text="Binary" TextColor="DarkGreen" FontAttributes="Bold" FontSize="{OnPlatform Android=24, UWP=24}"/>
+    <Label x:Name="eventTitle" AbsoluteLayout.LayoutBounds="0.5, 0.5, 200, 30" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0"
+           Text="Binary" TextColor="DarkGreen" FontAttributes="Bold" FontSize="24" HorizontalTextAlignment="Center"/>
 </AbsoluteLayout>

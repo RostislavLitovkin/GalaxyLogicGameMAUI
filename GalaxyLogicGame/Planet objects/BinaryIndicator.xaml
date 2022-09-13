@@ -8,6 +8,6 @@
     <Label x:Name="label" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
            TextColor="Black"
                FontSize="40"
-               AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional"
+               AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 40" AbsoluteLayout.LayoutFlags="PositionProportional"
                FontFamily="SamsungOne"/>
 </AbsoluteLayout>

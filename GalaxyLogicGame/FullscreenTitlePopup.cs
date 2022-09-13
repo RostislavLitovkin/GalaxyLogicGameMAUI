@@ -26,7 +26,7 @@ namespace GalaxyLogicGame
                 FontFamily = "SamsungOne"
             };
             layout.Children.Add(title);
-            AbsoluteLayout.SetLayoutBounds(title, new Rect(0.5, yPosition, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutBounds(title, new Rect(0.5, yPosition, 360, 30));
             AbsoluteLayout.SetLayoutFlags(title, AbsoluteLayoutFlags.PositionProportional);
 
             mainLayout.Children.Add(layout);

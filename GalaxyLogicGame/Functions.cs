@@ -95,36 +95,9 @@ namespace GalaxyLogicGame
 
             if (!IsSquareScreen() && size.Height >= mainLayout.Height)
             {
-                AbsoluteLayout.SetLayoutBounds(mainLayout, new Rect(0.5, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+                AbsoluteLayout.SetLayoutBounds(mainLayout, new Rect(0.5, 0.5, 360, AbsoluteLayout.AutoSize));
                 AbsoluteLayout.SetLayoutFlags(mainLayout, AbsoluteLayoutFlags.PositionProportional);
             }
-
-            /*
-            DisplayInfo display = DeviceDisplay.MainDisplayInfo;
-            double screenHeight = display.Height / display.Density;
-            double screenWidth = display.Width / display.Density;
-
-            Size size = scroll.ContentSize;
-
-            double scale = size.Width / 360.0;
-            double edge = 0;
-            if (screenHeight / screenWidth - scroll.Height / scroll.Width < 0.15 && !IsSquareScreen()) edge = (screenHeight - scroll.Height) / scale;
-
-            mainLayout.Scale = scale;
-            if (size.Height > mainLayout.Height || IsSquareScreen()) AbsoluteLayout.SetLayoutBounds(mainLayout,
-                new Rect((size.Width - 360) / 2.0, (size.Height - mainLayout.Height) / 2.0, 360, AbsoluteLayout.AutoSize));
-            else AbsoluteLayout.SetLayoutBounds(mainLayout,
-                new Rect((size.Width - 360) / 2.0, (mainLayout.Height * scale - mainLayout.Height) / 2.0 + edge, 360, AbsoluteLayout.AutoSize));
-
-            // Scaling for phones
-
-            if (!IsSquareScreen() && size.Height <= mainLayout.Height)
-            {
-                mainLayout.Scale = 1;
-                Rect bounds = AbsoluteLayout.GetLayoutBounds(mainLayout);
-                AbsoluteLayout.SetLayoutBounds(mainLayout, new Rect(bounds.X, 0, bounds.Width, bounds.Height));
-            }
-            */
         }
 
 

@@ -9,21 +9,21 @@
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 640" AbsoluteLayout.LayoutFlags="PositionProportional">
                 <AbsoluteLayout x:Name="backgroundLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 720, 720" AbsoluteLayout.LayoutFlags="PositionProportional">
                     <Image x:Name="backgroundImage" Source="galaxyBackground.png" 
-                   
-                   AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 480"
-                   AbsoluteLayout.LayoutFlags="PositionProportional"
-                   Aspect="AspectFill"/>
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 480"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           Aspect="AspectFill"/>
                 </AbsoluteLayout>
                 <AbsoluteLayout x:Name="lowerUILayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 640" AbsoluteLayout.LayoutFlags="PositionProportional" MinimumHeightRequest="360" MinimumWidthRequest="360">
 
                     <Label x:Name="scoreLabel"
-                   AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize"
-                   AbsoluteLayout.LayoutFlags="PositionProportional"
-                   FontSize="60"
-                   FontAttributes="Bold"
-                   FontFamily="BigNoodleTitling"
-                   Text="0"
-                     TextColor="White"/>
+                       AbsoluteLayout.LayoutBounds="0.5, 0, 200, 60"
+                       AbsoluteLayout.LayoutFlags="PositionProportional"
+                       FontSize="60"
+                       FontAttributes="Bold"
+                       FontFamily="BigNoodleTitling"
+                       Text="0"
+                         TextColor="White"
+                           HorizontalTextAlignment="Center"/>
                     <Image x:Name="empty1"
                    Source="empty.png"
                    AbsoluteLayout.LayoutBounds="152.5, 75, 15, 15"
@@ -80,12 +80,12 @@
                 <AbsoluteLayout x:Name="lostScreen" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="#AA000000">
                         <!-- For some reason was buggy and I had to put the contents underneath it -->
                     <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 360" AbsoluteLayout.LayoutFlags="PositionProportional">
-                        <Label Text="You have lost" AbsoluteLayout.LayoutBounds="0.5, 115, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" IsVisible="true" 
-                                x:Name="lostScreenText"  FontSize="24"/>
+                        <Label Text="You have lost" AbsoluteLayout.LayoutBounds="0.5, 115, 320, 30" AbsoluteLayout.LayoutFlags="XProportional" IsVisible="true" 
+                                x:Name="lostScreenText"  FontSize="24" HorizontalTextAlignment="Center"/>
 
-                    <Label Text="Main menu" AbsoluteLayout.LayoutBounds="0.5, 185, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="XProportional" IsVisible="true" TextColor="#45ffed"
+                    <Label Text="Main menu" AbsoluteLayout.LayoutBounds="0.5, 185, 320, 60" AbsoluteLayout.LayoutFlags="XProportional" IsVisible="true" TextColor="#45ffed"
                                FontSize="48" FontFamily="BigNoodleTitling" FontAttributes="Bold"
-                                x:Name="lostScreenButton">
+                                x:Name="lostScreenButton" HorizontalTextAlignment="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="ToMainMenu"/>
                             </Label.GestureRecognizers>
