@@ -3,11 +3,17 @@
                             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GalaxyLogicGame.Planet_objects.Planet"
-             AbsoluteLayout.LayoutBounds="0.5, 0.5, 120, 60"
+             AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 x:Name="mainLayout">
-    
-    <Label AbsoluteLayout.LayoutBounds=".5, .5, 60, 60"
+    <Frame CornerRadius="30" Padding="0"
+           AbsoluteLayout.LayoutBounds=".5, .5, 60, 60"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+           x:Name="bg">
+        <AbsoluteLayout AbsoluteLayout.LayoutBounds="0, 0, 60, 60">
+
+
+            <Label AbsoluteLayout.LayoutBounds=".5, .5, 60, 60"
                AbsoluteLayout.LayoutFlags="PositionProportional"
                 x:Name="label"
                FontSize="40"
@@ -15,16 +21,18 @@
                VerticalTextAlignment="Center"
                FontFamily="SamsungOne"/>
 
-    <planet_objects:BinaryIndicator x:Name="binary" IsVisible="false"/>
+            <planet_objects:BinaryIndicator x:Name="binary" IsVisible="false"/>
 
-    <AbsoluteLayout x:Name="dreamNumberLayout"
-        Scale="0.5" TranslationX="15" TranslationY="15"
+            <AbsoluteLayout x:Name="dreamNumberLayout"
+                Scale="0.5" TranslationX="7" TranslationY="15"
                 AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" IsVisible="false">
-        <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" Source="dreamNumberCloud.png"/>
-        <Label x:Name="dreamNumberLabel" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" Source="dreamNumberCloud.png"/>
+                <Label x:Name="dreamNumberLabel" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                TextColor="Black"
                FontSize="40"
                AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 50" AbsoluteLayout.LayoutFlags="PositionProportional"
                FontFamily="SamsungOne"/>
-    </AbsoluteLayout>
+            </AbsoluteLayout>
+        </AbsoluteLayout>
+    </Frame>
 </planet_objects:PlanetBase>

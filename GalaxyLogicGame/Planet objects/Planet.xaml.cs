@@ -13,7 +13,6 @@ namespace GalaxyLogicGame.Planet_objects
 
     public partial class Planet : PlanetBase
     {
-        private IButtonBG bg;
         private int dreamNumber = 0;
         
         private int type;
@@ -31,23 +30,22 @@ namespace GalaxyLogicGame.Planet_objects
         {
             InitializeComponent();
 
-            if (true)// (Device.RuntimePlatform == Device.Tizen)
+            /*if (true)// (Device.RuntimePlatform == Device.Tizen)
             {
+                //bg = new ButtonBG { CornerRadius = 30 };
                 bg = new ButtonBG { CornerRadius = 30, IsEnabled = false, };
             }
             else
             {
                 bg = new BoxViewBG { CornerRadius = 30 };
             }
-            mainLayout.Children.Add((View)bg);
             AbsoluteLayout.SetLayoutBounds((View)bg, new Rect(0.5, 0.5, 60, 60));
             AbsoluteLayout.SetLayoutFlags((View)bg, AbsoluteLayoutFlags.PositionProportional);
             // Lower
-            mainLayout.Children.Remove((View)bg);
-            mainLayout.Children.Insert(0, (View)bg);
+            mainLayout.Children.Insert(0, (View)bg);*/
         }
         //public Position Position { set { AbsoluteLayout.SetLayoutBounds(wholeLayout, new Rect(value.X, value.Y, 60, 60)); } get { return  } }
-        public override Color BGColor { set { bg.BGColor = value; } get { return bg.BGColor; } }
+        public override Color BGColor { set { bg.BackgroundColor = value; } get { return bg.BackgroundColor; } }
         public override string Text {
             set {
                 label.Text = value;
@@ -55,7 +53,7 @@ namespace GalaxyLogicGame.Planet_objects
                 if (this.type == 0) // setting up colors
                 {
                     Color tempColor = Functions.GetColor(int.Parse(label.Text) - 1);
-                    bg.BGColor = tempColor;
+                    bg.BackgroundColor = tempColor;
                     label.TextColor = Functions.DetermineWhiteOrBlack(tempColor);
                     binary.BinaryString = binary.BinaryString = (int.Parse(value) % 2).ToString();
                 }

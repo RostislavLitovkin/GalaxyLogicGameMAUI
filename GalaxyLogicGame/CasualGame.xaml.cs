@@ -941,8 +941,6 @@ namespace GalaxyLogicGame
 
             }
             return false;
-
-
         }
 
         public override async Task InitializeThisLayout(ArrayList array, double offset)
