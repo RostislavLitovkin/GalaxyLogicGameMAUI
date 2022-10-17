@@ -162,7 +162,8 @@ namespace GalaxyLogicGame.Mobile
                 //transition.Stop();
             }
         }
-        private async void OnConnectCryptoClicked(object sender, EventArgs e)
+
+        /*private async void OnConnectCryptoClicked(object sender, EventArgs e)
         {
             //SolanaConnectPage page = new SolanaConnectPage(wallet);
             CryptoConnectPage page = new CryptoConnectPage(wallet);
@@ -191,7 +192,7 @@ namespace GalaxyLogicGame.Mobile
             starsLayout.Children.Add(this.stars);
 
             await page.Connect();
-        }
+        } */
 
         public int Highscore { get { return Preferences.Get(HIGHSCORE, 0); } set { Preferences.Set(HIGHSCORE, value); highscoreLabel.Text = "Highscore: " + value; } }
         public string HighscoreLabel { get { return highscoreLabel.Text; } set { highscoreLabel.Text = value; } }

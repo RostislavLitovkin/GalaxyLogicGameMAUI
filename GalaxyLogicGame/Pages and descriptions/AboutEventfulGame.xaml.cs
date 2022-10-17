@@ -150,7 +150,7 @@ namespace GalaxyLogicGame
         {
             BoxView background = new BoxView
             {
-                Opacity = 0,
+                BackgroundColor = Color.FromArgb("0000"),
                 GestureRecognizers =
                 {
                     tap,

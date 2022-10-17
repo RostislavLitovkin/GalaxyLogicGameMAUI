@@ -6,7 +6,7 @@
     <AbsoluteLayout x:Name="darken" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
                     BackgroundColor="#66000000" Opacity="0"/>
     <Image x:Name="eventIcon" AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0" TranslationY="-60"
-           Source="astronautIcon.png"/>
+           Source="astronauticon.png"/>
     <Label x:Name="eventTitle" AbsoluteLayout.LayoutBounds="0.5, 0.5, 300, 30" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0"
            Text="Astronaut" TextColor="DarkBlue" FontAttributes="Bold" FontSize="24" HorizontalTextAlignment="Center"/>
 

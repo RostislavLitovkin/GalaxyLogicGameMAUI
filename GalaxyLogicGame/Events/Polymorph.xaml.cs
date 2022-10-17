@@ -90,8 +90,7 @@ namespace GalaxyLogicGame.Events
                 {
                     BoxViewWithIndex area = new BoxViewWithIndex
                     {
-                        BackgroundColor = Color.FromArgb("0f00"),
-                        Opacity = 0, // change this to see the touch areas
+                        BackgroundColor = Color.FromArgb("0000"),
                         Index = i,
                     };
 

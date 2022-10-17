@@ -6,7 +6,7 @@
                 HorizontalOptions="Center">
     <Image x:Name="difficultyBG"/>
     <AbsoluteLayout AbsoluteLayout.LayoutBounds="0, 0, 85, 85">
-        <Image x:Name="completedTick" Source="Selected.png"
+        <Image x:Name="completedTick" Source="selected.png"
            AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional"/>
         <Image Source="empty.png"
            AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional"/>

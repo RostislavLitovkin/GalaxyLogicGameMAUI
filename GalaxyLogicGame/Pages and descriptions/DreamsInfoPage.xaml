@@ -22,7 +22,7 @@
                     HorizontalOptions="CenterAndExpand" />
                             <BoxView HeightRequest="10"/>
 
-                            <Image HorizontalOptions="CenterAndExpand"  VerticalOptions="Start" Source="dreamsExplained.png"/>
+                            <Image HorizontalOptions="CenterAndExpand"  VerticalOptions="Start" Source="dreamsexplained.png"/>
                             <BoxView HeightRequest="120"/>
                         </StackLayout>
                     </AbsoluteLayout>

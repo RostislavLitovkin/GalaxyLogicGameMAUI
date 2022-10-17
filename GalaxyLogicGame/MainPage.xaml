@@ -2,9 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GalaxyLogicGame.Mobile.MainPage"
-             xmlns:wallet="clr-namespace:GalaxyLogicGame.Pages_and_descriptions"
+             
               BackgroundColor="Black">
     <ContentPage.Content>
+        <!-- xmlns:wallet="clr-namespace:GalaxyLogicGame.Pages_and_descriptions" -->
         <AbsoluteLayout x:Name="scaleLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All">
             
             <AbsoluteLayout AbsoluteLayout.LayoutBounds=".5, 0.5, 360, 360" AbsoluteLayout.LayoutFlags="PositionProportional" x:Name="mainLayout">
@@ -18,11 +19,11 @@
                     <Image IsVisible="false" x:Name="astronaut" Source="astronaut.png" AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional"  TranslationX="210" TranslationY="60"/>
 
                     
-                     <wallet:WalletPreview x:Name="wallet">
+                     <!--<wallet:WalletPreview x:Name="wallet">
                                 <wallet:WalletPreview.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnConnectCryptoClicked"/>
                         </wallet:WalletPreview.GestureRecognizers>
-                     </wallet:WalletPreview>
+                     </wallet:WalletPreview>-->
                     
                     <Label x:Name="highscoreLabel" AbsoluteLayout.LayoutBounds=".5, .3, AutoSize, AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional" FontFamily="BigNoodleTitling"
                            Text=".." FontSize="20" TextColor="#dddddd"/>
@@ -39,7 +40,7 @@
                            Text="Show more" FontFamily="bignoodletitling" FontSize="20" TextColor="#dddddd">
                     </Label>
                     <BoxView AbsoluteLayout.LayoutBounds="0.5, 1, 1, 0.25" AbsoluteLayout.LayoutFlags="All"
-                             Opacity="0" CornerRadius="30">
+                             BackgroundColor="#00000000" CornerRadius="30">
                         <BoxView.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnShowMoreClicked"/>
                         </BoxView.GestureRecognizers>
