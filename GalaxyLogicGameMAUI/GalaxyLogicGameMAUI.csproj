@@ -73,4 +73,11 @@
 	  <ProjectReference Include="..\GalaxyLogicGame\GalaxyLogicGame.csproj" />
 	</ItemGroup>
 
+  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+		<CodesignEntitlement>Entitlements.plist</CodesignEntitlement>
+    <CodesignKey>Apple Distribution: Rostislav Litovkin (M38VV8KHX5)</CodesignKey>
+    <CodesignProvision>GalaxyLogicGame-iOS</CodesignProvision>
+	</PropertyGroup>
+
 </Project>
