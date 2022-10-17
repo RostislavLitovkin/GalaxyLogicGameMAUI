@@ -20,7 +20,7 @@
 
     <AbsoluteLayout x:Name="blackholeLayout"
                             AbsoluteLayout.LayoutBounds="0, 0, 360, 360">
-
+        
     </AbsoluteLayout>
     <AbsoluteLayout x:Name="atomsLayout"
                             AbsoluteLayout.LayoutBounds="0, 0, 360, 360">
@@ -34,7 +34,7 @@
     </AbsoluteLayout>
 
     <AbsoluteLayout x:Name="clickableAreaLayout"
-                            AbsoluteLayout.LayoutBounds="0, 0, 360, 360">
+                    AbsoluteLayout.LayoutBounds="0, 0, 360, 360">
         <!-- "clickableArea" array -->
     </AbsoluteLayout>
 

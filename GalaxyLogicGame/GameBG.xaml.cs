@@ -1,34 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaxyLogicGame.Events.EventChallengesBoards;
+﻿using GalaxyLogicGame.Events.EventChallengesBoards;
 using GalaxyLogicGame.Particles;
 using GalaxyLogicGame.Planet_objects;
 using GalaxyLogicGame.Powerups;
 using GalaxyLogicGame.Tutorial;
-//using MarcTron.Plugin;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-
-[assembly: ExportFont("SamsungOne700.ttf", Alias = "SamsungOne")]
-[assembly: ExportFont("bignoodletitling.ttf", Alias = "BigNoodleTitling")]
 
 namespace GalaxyLogicGame.Mobile
 {
     public partial class GameBG : GameBGBase, IGameBG
     {
         private List<PowerupBase> powerups = new List<PowerupBase>();
-        //private Accelerometer _accelerometer;
-        /*private CasualGame game;
-        private IBoard board;
-        private Astronaut astronaut;
-
-        private int time = 0;
-        private const int TIME_LIMIT = 15000; // => 5 minutes (15000 ticks)*/
-
         private SensorSpeed accelerometerSpeed = SensorSpeed.Game;
         private Queue<(float x, float y)> _positions = new Queue<(float, float)>();
 
@@ -397,10 +377,6 @@ namespace GalaxyLogicGame.Mobile
             await view.Appear(this);
             */
         }
-
-
-
-
         public void UpdateScore()
         {
             scoreLabel.Text = game.Score.ToString();

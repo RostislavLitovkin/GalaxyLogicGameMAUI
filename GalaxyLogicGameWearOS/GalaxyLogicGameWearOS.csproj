@@ -48,17 +48,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\AtomicBombBG.png" />
-	  <None Remove="Resources\Images\AtomicBombFill.png" />
-	  <None Remove="Resources\Images\AtomicBombShiny.png" />
-	  <None Remove="Resources\Images\externallink.png" />
-	  <None Remove="Resources\Images\gamejambackground.png" />
-	  <None Remove="Resources\Images\metamask.png" />
-	  <None Remove="Resources\Images\playgamejam.png" />
-	  <None Remove="Resources\Images\supernovaflashy.png" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\GalaxyLogicGame\GalaxyLogicGame.csproj" />
 	</ItemGroup>
 

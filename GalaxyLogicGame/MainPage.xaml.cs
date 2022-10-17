@@ -146,11 +146,11 @@ namespace GalaxyLogicGame.Mobile
                 //await transition.Play(transitionLayout, 500);
 
                 this.gameBG?.StopLoop();
-                this.gameBG = gameBG;
+                //this.gameBG = gameBG;
                 gameBG.StartLoop();
 
                 game.BG = gameBG;
-                game.MainMenuPage = this;
+                //game.MainMenuPage = this;
 
 
 

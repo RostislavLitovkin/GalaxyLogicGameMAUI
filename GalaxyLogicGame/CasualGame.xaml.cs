@@ -1,16 +1,6 @@
 ﻿using GalaxyLogicGame.Events;
-using GalaxyLogicGame.Particles;
 using GalaxyLogicGame.Planet_objects;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
 using GalaxyLogicGame.Powerups;
 
 [assembly: ExportFont("bignoodletitling.ttf", Alias = "BigNoodleTitling")]
@@ -22,21 +12,16 @@ namespace GalaxyLogicGame
 
     public partial class CasualGame : Game
     {
-        private int totalAtoms = 5;
-        private Color[] colors;
-        private ArrayList atoms = new ArrayList();
-        private ArrayList blackholes = new ArrayList();
-        private ArrayList stars = new ArrayList();
-        private ArrayList shrinkingGiants = new ArrayList();
-        private ArrayList clickableAreas = new ArrayList();
-        private ArrayList debris = new ArrayList();
+        private ArrayList atoms = new ArrayList(15);
+        private ArrayList blackholes = new ArrayList(2);
+        private ArrayList stars = new ArrayList(1);
+        private ArrayList shrinkingGiants = new ArrayList(1);
+        private ArrayList clickableAreas = new ArrayList(15);
+        private ArrayList debris = new ArrayList(5);
         private int heighest;
         private int lowest;
         private int plusWaiting = 0;
-        private int atomSize = 60;
         private int limit = 14;
-        //int sizeOffset = 30;
-        private int fontSize = 40;
         private int delay = 200;
         private bool starCountdown = false;
         private int score = 0;
@@ -45,17 +30,10 @@ namespace GalaxyLogicGame
         private double offset;
         private double tempIndex;
         private double degreClicked;
-        private double indexClicked;
 
         //private Timer timer = new Timer();
-        private int timerCounter;
-        private int frames = 25;
-        private ArrayList atomPositions = new ArrayList();
-        private ArrayList atomCurrentPositions = new ArrayList();
 
         private PulsingParticle middleParticle;
-
-        private DreamsEvent dreams;
 
         private PlanetBase newPlanet;
 
@@ -89,9 +67,6 @@ namespace GalaxyLogicGame
             middleParticle = new PulsingParticle();
             particleLayout.Children.Clear();
             particleLayout.Children.Add(middleParticle);
-
-
-            colors = Functions.GetColors();
             heighest = 7;
             lowest = 1;
             degre = 0;
@@ -99,9 +74,7 @@ namespace GalaxyLogicGame
             tempIndex = 0;
             degreClicked = 0;
             turn = 0;
-            indexClicked = 0;
             plusWaiting = 3;
-
 
             Score = 0; //
         }
@@ -290,8 +263,6 @@ namespace GalaxyLogicGame
             {
                 middleParticle.Stop(delay);
             }
-
-            indexClicked = index;
             double prevDegre = degre;
 
             if (index + 1 < atoms.Count)
@@ -1010,7 +981,5 @@ namespace GalaxyLogicGame
 
         
         //public int Heighest { get => heighest; }
-        
-        public DreamsEvent Dreams { set { dreams = value; } }
     }
 }

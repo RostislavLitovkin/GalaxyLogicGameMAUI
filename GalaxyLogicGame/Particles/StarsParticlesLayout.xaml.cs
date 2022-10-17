@@ -24,13 +24,13 @@ namespace GalaxyLogicGame.Particles
             Random random = new Random();
             for (int i = 0; i < starsArray.Length; i++)
             {
-
+                int temp = (int)(720 * Functions.GetScreenRatio());
                 starsArray[i] = new Button
                 {
                     BackgroundColor = Color.FromArgb("fff"),
                     Opacity = random.NextDouble(),
                     TranslationX = random.Next(0, 360),
-                    TranslationY = random.Next(0, (int)(720 * Functions.GetScreenRatio())),
+                    TranslationY = random.Next(0, (temp > 0) ? temp : 0),
                 };
 
                 this.Children.Add(starsArray[i]);

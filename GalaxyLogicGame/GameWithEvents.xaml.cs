@@ -1,14 +1,7 @@
 ﻿using GalaxyLogicGame.Events;
 using GalaxyLogicGame.Particles;
 using GalaxyLogicGame.Planet_objects;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
 using GalaxyLogicGame.Types;
 
 namespace GalaxyLogicGame
@@ -21,8 +14,6 @@ namespace GalaxyLogicGame
 
         private bool eventHappening = false;
         private bool customMode = false;
-
-        //private IEvent[] allEvents = { new ShootingStarEvent() };
         private ArrayList events;
         private IEvent tempEvent;
         private Random random = new Random();
@@ -97,12 +88,7 @@ namespace GalaxyLogicGame
         {
             eventCounter++;
 
-
-            await SetEventCounterLayout();
-            
-
-
-            
+            await SetEventCounterLayout();            
         }
 
         private async Task SetEventCounterLayout()
