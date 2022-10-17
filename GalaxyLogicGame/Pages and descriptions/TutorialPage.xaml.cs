@@ -64,7 +64,7 @@ namespace GalaxyLogicGame
 
             ObjectDescription blackhole = new ObjectDescription
             {
-                BlackholeSource = "blackholeThumbnail.png",
+                BlackholeSource = "blackholethumbnail.png",
                 Title = "Blackhole",
                 Description = "Cast a blackhole onto a planet and it will teleport back to you, so that you can change it's position."
             };
@@ -98,7 +98,7 @@ namespace GalaxyLogicGame
             //Debris debrisObject = new Debris { };
             ObjectDescription debris = new ObjectDescription
             {
-                BlackholeSource = "debrisThumbnail.png",
+                BlackholeSource = "debristhumbnail.png",
                 Title = "Debris",
                 Description = "A total trash. It does nothing, it only interferes with other planets."
             };

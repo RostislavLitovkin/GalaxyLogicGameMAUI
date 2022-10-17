@@ -8,11 +8,11 @@
         <AbsoluteLayout x:Name="mainLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 720" AbsoluteLayout.LayoutFlags="PositionProportional">
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 640" AbsoluteLayout.LayoutFlags="PositionProportional">
                 <AbsoluteLayout x:Name="backgroundLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 720, 720" AbsoluteLayout.LayoutFlags="PositionProportional">
-                    <Image x:Name="backgroundImage" Source="galaxyBackground.png" 
+                    <Image x:Name="backgroundImage" Source="galaxybackground.jpg"
                            AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 480"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
                            Aspect="AspectFill"/>
-                </AbsoluteLayout>
+                </AbsoluteLayout> 
                 <AbsoluteLayout x:Name="lowerUILayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 640" AbsoluteLayout.LayoutFlags="PositionProportional" MinimumHeightRequest="360" MinimumWidthRequest="360">
 
                     <Label x:Name="scoreLabel"
@@ -25,9 +25,9 @@
                          TextColor="White"
                            HorizontalTextAlignment="Center"/>
                     <Image x:Name="empty1"
-                   Source="empty.png"
-                   AbsoluteLayout.LayoutBounds="152.5, 75, 15, 15"
-                   IsVisible="false"/>
+                           Source="empty.png"
+                           AbsoluteLayout.LayoutBounds="152.5, 75, 15, 15"
+                           IsVisible="false"/>
                     <Image x:Name="empty2"
                    Source="empty.png"
                    AbsoluteLayout.LayoutBounds="172.5, 67.5, 15, 15"
@@ -38,15 +38,15 @@
                    IsVisible="false"/>
 
                     <Image x:Name="filled1"
-                   Source="filledCircle.png"
+                   Source="filledcircle.png"
                    AbsoluteLayout.LayoutBounds="152.5, 75, 15, 15"
                    IsVisible="false"/>
                     <Image x:Name="filled2"
-                   Source="filledCircle.png"
+                   Source="filledcircle.png"
                    AbsoluteLayout.LayoutBounds="172.5, 67.5, 15, 15"
                    IsVisible="false"/>
                     <Image x:Name="filled3"
-                   Source="filledCircle.png"
+                   Source="filledcircle.png"
                    AbsoluteLayout.LayoutBounds="192.5, 75, 15, 15"
                    IsVisible="false"/>
                 </AbsoluteLayout>

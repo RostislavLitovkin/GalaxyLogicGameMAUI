@@ -5,7 +5,7 @@
                 AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
                 x:Name="mainLayout"
                 Opacity="0">
-    <Image Source="shadowedBackground.png"
+    <Image Source="shadowedbackground.png"
            x:Name="watchShadow" IsVisible="true"/>
     <BoxView AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="#66000000"
              x:Name="mobileShadow" IsVisible="false"/>
@@ -17,9 +17,7 @@
            TextColor="White"
            FontFamily="SamsungOne"
            FontSize="24"/>
-        <Image Source="challengeCompleted.png" TranslationX="200"
+        <Image Source="challengecompleted.png" TranslationX="200"
            x:Name="completedSticker"/>
     </AbsoluteLayout>
-    
-
 </AbsoluteLayout>

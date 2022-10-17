@@ -327,7 +327,7 @@ namespace GalaxyLogicGame
 
             await MoveAtoms();
         }
-        private async void BlackholeClicked(object sender, EventArgs args)
+        private async Task BlackholeClicked(int index)
         {
             //((BoxViewWithIndex)clickableAreas[index]).BackgroundColor = Color.Orange
             if (Clicked)
@@ -336,14 +336,14 @@ namespace GalaxyLogicGame
 
                 TurnPlusPlus();
 
-                degreClicked = offset + ((ClickableArea)sender).Index * degre;
+                degreClicked = offset + index * degre;
                 degre = CirclePosition.CalculateDegre(atoms.Count - 1);
 
-                tempIndex = (atoms.Count - ((ClickableArea)sender).Index - 1) % atoms.Count;
+                tempIndex = (atoms.Count - index - 1) % atoms.Count;
 
                 // first part
                 ArrayList positions = CirclePosition.GetCirclePositionsOffset(atoms.Count, offset);
-                Position p = (Position)positions[((ClickableArea)sender).Index];
+                Position p = (Position)positions[index];
 
                 Blackhole taker = new Blackhole
                 {
@@ -358,13 +358,13 @@ namespace GalaxyLogicGame
                 // second part
                 await taker.ScaleTo(1, (uint)delay); ///
                 //await Task.Delay(delay); /// -------
-                await ((PlanetBase)atoms[((ClickableArea)sender).Index]).ScaleTo(0, (uint)delay / 2); ///
+                await ((PlanetBase)atoms[index]).ScaleTo(0, (uint)delay / 2); ///
                 //await Task.Delay(delay); /// -------
                 // */
                 //
-                if (((PlanetBase)atoms[((ClickableArea)sender).Index]).Type == 2)
+                if (((PlanetBase)atoms[index]).Type == 2)
                 {
-                    stars.Remove((Supernova)atoms[((ClickableArea)sender).Index]);
+                    stars.Remove((Supernova)atoms[index]);
 
                     if (MainMenuPage.IsUltra) GenerateShrinkingGiant();
                     else
@@ -384,9 +384,9 @@ namespace GalaxyLogicGame
                     // Challenge 2
                     if (!Preferences.ContainsKey("org.tizen.myApp.challenge2") && MainMenuPage.IsUltra) { await Challenges.Challenge2(BG.MainLayout); }
                 }
-                else newPlanet = (PlanetBase)atoms[((ClickableArea)sender).Index];
+                else newPlanet = (PlanetBase)atoms[index];
 
-                atoms.RemoveAt(((ClickableArea)sender).Index);
+                atoms.RemoveAt(index);
 
                 // /*
                 newPlanet.TranslationX = 0; // here change time
@@ -720,13 +720,12 @@ namespace GalaxyLogicGame
             ArrayList positions = CirclePosition.GetCirclePositionsOffset(atoms.Count, offset);
             for (int i = 0; i < positions.Count; i++)
             {
-                ClickableArea area = new ClickableArea
+                BoxViewWithIndex area = new BoxViewWithIndex
                 {
-                    BackgroundColor = Color.FromArgb("f00"),
-                    Opacity = 0, // change this to see the touch areas
+                    BackgroundColor = Color.FromArgb("0000"),
                     Index = i,
                 };
-                area.Clicked += BlackholeClicked;
+                area.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => await BlackholeClicked(area.Index)) });
                 //area.Pressed += OnButtonPressed;
                 //try { area.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => { try { await BlackholeClicked(area.Index); } catch (Exception ex) { } }) }); } catch { }
                 clickableAreas.Add(area);
@@ -767,7 +766,7 @@ namespace GalaxyLogicGame
                 BoxViewWithIndex area = new BoxViewWithIndex
                 {
                     Index = i,
-                    Opacity = 0,
+                    BackgroundColor = Color.FromArgb("0000"),
                 };
                 clickableAreas.Add(area);
                 area.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => await AreaClicked(area.Index)) });

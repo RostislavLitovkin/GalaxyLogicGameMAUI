@@ -28,7 +28,7 @@
                                             Padding="0"
                                             IsClippedToBounds="True">
                                         <Image WidthRequest="360" Aspect="AspectFill" HeightRequest="240" 
-                                                Source="Rostik.png"/>
+                                                Source="rostik.png"/>
                                     </Frame>
                                     <BoxView HeightRequest="5"/>
                                     <Label Text="Rostislav Litovkin" WidthRequest="320" FontSize="40" FontAttributes="Bold" FontFamily="BigNoodleTitling" TextColor="White" 

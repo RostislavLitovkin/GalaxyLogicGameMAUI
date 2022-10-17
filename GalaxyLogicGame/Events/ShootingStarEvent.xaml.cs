@@ -120,7 +120,7 @@ namespace GalaxyLogicGame.Events
                 BoxViewWithIndex area = new BoxViewWithIndex
                 {
                     Index = i,
-                    Opacity = 0,
+                    BackgroundColor = Color.FromArgb("0000"),
                     TranslationX = (i - 1) * offsetBetweenPlanets,
                 };
 

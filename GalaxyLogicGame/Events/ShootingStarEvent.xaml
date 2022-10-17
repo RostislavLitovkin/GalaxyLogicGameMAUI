@@ -18,7 +18,7 @@
     </AbsoluteLayout>
 
     <Image x:Name="eventIcon" AbsoluteLayout.LayoutBounds="0.5, 0.5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0" TranslationY="-60"
-           Source="shootingStar.png"/>
+           Source="shootingstar.png"/>
     <Label x:Name="eventTitle" AbsoluteLayout.LayoutBounds="0.5, 0.5, 300, 30" AbsoluteLayout.LayoutFlags="PositionProportional" Opacity="0"
            Text="Shooting star" TextColor="Yellow" FontAttributes="Bold" FontSize="24" HorizontalTextAlignment="Center"/>
 
