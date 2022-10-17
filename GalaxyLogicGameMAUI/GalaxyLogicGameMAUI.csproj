@@ -30,6 +30,10 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<PublishTrimmed>true</PublishTrimmed>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\galaxylogo360.png" Color="#2b2b2b" />
@@ -73,11 +77,12 @@
 	  <ProjectReference Include="..\GalaxyLogicGame\GalaxyLogicGame.csproj" />
 	</ItemGroup>
 
-  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
-    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+    <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
+		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
 		<CodesignEntitlement>Entitlements.plist</CodesignEntitlement>
-    <CodesignKey>Apple Distribution: Rostislav Litovkin (M38VV8KHX5)</CodesignKey>
-    <CodesignProvision>GalaxyLogicGame-iOS</CodesignProvision>
+		<CodesignKey>iPhone Distribution: Rostislav Litovkin (M38VV8KHX5)</CodesignKey>
+		<CodesignProvision>GalaxyLogicGameIOS</CodesignProvision>
+		<ArchiveOnBuild>true</ArchiveOnBuild>
+		<TcpPort>58181</TcpPort>
 	</PropertyGroup>
-
 </Project>
