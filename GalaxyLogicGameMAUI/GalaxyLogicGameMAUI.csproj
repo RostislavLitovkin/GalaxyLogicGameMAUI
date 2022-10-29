@@ -29,10 +29,6 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<PublishTrimmed>true</PublishTrimmed>
-	</PropertyGroup>
 	
 	<ItemGroup>
 		<!-- App Icon -->
@@ -70,7 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="WalletConnect.Desktop" Version="1.7.1" />
+	  <PackageReference Include="WalletConnect.Desktop" Version="1.7.2" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -79,9 +75,9 @@
 
     <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
 		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-		<CodesignEntitlement>Entitlements.plist</CodesignEntitlement>
-		<CodesignKey>iPhone Distribution: Rostislav Litovkin (M38VV8KHX5)</CodesignKey>
-		<CodesignProvision>GalaxyLogicGameIOS</CodesignProvision>
+		<!--<CodesignEntitlement>Entitlements.plist</CodesignEntitlement>-->
+		<CodesignKey>Apple Distribution: Rostislav Litovkin (M38VV8KHX5)</CodesignKey>
+		<CodesignProvision>galaxylogicgameappdistribution</CodesignProvision>
 		<ArchiveOnBuild>true</ArchiveOnBuild>
 		<TcpPort>58181</TcpPort>
 	</PropertyGroup>
