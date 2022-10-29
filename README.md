@@ -2,18 +2,25 @@
 
 ![GithubPreview](https://user-images.githubusercontent.com/77352013/186893566-edaca4e1-90ed-4a70-a4b1-b8c9adc01bfb.png)
 
-### What is this?
+### Description:
 
-Galaxy Logic Game is a logical game for multiple popular platforms
+Galaxy Logic Game is a logical game for multiple popular platforms.
+
+### Disclaimer:
+
+This game was originaly developed with Xamarin framework (a .net MAUI predecessor).
+Also this project exists since I was just beginning my programming journey, so some code oddities are the norm.
+
+Despite this, I am very proud of what I was able to accomplish.
 
 ### Platforms supported:
 
 - Android
-- WearOS
+- WearOS (not fully optimised yet)
+- iOS, ipadOS
 
 #### Can be supported, but are untested:
 
-- iOS
 - MacCatalyst
 - Windows
 - Xbox
@@ -21,9 +28,9 @@ Galaxy Logic Game is a logical game for multiple popular platforms
 
 ### How to run:
 
-I recommend using Visual Studio 2022 preview: https://visualstudio.microsoft.com/cs/vs/preview/
+I recommend using Visual Studio 2022: https://visualstudio.microsoft.com/vs/community/
 
-For detailed description on how to run the code: https://docs.microsoft.com/en-us/dotnet/maui/get-started/first-app?tabs=vswin&pivots=devices-android
+Detailed description on how to run the code: https://docs.microsoft.com/en-us/dotnet/maui/get-started/first-app?tabs=vswin&pivots=devices-android
 
 ### Folder structure:
 
