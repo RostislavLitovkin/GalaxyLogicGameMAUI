@@ -2,6 +2,8 @@
 
 Added a competition into the game. Will be live in the upcomming weeks.
 
+The code for the competitions part can be found in Competitions branch
+
 ![MicrosoftTeams-image](https://user-images.githubusercontent.com/77352013/201514859-bdacfb3d-1259-4094-b3bd-244eda8a3fbc.png)
 
 The record of the game is sent to the server to generate a proof and then saved to the leaderboard.
