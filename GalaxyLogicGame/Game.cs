@@ -11,11 +11,13 @@ namespace GalaxyLogicGame
         public abstract Task Setup();
         public abstract int Heighest { get; set; }
 
-
         public abstract Task InitializeThisLayout(ArrayList array, double offset);
+        public abstract Task InitializeFromSave();
+
         public abstract Task AreaClicked(int index);
         public bool Clicked { get => clicked; set { clicked = value; bg.ResetTime(); } }
 
+        public PseudoRandomGenerator PseudoRNG { get; set; }
         public IGameBG BG { get => bg; set { bg = value; } }
         public IMainPage MainMenuPage { get { return mainPage; } set { mainPage = value; } }
     }

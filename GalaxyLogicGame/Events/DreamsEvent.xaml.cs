@@ -59,7 +59,6 @@ namespace GalaxyLogicGame.Events
         {
             this.game = game;
             game.EventObject = this;
-            Random random = new Random();
 
             if (Device.RuntimePlatform == Device.Tizen) { 
                 game.BG.BackgroundLayout.Children.Add(dreamsBG);
@@ -81,7 +80,7 @@ namespace GalaxyLogicGame.Events
             // generate dream numbers
             for (int dreamNum = 1; dreamNum <= 3; dreamNum++)
             {
-                int index = random.Next(availablePlanets.Count);
+                int index = game.PseudoRNG.Next(availablePlanets.Count);
                 ((Planet)availablePlanets[index]).DreamNumber = dreamNum;
                 availablePlanets.RemoveAt(index);
             }

@@ -16,6 +16,15 @@ namespace GalaxyLogicGame
             return int.Parse(p.Text);
         }
 
+        public static void AddTurnToSave(string turn)
+        {
+            Preferences.Set("save", Preferences.Get("save", "") + " " + turn);
+        }
+
+        public static void AddTurnToSave(int turn)
+        {
+            Preferences.Set("save", Preferences.Get("save", "") + " " + turn.ToString());
+        }
 
         public static Color[] GetColors()
         {

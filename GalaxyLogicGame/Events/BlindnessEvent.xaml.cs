@@ -45,10 +45,10 @@ namespace GalaxyLogicGame.Events
         {
             this.game = game;
             game.EventObject = this;
-            Random random = new Random();
             game.BG.ShowEvent(mainLayout);
             game.Blindness = this;
 
+            Random random = new Random();
             game.EventCounter = -5;
 
             // something more

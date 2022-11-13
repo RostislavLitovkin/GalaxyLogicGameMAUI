@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AbsoluteLayout xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GalaxyLogicGame.Pagesanddescriptions.Leaderboard"
+             WidthRequest="320" HeightRequest="60">
+    <Label Text="Leader board" AbsoluteLayout.LayoutBounds="0, 0, AutoSize, 30" FontFamily="BigNoodleTitling"
+           FontSize="20"
+
+           TextColor="White" />
+
+    <Label Text="Loading" AbsoluteLayout.LayoutBounds="0, 30, 160, 30" FontFamily="BigNoodleTitling"
+           FontSize="30"
+           TextColor="#ddd" x:Name="addressLabel" />
+
+    <Label Text=".." AbsoluteLayout.LayoutBounds="160, 30, 160, 30" FontFamily="BigNoodleTitling"
+           HorizontalTextAlignment="End"
+           FontSize="30"
+           TextColor="White" x:Name="scoreLabel" />
+</AbsoluteLayout>

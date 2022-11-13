@@ -13,8 +13,9 @@
                            AbsoluteLayout.LayoutFlags="PositionProportional"
                            Aspect="AspectFill"/>
                 </AbsoluteLayout> 
-                <AbsoluteLayout x:Name="lowerUILayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 640" AbsoluteLayout.LayoutFlags="PositionProportional" MinimumHeightRequest="360" MinimumWidthRequest="360">
-
+                <AbsoluteLayout x:Name="lowerUILayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 640" AbsoluteLayout.LayoutFlags="PositionProportional"
+                                MinimumHeightRequest="360" MinimumWidthRequest="360">
+                   
                     <Label x:Name="scoreLabel"
                        AbsoluteLayout.LayoutBounds="0.5, 0, 200, 60"
                        AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -49,6 +50,8 @@
                    Source="filledcircle.png"
                    AbsoluteLayout.LayoutBounds="192.5, 75, 15, 15"
                    IsVisible="false"/>
+
+                     
                 </AbsoluteLayout>
             </AbsoluteLayout>
             
@@ -58,6 +61,7 @@
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 360" AbsoluteLayout.LayoutFlags="PositionProportional" 
                             x:Name="gameLayout"/>
 
+            
             <!-- keep this here "RAISED" -->
             <!--
             <watch:PowerupArrows x:Name="powerupArrows">
@@ -73,7 +77,38 @@
 
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" x:Name="eventLayout" IsVisible="false"/>
 
-            
+            <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 40, 40" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="White"
+                   TranslationX="140" TranslationY="-290" IsVisible="{OnPlatform Android=false}">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Pause" />
+                        </Image.GestureRecognizers>
+            </Image>
+
+            <AbsoluteLayout x:Name="pauseScreen" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
+                                BackgroundColor="#AA000000" Opacity="0"
+                                >
+                        <!-- For some reason was buggy and I had to put the contents underneath it -->
+                    <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 360" AbsoluteLayout.LayoutFlags="PositionProportional">
+                        <Label Text="Pause" AbsoluteLayout.LayoutBounds="0.5, 90, 320, 30" AbsoluteLayout.LayoutFlags="XProportional" IsVisible="true" 
+                                FontSize="24" HorizontalTextAlignment="Center" x:Name="pauseScreenText"/>
+
+                        <Label Text="Continue" AbsoluteLayout.LayoutBounds="0.5, 150, 320, 60" AbsoluteLayout.LayoutFlags="XProportional" IsVisible="true" TextColor="#45ffed"
+                               FontSize="48" FontFamily="BigNoodleTitling" FontAttributes="Bold" x:Name="continueButton"
+                                 HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Continue"/>
+                            </Label.GestureRecognizers>
+                        </Label>     
+                        <Label Text="Main menu" AbsoluteLayout.LayoutBounds="0.5, 230, 320, 60" AbsoluteLayout.LayoutFlags="XProportional" IsVisible="true" TextColor="#dddddd"
+                               FontSize="32" FontFamily="BigNoodleTitling" FontAttributes="Bold" x:Name="pauseMainMenuButton"
+                               HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ToMainMenu"/>
+                            </Label.GestureRecognizers>
+                        </Label>                    
+                    </AbsoluteLayout>
+
+                </AbsoluteLayout>
             
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" x:Name="tutorialLayout" IsVisible="false"/>
 
@@ -93,6 +128,9 @@
                     </AbsoluteLayout>
 
                 </AbsoluteLayout>
+
+
+                
 
 
 

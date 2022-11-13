@@ -13,6 +13,7 @@ namespace GalaxyLogicGame
 {
     public interface IGameBG
     {
+
         List<PowerupBase> Powerups { get; }
         CasualGame Game { get; }
         void ResetTime();
@@ -21,8 +22,10 @@ namespace GalaxyLogicGame
         Task LostScreenAnimation();
         void StartLoop();
         void StopLoop();
-        Task Setup(CasualGame game);
+        Task Setup(CasualGame game, int seed);
         Task NavigateToOtherTutorial(TutorialGameBase game);
+        Task ContinueFromSave(CasualGame game);
+
         AbsoluteLayout LowerUILayout { get; set; }
         AbsoluteLayout MainLayout { get; set; }
         
@@ -45,6 +48,8 @@ namespace GalaxyLogicGame
         AbsoluteLayout GameLayout { get; }
         bool PowerupsAllowed { set; }
         AbsoluteLayout PowerUpAnimationLayout { get; }
+
+        Task UpdateSaveThing();
 
     }
 }

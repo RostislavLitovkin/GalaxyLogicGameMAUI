@@ -23,10 +23,7 @@ namespace GalaxyLogicGame.Tutorial
 
         public async Task Appear(CasualGame game)
         {
-            
-
             int offsetBetweenPlanets = 90;
-            Random random = new Random();
 
             game.BG.ShowEvent(mainLayout);
 

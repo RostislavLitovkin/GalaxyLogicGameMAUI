@@ -15,14 +15,14 @@ namespace GalaxyLogicGame
         private ArrayList atoms = new ArrayList(15);
         private ArrayList blackholes = new ArrayList(2);
         private ArrayList stars = new ArrayList(1);
-        private ArrayList shrinkingGiants = new ArrayList(1);
+        private ArrayList shrinkingGiants = new ArrayList(3);
         private ArrayList clickableAreas = new ArrayList(15);
         private ArrayList debris = new ArrayList(5);
-        private int heighest;
+        private int highest;
         private int lowest;
         private int plusWaiting = 0;
-        private int limit = 14;
-        private int delay = 200;
+        private readonly int limit = 14;
+        private readonly int delay = 200;
         private bool starCountdown = false;
         private int score = 0;
 
@@ -34,13 +34,8 @@ namespace GalaxyLogicGame
         //private Timer timer = new Timer();
 
         private PulsingParticle middleParticle;
-
         private PlanetBase newPlanet;
-
         private int turn;
-
-
-
 
         public CasualGame()
         {
@@ -67,7 +62,7 @@ namespace GalaxyLogicGame
             middleParticle = new PulsingParticle();
             particleLayout.Children.Clear();
             particleLayout.Children.Add(middleParticle);
-            heighest = 7;
+            highest = 7;
             lowest = 1;
             degre = 0;
             offset = 0;
@@ -78,15 +73,15 @@ namespace GalaxyLogicGame
 
             Score = 0; //
         }
+
         public override async Task Setup()
         {
             ArrayList tempArray = new ArrayList();
-            Random random = new Random();
             for (int i = 0; i < 7; i++)
             {
-                tempArray.Add(new Planet { Type = 0, Text = random.Next(1, 7).ToString() });
+                tempArray.Add(new Planet { Type = 0, Text = PseudoRNG.Next(1, 7).ToString() });
             }
-            await InitializeThisLayout(tempArray, random.Next(30));
+            await InitializeThisLayout(tempArray, new Random().Next(30));
             //NewPlanet = new Planet { Type = 0, Text = random.Next(1, 7).ToString() };
             //AtomsLayout.Children.Add(NewPlanet);
 
@@ -159,12 +154,10 @@ namespace GalaxyLogicGame
                 }
             }
 
-            Random random = new Random();
-
             PlanetBase temporaryPlanet;
 
 
-            if (random.Next(5) == 0 || plusWaiting >= 6) //    <-- collision
+            if (PseudoRNG.Next(5) == 0 || plusWaiting >= 6) //    <-- collision / merge
             {
                 temporaryPlanet = new Planet
                 {
@@ -179,7 +172,7 @@ namespace GalaxyLogicGame
 
             }
 
-            else if (random.Next(20) == 0 && atoms.Count > 3 || random.Next(10) == 0 && atoms.Count > 10) // <-- blackhole // chance is around 20 +/- and 10 +/-
+            else if ((PseudoRNG.Next(20) == 0 && atoms.Count > 3) || (PseudoRNG.Next(10) == 0 && atoms.Count > 10)) // <-- blackhole // chance is around 20 +/- and 10 +/-
             {
                 starCountdown = false;
                 Blackhole bh = new Blackhole();
@@ -193,12 +186,12 @@ namespace GalaxyLogicGame
 
 
 
-            else if (random.Next(20) == 0 && stars.Count < 1) // <-- star // chance is around 20 +/-
+            else if (PseudoRNG.Next(20) == 0 && stars.Count < 1) // <-- star // chance is around 20 +/-
             {
                 
                 temporaryPlanet = new Supernova
                 {
-                    Text = random.Next(3, 9).ToString()
+                    Text = PseudoRNG.Next(3, 9).ToString()
                 };
                 starCountdown = false;
 
@@ -210,7 +203,7 @@ namespace GalaxyLogicGame
             {
                 plusWaiting++;
                 starCountdown = true;
-                int v = random.Next(lowest, heighest);
+                int v = PseudoRNG.Next(lowest, highest);
                 temporaryPlanet = new Planet
                 {
                     Type = 0,
@@ -233,6 +226,8 @@ namespace GalaxyLogicGame
             if (Clicked)
             {
                 Clicked = false;
+
+                Functions.AddTurnToSave(index);
 
                 TurnPlusPlus();
 
@@ -305,6 +300,8 @@ namespace GalaxyLogicGame
             {
                 Clicked = false;
 
+                Functions.AddTurnToSave(index);
+
                 TurnPlusPlus();
 
                 degreClicked = offset + index * degre;
@@ -341,8 +338,7 @@ namespace GalaxyLogicGame
                     else
                     {
                         Planet temporaryButton = new Planet();
-                        Random random = new Random();
-                        int v = random.Next(lowest, heighest + 1);
+                        int v = PseudoRNG.Next(lowest, highest + 1);
 
                         temporaryButton.Type = 0;
                         temporaryButton.Text = v + "";
@@ -429,9 +425,8 @@ namespace GalaxyLogicGame
                         {
                             if (atoms.Count == 0 && MainMenuPage.IsUltra) await Challenges.Challenge10(BG.MainLayout); // challenge - empty board
 
-                            Random random = new Random();
                             Planet temporaryButton = new Planet();
-                            int v = random.Next(lowest, heighest + 1);
+                            int v = PseudoRNG.Next(lowest, highest + 1);
 
                             temporaryButton.Type = 0;
                             temporaryButton.Text = v + "";
@@ -589,7 +584,7 @@ namespace GalaxyLogicGame
                                     }
                                     atomBonus++;
 
-                                    if (atomValue + atomBonus > heighest) heighest = atomValue + atomBonus;
+                                    if (atomValue + atomBonus > highest) highest = atomValue + atomBonus;
                                     //((Button)atoms[i]).Text = atomValue + "";
 
                                     ////////////////////////////////////////////////////// change later - Update (9.5.2022): I do not know what to change XD
@@ -712,11 +707,11 @@ namespace GalaxyLogicGame
         }
         public void GenerateShrinkingGiant()
         {
-            heighest += 3;
+            highest += 3;
             Planet temporaryButton = new Planet
             {
                 Type = 3,
-                Text = (heighest + 1).ToString(),
+                Text = (highest + 1).ToString(),
                 BGColor = Color.FromArgb("000"),
                 TextColor = Color.FromArgb("be66ed"),
             };
@@ -761,7 +756,7 @@ namespace GalaxyLogicGame
         {
             return int.Parse(((PlanetBase)atoms[index]).Text);
         }
-        public override int Heighest { get { return heighest; } set { heighest = value; } }
+        public override int Heighest { get { return highest; } set { highest = value; } }
         public int Score { get { return score; } set { score = value; BG?.UpdateScore(); } }
         
 
@@ -835,9 +830,9 @@ namespace GalaxyLogicGame
                 await Challenges.Challenge3(BG.MainLayout, Score);
                 await Challenges.Challenge4(BG.MainLayout, Score);
                 await Challenges.Challenge5(BG.MainLayout, Score);
-                await Challenges.Challenge6(BG.MainLayout, heighest);
-                await Challenges.Challenge7(BG.MainLayout, heighest);
-                await Challenges.Challenge8(BG.MainLayout, heighest);
+                await Challenges.Challenge6(BG.MainLayout, highest);
+                await Challenges.Challenge7(BG.MainLayout, highest);
+                await Challenges.Challenge8(BG.MainLayout, highest);
                 await Challenges.Challenge9(BG.MainLayout, atoms);
             }
         }
@@ -848,9 +843,7 @@ namespace GalaxyLogicGame
             TelescopeActivated = true;
             for (int i = 0; i < NextPlanets.Length; i++)
             {
-                Random random = new Random();
-
-                if (random.Next(5) == 0 || plusWaiting >= 6) //    <-- collision
+                if (PseudoRNG.Next(5) == 0 || plusWaiting >= 6) //    <-- collision
                 {
                     NextPlanets[i] = new Planet
                     {
@@ -863,7 +856,7 @@ namespace GalaxyLogicGame
                     else plusWaiting = 2;
                 }
 
-                else if (!starInArray && random.Next(20) == 0 && stars.Count < 1) // <-- star // chance is around 20 +/-
+                else if (!starInArray && PseudoRNG.Next(20) == 0 && stars.Count < 1) // <-- star // chance is around 20 +/-
                 {
                     NextPlanets[i] = new Supernova
                     {
@@ -876,7 +869,7 @@ namespace GalaxyLogicGame
                 else // <-- normal planet
                 {
                     plusWaiting++;
-                    int v = random.Next(lowest, heighest);
+                    int v = PseudoRNG.Next(lowest, highest);
                     NextPlanets[i] = new Planet
                     {
                         Type = 0,
@@ -929,6 +922,27 @@ namespace GalaxyLogicGame
 
             TurnPlusPlus();
         }
+
+        public override async Task InitializeFromSave()
+        {
+            (PseudoRNG, atoms, score) = GameValidator.ValidateSaved();
+
+            atomsLayout.Children.Clear();
+            foreach (PlanetBase planet in atoms)
+            {
+                atomsLayout.Children.Add(planet);
+            }
+
+            await MoveAtoms();
+
+            //TurnPlusPlus();
+
+            // the total end
+            //BG.GameOver();
+            //GenerateNewAtom();
+        }
+
+
         /**
          * This method is used to count up the total number of turns and to update all the things that rely on it
          */
@@ -979,6 +993,6 @@ namespace GalaxyLogicGame
         //public int Score { get => score; set { score = value; } }
 
         
-        //public int Heighest { get => heighest; }
+        //public int Heighest { get => highest; }
     }
 }

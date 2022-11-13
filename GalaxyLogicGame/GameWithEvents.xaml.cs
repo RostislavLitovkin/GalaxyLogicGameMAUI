@@ -16,7 +16,6 @@ namespace GalaxyLogicGame
         private bool customMode = false;
         private ArrayList events;
         private IEvent tempEvent;
-        private Random random = new Random();
         private BlindnessEvent blindness;
         private ThreeInRowEvent tir;
         private BinaryEvent binary;
@@ -35,9 +34,8 @@ namespace GalaxyLogicGame
         public override async Task Setup()
         {
             //eventCounterLayout.IsVisible = true;
-            Random random = new Random();
             
-            eventCounter = random.Next(-10, -3); // makes you fucking lucky
+            eventCounter = PseudoRNG.Next(-10, -3); // makes you fucking lucky
 
             await base.Setup();
         }
@@ -48,6 +46,8 @@ namespace GalaxyLogicGame
             if (Clicked)
             {
                 Clicked = false;
+
+                Functions.AddTurnToSave(index);
 
                 TurnPlusPlus();
 
@@ -64,7 +64,6 @@ namespace GalaxyLogicGame
 
                 BG.GameOver(); // this needs to be improved // probably already done :D
 
-
                 generateNewPlanet = true;
 
                 //if (binary != null) await binary.MoveMade(); // probably not needed
@@ -79,6 +78,8 @@ namespace GalaxyLogicGame
                 //AddClickableAreasToLayout(); // maybe useless, delete later
 
                 await BG.LostScreenAnimation();
+
+                await BG.UpdateSaveThing();
 
                 Clicked = true;
             }
@@ -167,7 +168,7 @@ namespace GalaxyLogicGame
             int index;
             if (events.Count != 0)
             {
-                index = random.Next(events.Count);
+                index = PseudoRNG.Next(events.Count);
                 tempEvent = GetEvent((int)events[index]);
             }
             else { 
@@ -242,7 +243,7 @@ namespace GalaxyLogicGame
         }
         public ArrayList SetAllEventsArrayList()
         {
-            ArrayList tempEvents = new ArrayList();
+            ArrayList tempEvents = new ArrayList(12);
             for (int i = 0; i < 12; i++)
             {
                 tempEvents.Add(i);

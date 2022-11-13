@@ -22,7 +22,6 @@ namespace GalaxyLogicGame.Events
         private bool eventHappening = true;
 
         private int chosenIndex;
-        private Random random = new Random();
         public Polymorph()
         {
             InitializeComponent();
@@ -50,7 +49,6 @@ namespace GalaxyLogicGame.Events
         }
         public async Task Appear(GameWithEvents game)
         {
-            game.GenerateNewPlanet = false;
             game.EventHappening = true;
             
             game.BG.ShowEvent(mainLayout);
@@ -66,7 +64,7 @@ namespace GalaxyLogicGame.Events
 
             await choiceLayout.FadeTo(1, 500);
 
-            chosenIndex = random.Next(game.Atoms.Count);
+            chosenIndex = game.PseudoRNG.Next(game.Atoms.Count);
 
             await ((PlanetBase)game.Atoms[chosenIndex]).TranslateTo(0, 0, 250);
 
@@ -117,7 +115,7 @@ namespace GalaxyLogicGame.Events
                 game.Clicked = false;
                 Button[] particles = new Button[3];
 
-
+                Functions.AddTurnToSave(index);
 
                 await Task.WhenAll(
                     ((PlanetBase)game.Atoms[index]).ScaleTo(1.2, 50, Easing.SinIn),
@@ -128,10 +126,11 @@ namespace GalaxyLogicGame.Events
                 ((PlanetBase)game.Atoms[chosenIndex]).ScaleTo(1, 250, Easing.SinOut);
                 ((PlanetBase)game.Atoms[index]).ScaleTo(1, 125, Easing.SinOut);
 
-
+                
 
                 // animation
                 int delay = 25;
+                Random random = new Random();
                 for (int i = 0; i < particles.Length; i++)
                 {
                     Button particle = new Button
@@ -155,7 +154,7 @@ namespace GalaxyLogicGame.Events
 
                 await Task.Delay(200);
 
-                if (((PlanetBase)game.Atoms[chosenIndex]).IsTypeThree) ((PlanetBase)game.Atoms[index]).Type = 3;
+                if (((PlanetBase)game.Atoms[chosenIndex]).IsTypeThree) ((PlanetBase)game.Atoms[chosenIndex]).Type = 3;
                 else ((PlanetBase)game.Atoms[chosenIndex]).Type = ((PlanetBase)game.Atoms[index]).Type;
                 
                 ((Planet)game.Atoms[chosenIndex]).Text = ((Planet)game.Atoms[index]).Text;
@@ -185,7 +184,6 @@ namespace GalaxyLogicGame.Events
                 await game.MergeAtoms();
                 await game.CheckChallenges();
 
-                game.GenerateNewAtom();
                 game.EventHappening = false;
                 eventHappening = false;
                 

@@ -46,7 +46,6 @@ namespace GalaxyLogicGame.Events
             game.EventHappening = true;
 
             int offsetBetweenPlanets = 90;
-            Random random = new Random();
             
             game.BG.ShowEvent(mainLayout);
 
@@ -67,7 +66,7 @@ namespace GalaxyLogicGame.Events
 
                 if (i == 0)
                 {
-                    int type = random.Next(1, 3);
+                    int type = game.PseudoRNG.Next(1, 3);
                    
 
                     if(type == 2 && game.Stars.Count > 0) type--;
@@ -85,7 +84,7 @@ namespace GalaxyLogicGame.Events
                     {
                         planet = new Supernova
                         {
-                            Text = random.Next(3, 9).ToString()
+                            Text = game.PseudoRNG.Next(3, 9).ToString()
                         };
                     }
                     else
@@ -97,7 +96,7 @@ namespace GalaxyLogicGame.Events
                 }
                 else
                 {
-                    int v = random.Next(game.Lowest, game.Heighest);
+                    int v = game.PseudoRNG.Next(game.Lowest, game.Heighest);
                     planet = new Planet
                     {
                         Type = 0,
@@ -138,6 +137,9 @@ namespace GalaxyLogicGame.Events
             if (game.Clicked)
             {
                 game.Clicked = false;
+
+                Functions.AddTurnToSave(index);
+
                 game.NewPlanet = planetsChoice[index];
                 choiceLayout.Children.Remove(planetsChoice[index]);
                 game.AtomsLayout.Children.Add(planetsChoice[index]);

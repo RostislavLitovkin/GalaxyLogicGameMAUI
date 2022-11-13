@@ -24,6 +24,7 @@ public partial class CryptoConnectPage : ContentPage
     private readonly string providerAddress = EthFunctions.GetEthereumProvider;
     private bool clicked = true;
     private WalletPreview wallet;
+    private bool walletConnectClicked = false;
     public CryptoConnectPage(WalletPreview wallet)
     {
         NavigationPage.SetHasNavigationBar(this, false);
@@ -106,7 +107,7 @@ public partial class CryptoConnectPage : ContentPage
             var walletConnect = new WalletConnect(metadata);
 
             //linkLabel.Text = walletConnect.URI; // good for debugging
-            if (Functions.IsSquareScreen())
+            if (Functions.IsSquareScreen() || walletConnectClicked)
             {
                 mainStackLayout.Children.Add(new Image
                 {
@@ -205,6 +206,23 @@ public partial class CryptoConnectPage : ContentPage
             Link = "https://play.google.com/store/apps/details?id=io.metamask",
             ConnectWalletMethod = OfferConnectingNewWallet,
         });
+         /*
+        var walletConnectThumbnail = new WalletDownloadThumbnail
+        {
+            Icon = "walletconnecticon.png",
+            Title = "Wallet connect",
+            Description = "Connect your wallet securely via QR code",
+            ConnectWalletMethod = OfferConnectingNewWallet,
+        };
+
+        walletConnectThumbnail.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => {
+            walletConnectClicked = true;
+            await OfferConnectingNewWallet();
+        }) });
+        mainStackLayout.Children.Add(walletConnectThumbnail);
+         */
+
+
     }
     private void OfferMinting()
     {

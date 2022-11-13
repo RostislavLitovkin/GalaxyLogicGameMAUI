@@ -435,6 +435,9 @@
 	  <MauiXaml Update="Tutorial\ShootingStarTutorial.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages and descriptions\Leaderboard.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 

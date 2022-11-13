@@ -55,7 +55,7 @@ namespace GalaxyLogicGame.Tutorial
         {
             double tempOffset = 0;
             int tempI = 0;
-            int heighest = 0;
+            int highest = 0;
             int delay = 250;
 
             bool messageDone = true;
@@ -100,7 +100,7 @@ namespace GalaxyLogicGame.Tutorial
                                 atomValue = GetAtomValue(high);
                             }
                             atomBonus++;
-                            if (atomValue + atomBonus > heighest) heighest = atomValue + atomBonus;
+                            if (atomValue + atomBonus > highest) highest = atomValue + atomBonus;
                             //((Button)Atoms[i]).Text = atomValue + "";
 
                             ////////////////////////////////////////////////////////////////////////////////////////////////// change later

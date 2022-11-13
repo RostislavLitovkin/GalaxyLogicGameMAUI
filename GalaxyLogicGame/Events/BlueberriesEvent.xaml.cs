@@ -72,6 +72,7 @@ namespace GalaxyLogicGame.Events
         public async Task Appear(GameWithEvents game)
         {
             this.game = game;
+            duration = game.PseudoRNG.Next(2, 5);
             game.EventObject = this;
 
             game.EventCounter = - duration + 1; // maybe change later
@@ -150,23 +151,22 @@ namespace GalaxyLogicGame.Events
 
                     int counter = 3 < planets.Count ? 3 : (planets.Count - 1 > 0 ? planets.Count - 1 : planets.Count);
 
-                    Random random = new Random();
-
                     while (counter > 0)
                     {
                         counter--;
                         
 
 
-                        Planet tempPlanet = (Planet)planets[random.Next(0, planets.Count)];
+                        Planet tempPlanet = (Planet)planets[game.PseudoRNG.Next(0, planets.Count)];
                         planets.Remove(tempPlanet);
 
                         double endX = tempPlanet.TranslationX;
                         double endY = tempPlanet.TranslationY;
 
 
-                        int bonus = random.Next(1, 4);
+                        int bonus = game.PseudoRNG.Next(1, 4);
 
+                        Random random = new Random();
                         for (int p = 0; p < bonus; p++)
                         {
                             double startX = ((PlanetBase)game.Atoms[i]).TranslationX;

@@ -46,12 +46,10 @@ namespace GalaxyLogicGame.Events
             this.game = game;
             game.EventObject = this;
 
-            Random random = new Random();
-
             game.BG.ShowEvent(mainLayout);
 
             game.TIR = this;
-            value = random.Next(game.Lowest, game.Heighest);
+            value = game.PseudoRNG.Next(game.Lowest, game.Heighest);
             game.EventCounter = -2;
 
             game.TIRNewPlanet();

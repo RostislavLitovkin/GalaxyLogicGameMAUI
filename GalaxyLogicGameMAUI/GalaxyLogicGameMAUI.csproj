@@ -19,8 +19,8 @@
 		<ApplicationIdGuid>4BDBEAD9-5C0C-4C74-B970-B3581365394E</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationDisplayVersion>1.1</ApplicationDisplayVersion>
+		<ApplicationVersion>2</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
@@ -75,7 +75,7 @@
 
     <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
 		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-		<!--<CodesignEntitlement>Entitlements.plist</CodesignEntitlement>-->
+		<CodesignEntitlement>Entitlements.plist</CodesignEntitlement>
 		<CodesignKey>Apple Distribution: Rostislav Litovkin (M38VV8KHX5)</CodesignKey>
 		<CodesignProvision>galaxylogicgameappdistribution</CodesignProvision>
 		<ArchiveOnBuild>true</ArchiveOnBuild>

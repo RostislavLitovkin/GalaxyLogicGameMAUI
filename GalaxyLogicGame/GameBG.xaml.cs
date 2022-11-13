@@ -1,8 +1,12 @@
-﻿using GalaxyLogicGame.Events.EventChallengesBoards;
+﻿using System.Collections;
+using System.Text;
+using GalaxyLogicGame.Events.EventChallengesBoards;
 using GalaxyLogicGame.Particles;
 using GalaxyLogicGame.Planet_objects;
 using GalaxyLogicGame.Powerups;
 using GalaxyLogicGame.Tutorial;
+using Newtonsoft.Json;
+using WalletConnectSharp.Desktop;
 
 namespace GalaxyLogicGame.Mobile
 {
@@ -13,7 +17,6 @@ namespace GalaxyLogicGame.Mobile
         private Queue<(float x, float y)> _positions = new Queue<(float, float)>();
 
         private bool looping = false;
-        
         private CasualGame game;
         private IBoard board;
         private Astronaut astronaut;
@@ -82,6 +85,7 @@ namespace GalaxyLogicGame.Mobile
             {
                 //if (!isTutorial) CrossMTAdmob.Current.ShowInterstitial();
                 gameOver = true;
+
                 /*
                 await LostScreenAnimation();
 
@@ -167,9 +171,8 @@ namespace GalaxyLogicGame.Mobile
                 }
             }
         }
-        
 
-        public async Task Setup(CasualGame game)
+        public async Task ContinueFromSave(CasualGame game)
         {
             // Transition
             TransitionOut transition = new TransitionOut();
@@ -185,6 +188,53 @@ namespace GalaxyLogicGame.Mobile
             lostScreen.IsVisible = false;
             lostScreenText.IsVisible = false;
             lostScreenButton.IsVisible = false;
+
+            pauseScreen.IsVisible = false;
+            pauseScreenText.IsVisible = false;
+            continueButton.IsVisible = false;
+            pauseMainMenuButton.IsVisible = false;
+
+            game.SetupBase();
+
+            await transition.Play(250);
+            transition.Stop();
+
+            await game.InitializeFromSave();
+        }
+
+        public async Task Setup(CasualGame game, int seed = -1)
+        {
+            // Set up RNG
+            if (seed == -1)
+            {
+                seed = new Random().Next(0, 1000000);
+            }
+
+            Preferences.Set("save", seed.ToString());
+
+            Functions.AddTurnToSave(0);
+
+
+            // Transition
+            TransitionOut transition = new TransitionOut();
+            transition.Set(transitionLayout);
+
+            // Setting references
+            this.game = game;
+            this.game.PseudoRNG = new PseudoRandomGenerator(seed);
+            gameLayout.Children.Add(game);
+
+            SetupPowerupsLayout();
+
+            // setting layouts
+            lostScreen.IsVisible = false;
+            lostScreenText.IsVisible = false;
+            lostScreenButton.IsVisible = false;
+
+            pauseScreen.IsVisible = false;
+            pauseScreenText.IsVisible = false;
+            continueButton.IsVisible = false;
+            pauseMainMenuButton.IsVisible = false;
 
             game.SetupBase();
 
@@ -377,9 +427,37 @@ namespace GalaxyLogicGame.Mobile
             await view.Appear(this);
             */
         }
+
+        public async Task UpdateSaveThing()
+        {
+            try
+            {
+                var postData = new PostData { Moves = Preferences.Get("save", ""), Address = "XX" };
+
+                var json = JsonConvert.SerializeObject(postData);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                //var url = "http://rostislavlitovkin.pythonanywhere.com/validate";
+
+                var url = "http://10.14.201.188:5000/validate";
+                using var client = new HttpClient();
+
+                var result = await client.PostAsync(url, data);
+
+                var contentStream = await result.Content.ReadAsStringAsync();
+                Console.WriteLine(result);
+
+                // Setting references
+                //scoreLabel.Text = this.game.Score.ToString() + " - " + contentStream;
+            }
+            catch
+            {
+
+            }
+        }
         public void UpdateScore()
         {
-            scoreLabel.Text = game.Score.ToString();
+            scoreLabel.Text = this.game.Score.ToString();
         }
         public async Task NavigateToOtherTutorial(TutorialGameBase game)
         {
@@ -405,12 +483,56 @@ namespace GalaxyLogicGame.Mobile
             //await transitionOut.Play(250);
             //transition.Stop();
         }
+
+        private async void Pause(object sender, EventArgs args)
+        {
+            pauseScreen.IsVisible = true;
+            pauseScreenText.IsVisible = true;
+            continueButton.IsVisible = true;
+            pauseMainMenuButton.IsVisible = true;
+            await pauseScreen.FadeTo(1, 500);
+        }
+
+        private async void Continue(object sender, EventArgs args)
+        {
+            await pauseScreen.FadeTo(0, 500);
+            pauseScreen.IsVisible = false;
+            pauseScreenText.IsVisible = false;
+            continueButton.IsVisible = false;
+            pauseMainMenuButton.IsVisible = false;
+        }
+
         private async void ToMainMenu(object sender, EventArgs args)
         {
             if (isTutorial)
             {
                 Preferences.Set("tutorialCompleted", true);
                 //CrossMTAdmob.Current.ShowInterstitial();
+            }
+
+            try
+            {
+                var postData = new PostData { Moves = Preferences.Get("save", ""), Address = Preferences.Get("pubKey", "") };
+
+                var json = JsonConvert.SerializeObject(postData);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                //var url = "http://rostislavlitovkin.pythonanywhere.com/validate";
+
+                var url = "http://10.14.201.188:5000/validate";
+                using var client = new HttpClient();
+
+                var result = await client.PostAsync(url, data);
+
+                var contentStream = await result.Content.ReadAsStringAsync();
+                Console.WriteLine(result);
+
+                // Setting references
+                //scoreLabel.Text = this.game.Score.ToString() + " - " + contentStream;
+            }
+            catch
+            {
+
             }
 
             await Navigation.PopAsync();
@@ -448,4 +570,10 @@ namespace GalaxyLogicGame.Mobile
         public AbsoluteLayout PowerUpAnimationLayout => throw new NotImplementedException();
     }
 
+    public class PostData
+    {
+        public string Address { get; set; }
+        public string Moves { get; set; }
+
+    }
 }
