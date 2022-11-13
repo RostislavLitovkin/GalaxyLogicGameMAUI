@@ -1,3 +1,19 @@
+# ETHBrno
+
+Added a competition into the game. Will be live in the upcomming weeks.
+
+![MicrosoftTeams-image](https://user-images.githubusercontent.com/77352013/201514859-bdacfb3d-1259-4094-b3bd-244eda8a3fbc.png)
+
+The record of the game is sent to the server to generate a proof and then saved to the leaderboard.
+
+The winner will win a super rare NFT that can be used in the game, or be sold for a small profit.
+
+You can connect your wallet to the game via WalletConnect. Yes, even on your smartwatch! ^^
+
+![MicrosoftTeams-image (1)](https://user-images.githubusercontent.com/77352013/201514867-41058618-b5df-46b6-b4b0-eb2c31110059.png)
+
+Have a great time competing.
+
 # GalaxyLogicGameMAUI
 
 ![GithubPreview](https://user-images.githubusercontent.com/77352013/186893566-edaca4e1-90ed-4a70-a4b1-b8c9adc01bfb.png)
