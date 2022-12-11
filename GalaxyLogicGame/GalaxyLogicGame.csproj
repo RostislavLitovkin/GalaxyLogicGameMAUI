@@ -452,9 +452,11 @@
     <PackageReference Include="WalletConnect.Desktop" Version="1.7.2" />
     <PackageReference Include="WalletConnect.NEthereum" Version="1.7.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="CommunityToolkit.Maui" />
+    <None Remove="Microsoft.AspNet.WebApi.Client" />
   </ItemGroup>
 </Project>
