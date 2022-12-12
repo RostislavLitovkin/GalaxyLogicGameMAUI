@@ -5,6 +5,7 @@
                             xmlns:powerups="clr-namespace:GalaxyLogicGame.Powerups"
                             x:Class="GalaxyLogicGame.Mobile.GameBG" BackgroundColor="Black">
     <galaxylogicgame:GameBGBase.Content>
+        <AbsoluteLayout x:Name="scaleLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All">
         <AbsoluteLayout x:Name="mainLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 720" AbsoluteLayout.LayoutFlags="PositionProportional">
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 640" AbsoluteLayout.LayoutFlags="PositionProportional">
                 <AbsoluteLayout x:Name="backgroundLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 720, 720" AbsoluteLayout.LayoutFlags="PositionProportional">
@@ -143,5 +144,7 @@
             
             
         </AbsoluteLayout>
+        </AbsoluteLayout>
+
     </galaxylogicgame:GameBGBase.Content>
 </galaxylogicgame:GameBGBase>

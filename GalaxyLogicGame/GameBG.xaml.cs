@@ -440,12 +440,12 @@ namespace GalaxyLogicGame.Mobile
                 //var url = "http://rostislavlitovkin.pythonanywhere.com/validate";
 
                 var url = "http://10.14.201.188:5000/validate";
-                using var client = new HttpClient();
+                //using var client = new HttpClient();
 
-                var result = await client.PostAsync(url, data);
+                //var result = await client.PostAsync(url, data);
 
-                var contentStream = await result.Content.ReadAsStringAsync();
-                Console.WriteLine(result);
+                //var contentStream = await result.Content.ReadAsStringAsync();
+                //Console.WriteLine(result);
 
                 // Setting references
                 //scoreLabel.Text = this.game.Score.ToString() + " - " + contentStream;
@@ -519,13 +519,13 @@ namespace GalaxyLogicGame.Mobile
 
                 //var url = "http://rostislavlitovkin.pythonanywhere.com/validate";
 
-                var url = "http://10.14.201.188:5000/validate";
-                using var client = new HttpClient();
+                //var url = "http://10.14.201.188:5000/validate";
+                //using var client = new HttpClient();
 
-                var result = await client.PostAsync(url, data);
+                //var result = await client.PostAsync(url, data);
 
-                var contentStream = await result.Content.ReadAsStringAsync();
-                Console.WriteLine(result);
+                //var contentStream = await result.Content.ReadAsStringAsync();
+                //Console.WriteLine(result);
 
                 // Setting references
                 //scoreLabel.Text = this.game.Score.ToString() + " - " + contentStream;
