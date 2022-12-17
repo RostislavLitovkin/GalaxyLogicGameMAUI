@@ -443,7 +443,6 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Nethereum.Web3" Version="4.9.0" />
     <PackageReference Include="Solnet.Extensions" Version="6.1.0" />
     <PackageReference Include="Solnet.KeyStore" Version="6.1.0" />
     <PackageReference Include="Solnet.Programs" Version="6.1.0" />
