@@ -11,9 +11,11 @@ public partial class WalletDownloadThumbnail : AbsoluteLayout
     {
         try
         {
-            Uri uri = new Uri(Link);
-            await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
-
+            if (Link != null)
+            {
+                Uri uri = new Uri(Link);
+                await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+            }
             await ConnectWalletMethod();
         }
         catch

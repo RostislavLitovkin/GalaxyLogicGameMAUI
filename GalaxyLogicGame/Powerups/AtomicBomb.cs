@@ -13,9 +13,9 @@ namespace GalaxyLogicGame.Powerups
         {
             //BGColor = Color.LightGreen;
             Cooldown = 40;
-            BGImage = "AtomicBombBG.png";
-            FillImage = "AtomicBombFill.png";
-            ShinyImage = "AtomicBombShiny.png";
+            BGImage = "atomicbombbg.png";
+            FillImage = "atomicbombfill.png";
+            ShinyImage = "atomicbombshiny.png";
         }
         public override void Prerequisites()
         {
@@ -25,6 +25,7 @@ namespace GalaxyLogicGame.Powerups
 
         public override async void UsePowerupClicked()
         {
+            Preferences.Set("save", Preferences.Get("save", "") + " A");
             AtomicBombEvent atomicBombEvent = new AtomicBombEvent();
             await atomicBombEvent.Appear(BG.Game);
 
@@ -36,7 +37,7 @@ namespace GalaxyLogicGame.Powerups
             // add details page maybe
         }
 
-        public static bool Equiped { get => Preferences.Get(EthFunctions.GetEthereumContractAddress, false); /*Preferences.Get("org.tizen.myApp.challenge11", false);*/ set { Preferences.Set("atomicBombEquiped", value); } } // change to false
+        public static bool Equiped { get => Preferences.Get(EthFunctions.GetAtomicBombContractAddress, false); /*Preferences.Get("org.tizen.myApp.challenge11", false);*/ set { Preferences.Set("atomicBombEquiped", value); } } // change to false
         public static bool Owned { get => Preferences.Get("atomicBombOwned", true); set { Preferences.Set("atomicBombOwned", value); } } // change to false
     }
 }

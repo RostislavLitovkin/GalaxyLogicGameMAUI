@@ -35,34 +35,18 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\galaxylogo360.png" Color="#2b2b2b" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\galaxylogogray.jpg" Color="#000000" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\galaxylogogray.jpg" Color="#2b2b2b" BaseSize="128,128" />
 
 		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Include="Resources\Images\*png" />
+		<MauiImage Include="Resources\Images\*jpg" />
+
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Resources\Images\AtomicBombBG.png" />
-	  <None Remove="Resources\Images\AtomicBombFill.png" />
-	  <None Remove="Resources\Images\AtomicBombShiny.png" />
-	  <None Remove="Resources\Images\checkingnfts.png" />
-	  <None Remove="Resources\Images\checkyourwallet.png" />
-	  <None Remove="Resources\Images\externallink.png" />
-	  <None Remove="Resources\Images\gamejambackground.png" />
-	  <None Remove="Resources\Images\happygirl.gif" />
-	  <None Remove="Resources\Images\loadingqrcode.png" />
-	  <None Remove="Resources\Images\metamask.png" />
-	  <None Remove="Resources\Images\nointernet.png" />
-	  <None Remove="Resources\Images\playgamejam.png" />
-	  <None Remove="Resources\Images\randomanimegirl.png" />
-	  <None Remove="Resources\Images\sadgirl.gif" />
-	  <None Remove="Resources\Images\supernovaflashy.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -81,4 +65,10 @@
 		<ArchiveOnBuild>true</ArchiveOnBuild>
 		<TcpPort>58181</TcpPort>
 	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
 </Project>

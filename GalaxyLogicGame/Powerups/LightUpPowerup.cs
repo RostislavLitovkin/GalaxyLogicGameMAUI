@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GalaxyLogicGame.Events;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 
 namespace GalaxyLogicGame.Powerups
 {
-    public class KindlePowerup : PowerupBase, IPowerup
+    public class LightUpPowerup : PowerupBase, IPowerup
     {
         
-        public KindlePowerup()
+        public LightUpPowerup()
         {
             //BGColor = Color.Orange;
             Cooldown = 30;
 
+            BackgroundColor = Color.FromArgb("888");
             // more
         }
 
@@ -23,7 +25,9 @@ namespace GalaxyLogicGame.Powerups
         }
 
         public override async void UsePowerupClicked()
-        { 
+        {
+            LightUpEvent lightUp = new LightUpEvent();
+            await lightUp.Appear(BG);
             await ((GameWithEvents)BG.Game).Blindness.Disappear();
             
             Prerequisites();
@@ -35,7 +39,7 @@ namespace GalaxyLogicGame.Powerups
             // add details page
         }
 
-        public bool Equiped { get => Preferences.Get("org.tizen.myApp.challenge10", false); set { Preferences.Set("kindleEquiped", value); } } // change to false
-        public bool Owned { get => Preferences.Get("kindleOwned", true); set { Preferences.Set("kindleOwned", value); } } // change to false
+        public static bool Equiped { get => Preferences.Get("lightUpEquiped", true); set { Preferences.Set("lightUpEquiped", value); } } // change to false
+        public static bool Owned { get => Preferences.Get("lightUpOwned", true); set { Preferences.Set("lightUpOwned", value); } } // change to false
     }
 }

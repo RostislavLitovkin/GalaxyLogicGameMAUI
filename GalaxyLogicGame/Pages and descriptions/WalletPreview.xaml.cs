@@ -16,7 +16,7 @@ public partial class WalletPreview : AbsoluteLayout
             try
             {
                 label.Text = "Checking NFTs";
-                if (await EthFunctions.CheckNFTOwnership(Preferences.Get("pubKey", "Failed")))
+                if (await EthFunctions.CheckAtomicBombNFTOwnership(Preferences.Get("pubKey", "Failed")))
                 {
                     label.Text = Preferences.Get("pubKey", "Failed").Substring(0, 6) + "..";
                     owns = true;

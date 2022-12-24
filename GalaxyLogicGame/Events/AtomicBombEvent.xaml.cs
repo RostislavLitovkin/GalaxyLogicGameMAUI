@@ -88,7 +88,7 @@ namespace GalaxyLogicGame.Events
             {
                 BoxViewWithIndex area = new BoxViewWithIndex
                 {
-                    Opacity = 0, // change this to see the touch areas
+                    BackgroundColor = Color.FromArgb("0000"), // change this to see the touch areas
                     Index = i,
                 };
 
@@ -113,6 +113,7 @@ namespace GalaxyLogicGame.Events
             {
                 game.Clicked = false;
 
+                Functions.AddTurnToSave(index);
                 // calculating offset
                 game.DegreClicked = game.Offset + index * game.Degre;
                 game.Degre = CirclePosition.CalculateDegre(game.Atoms.Count - 1);

@@ -19,6 +19,9 @@ namespace GalaxyLogicGame.Powerups
         private IPowerupView powerupView;
         private int lastTurn = 0;
         private bool clicked = true;
+
+        private Func<Task> hideWatchLayoutFunction;
+
         public PowerupBase()
         {
             InitializeComponent();
@@ -60,6 +63,7 @@ namespace GalaxyLogicGame.Powerups
         public abstract void Prerequisites();
         public IGameBG BG { get => gameBG; set { gameBG = value; } }
         public IPowerupView PowerupView { set { powerupView = value; } }
+        public Func<Task> HideWatchLayoutFunction { set { hideWatchLayoutFunction = value; } }
 
         public int LastTurn { get => lastTurn; set { lastTurn = value; } }
         public abstract void UsePowerupClicked();
@@ -72,7 +76,9 @@ namespace GalaxyLogicGame.Powerups
                 clicked = false;
 
                 shiny.IsVisible = false;
-                if (powerupView != null) powerupView.Disappear();
+                //if (powerupView != null) powerupView.Disappear();
+                if (hideWatchLayoutFunction != null) await hideWatchLayoutFunction();
+
 
                 // Animation here
 

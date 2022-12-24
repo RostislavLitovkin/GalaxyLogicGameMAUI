@@ -438,6 +438,15 @@
 	  <MauiXaml Update="Pages and descriptions\Leaderboard.xaml">
 	    <SubType></SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Events\LightUpEvent.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Powerups\PowerupArrows.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Powerups\PowerupsWatchLayout.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 

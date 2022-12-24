@@ -11,7 +11,7 @@
            x:Name="title"/>
 
 
-    <Label AbsoluteLayout.LayoutBounds="0, 100, 360, AutoSize" FontFamily="BigNoodleTitling" FontAttributes="Bold" TextColor="White" FontSize="40" HorizontalTextAlignment="Start"
-           Text="  &lt;"/>
+    <Label AbsoluteLayout.LayoutBounds="0, 80, 360, 60" FontFamily="BigNoodleTitling" FontAttributes="Bold" TextColor="White" FontSize="60" HorizontalTextAlignment="Start"
+           Text="  &lt;" x:Name="backButton"/>
 
 </AbsoluteLayout>

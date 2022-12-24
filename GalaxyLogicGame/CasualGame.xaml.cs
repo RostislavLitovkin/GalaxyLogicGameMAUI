@@ -925,7 +925,7 @@ namespace GalaxyLogicGame
 
         public override async Task InitializeFromSave()
         {
-            (PseudoRNG, atoms, score) = GameValidator.ValidateSaved();
+            (PseudoRNG, atoms, score) = await GameValidator.ValidateSaved(Preferences.Get("pubKey", "Failed"));
 
             atomsLayout.Children.Clear();
             foreach (PlanetBase planet in atoms)

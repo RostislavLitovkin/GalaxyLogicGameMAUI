@@ -16,9 +16,7 @@
 
                     <AbsoluteLayout x:Name="mainLayout" AbsoluteLayout.LayoutBounds="0, 0, 360, AutoSize"  TranslationY="180" Opacity="0">
                         <StackLayout Spacing="10" x:Name="stackLayout" AbsoluteLayout.LayoutBounds="0, 0, 360, AutoSize">
-                            
                             <pages_and_descriptions:Header TitleText="Credits"/>
-
 
                             <Frame CornerRadius="30" 
                                    Padding="0"  BackgroundColor="#222"

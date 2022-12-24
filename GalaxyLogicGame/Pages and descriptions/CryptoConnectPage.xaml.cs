@@ -20,7 +20,7 @@ public partial class CryptoConnectPage : ContentPage
     private StarsParticlesLayout stars;
     private Web3 web3;
     private string account;
-    private readonly string contractAddress = EthFunctions.GetEthereumContractAddress;
+    private readonly string contractAddress = EthFunctions.GetAtomicBombContractAddress;
     private readonly string providerAddress = EthFunctions.GetEthereumProvider;
     private bool clicked = true;
     private WalletPreview wallet;
@@ -76,8 +76,9 @@ public partial class CryptoConnectPage : ContentPage
                     OfferConnectingNewWallet();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 NoInternetError();
             }
         }
@@ -89,7 +90,7 @@ public partial class CryptoConnectPage : ContentPage
         ClearMainStackLayout();
         mainStackLayout.Children.Add(new Image { Source = "checkingnfts.png", HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center,
             WidthRequest = 270, HeightRequest = 270 });
-        return await EthFunctions.CheckNFTOwnership(Preferences.Get("pubKey", ""));
+        return await EthFunctions.CheckAtomicBombNFTOwnership(Preferences.Get("pubKey", ""));
     }
     private async Task OfferConnectingNewWallet()
     {
@@ -101,10 +102,10 @@ public partial class CryptoConnectPage : ContentPage
                 Description = "This is a test of the Nethereum.WalletConnect feature",
                 Icons = new[] { "https://rostislavlitovkin.pythonanywhere.com/logo" },
                 Name = "WalletConnect Test",
-                URL = "https://rostislavlitovkin.pythonanywhere.com"
+                URL = "https://rostislavlitovkin.pythonanywhere.com",                
             };
 
-            var walletConnect = new WalletConnect(metadata);
+            var walletConnect = new WalletConnect(metadata, chainId: 420);
 
             //linkLabel.Text = walletConnect.URI; // good for debugging
             if (Functions.IsSquareScreen() || walletConnectClicked)
@@ -163,6 +164,17 @@ public partial class CryptoConnectPage : ContentPage
             if (walletConnect != null) try { await walletConnect.Connect(); } catch (Exception ex) { AddLabelToStackLayout(ex.Message); }
             else AddLabelToStackLayout("It is null");
 
+
+            //await walletConnect.WalletSwitchEthChain();
+
+            await Task.Delay(2000);
+
+            await SwitchNetwork(walletConnect);
+
+
+
+            
+
             account = walletConnect.Accounts[0];
             Preferences.Set("pubKey", account);
             await wallet.Load();
@@ -177,7 +189,8 @@ public partial class CryptoConnectPage : ContentPage
             });
             AddLabelToStackLayout("Connected to: " + account.Substring(0, 6) + "..");
 
-            web3 = new Web3(walletConnect.CreateProvider(new Uri(providerAddress)));
+            //web3 = new Web3(walletConnect.CreateProvider(new Uri(providerAddress)));
+            web3 = walletConnect.BuildWeb3(new Uri(providerAddress)).AsWalletAccount(true);
 
             AddLogOutButton();
 
@@ -190,8 +203,9 @@ public partial class CryptoConnectPage : ContentPage
                 OfferMinting();
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             NoInternetError();
         }
     }
@@ -206,21 +220,29 @@ public partial class CryptoConnectPage : ContentPage
             Link = "https://play.google.com/store/apps/details?id=io.metamask",
             ConnectWalletMethod = OfferConnectingNewWallet,
         });
-         /*
-        var walletConnectThumbnail = new WalletDownloadThumbnail
-        {
-            Icon = "walletconnecticon.png",
-            Title = "Wallet connect",
-            Description = "Connect your wallet securely via QR code",
-            ConnectWalletMethod = OfferConnectingNewWallet,
-        };
 
-        walletConnectThumbnail.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => {
-            walletConnectClicked = true;
-            await OfferConnectingNewWallet();
-        }) });
-        mainStackLayout.Children.Add(walletConnectThumbnail);
-         */
+        mainStackLayout.Children.Add(new WalletDownloadThumbnail
+        {
+            Icon = "",
+            Title = "Wallet connect",
+            Description = "Universal way to connect all Ethereum wallets",
+            ConnectWalletMethod = ShowWalletConnectQRCode,
+        });
+        /*
+       var walletConnectThumbnail = new WalletDownloadThumbnail
+       {
+           Icon = "walletconnecticon.png",
+           Title = "Wallet connect",
+           Description = "Connect your wallet securely via QR code",
+           ConnectWalletMethod = OfferConnectingNewWallet,
+       };
+
+       walletConnectThumbnail.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => {
+           walletConnectClicked = true;
+           await OfferConnectingNewWallet();
+       }) });
+       mainStackLayout.Children.Add(walletConnectThumbnail);
+        */
 
 
     }
@@ -264,11 +286,13 @@ public partial class CryptoConnectPage : ContentPage
         var tempWeb3 = new Web3(providerAddress);
         try
         {
-            var thing = await tempWeb3.Eth.ERC721.GetAllTokenUrlsOfOwnerUsingTokenOfOwnerByIndexAndMultiCallAsync(Preferences.Get("pubKey", "Failed"), address);
-            template.TokenIdLabel.Text = "Token ID: " + thing[0].TokenId;
+            //var thing = await tempWeb3.Eth.ERC721.GetContractService(contractAddress).Owner; //tempWeb3.Eth.ERC721.GetAllTokenIdsOfOwnerUsingTokenOfOwnerByIndexAndMultiCallAsync(Preferences.Get("pubKey", "Failed"), address);
+            //template.TokenIdLabel.Text = "Token ID: " + thing[0];
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine("Token ID not loaded");
+            Console.WriteLine(ex.Message);
             template.TokenIdLabel.Text = "Token ID not loaded";
             template.TokenIdLabel.TextColor = Color.FromArgb("bbb");
         }
@@ -399,8 +423,9 @@ public partial class CryptoConnectPage : ContentPage
                 await ShowNFTs();
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             if (await CheckNFTs())
             {
                 await ShowNFTs();
@@ -436,6 +461,53 @@ public partial class CryptoConnectPage : ContentPage
         
         await wallet.Load();
         await Connect();
+    }
+
+    private async Task SwitchNetwork(WalletConnect walletConnect)
+    {
+        string[] rpcUrls = { "https://goerli.optimism.io/" };
+
+        var chainData = new WalletConnectSharp.Core.Models.Ethereum.EthChainData
+        {
+            chainName = "Goerli Optimism",
+            rpcUrls = rpcUrls,
+            chainId = "0x1A4",
+            nativeCurrency = new WalletConnectSharp.Core.Models.Ethereum.NativeCurrency
+            {
+                symbol = "ETH",
+                decimals = 18,
+                name = "Ether",
+            },
+        };
+
+        Console.WriteLine(walletConnect.ChainId);
+
+        var nativeCurrency = new WalletConnectSharp.Core.Models.Ethereum.NativeCurrency
+        {
+            symbol = "ETH",
+            decimals = 18,
+            name = "Ether",
+        };
+
+        Console.WriteLine(ValidJsonRpcRequestMethods.WalletAddEthereumChain);
+
+        Console.WriteLine("Hello");
+        try
+        {
+            //var x = new WalletConnectSharp.Core.Models.Ethereum.WalletAddEthChain(chainData);
+            //await walletConnect.SendRequest<WalletConnectSharp.Core.Models.Ethereum.WalletAddEthChain>(new WalletConnectSharp.Core.Models.Ethereum.WalletAddEthChain(chainData));
+            //await walletConnect.WalletAddEthChain(chainData);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        } 
+    }
+    private async Task ShowWalletConnectQRCode()
+    {
+        walletConnectClicked = true;
+
+        await OfferConnectingNewWallet();
     }
 
     private async void OnQRCodeLayoutClicked(object sender, EventArgs e)

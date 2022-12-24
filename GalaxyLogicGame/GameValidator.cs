@@ -2,6 +2,8 @@
 using GalaxyLogicGame.Planet_objects;
 using Microsoft.Maui.Controls;
 using GalaxyLogicGame.Events;
+using GalaxyLogicGame.Powerups;
+using Nethereum.Web3;
 
 namespace GalaxyLogicGame
 {
@@ -12,7 +14,7 @@ namespace GalaxyLogicGame
 
         }
 
-        public static (PseudoRandomGenerator PseudoRNG, ArrayList Planets, int Score) ValidateSaved()
+        public static async Task<(PseudoRandomGenerator PseudoRNG, ArrayList Planets, int Score)> ValidateSaved(string pubKey)
         {
             Console.WriteLine("Check running");
 
@@ -28,7 +30,7 @@ namespace GalaxyLogicGame
             bool generateNewPlanet = true;
             PlanetBase newPlanet = new Planet();
 
-
+            int atomicBombLastTurn = -40;
             
             ThreeInRowEvent tir;
 
@@ -55,6 +57,39 @@ namespace GalaxyLogicGame
             // individual turns
             for (int s = 2; s < gameString.Length; s++)
             {
+                if (gameString[s] == "A")
+                {
+                    bool ownership;
+                    try
+                    {
+                        ownership = 0 < await new Web3(EthFunctions.GetEthereumProvider).Eth.ERC721.GetContractService(EthFunctions.GetAtomicBombContractAddress).BalanceOfQueryAsync(pubKey);
+                    }
+                    catch
+                    {
+                        ownership = true;
+                    }
+
+                    if (ownership && turn - atomicBombLastTurn >= 40)
+                    {
+                        atomicBombLastTurn = turn;
+                        s++;
+                        int atomicBombIndex = int.Parse(gameString[s]);
+
+                        planets.RemoveAt(atomicBombIndex);
+
+                        // Calculating offset
+
+                        MergePlanets(ref planets, ref highest, ref score, ref shrinkingGiants, ref limit, ref plusWaiting);
+                        UpdateShrinkingGiantsArray(ref planets, ref shrinkingGiants);
+                        s++;
+                    }
+                    else
+                    {
+                        return (pseudoRNG, planets, -21);
+                    }
+                }
+
+
                 int index = int.Parse(gameString[s]);
 
                 if (false)

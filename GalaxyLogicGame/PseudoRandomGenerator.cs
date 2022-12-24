@@ -11,6 +11,7 @@ namespace GalaxyLogicGame
          * The same implementation will be used on the server and smartcontracts, that will cross check the game
          */
 
+        /*
         private double seed;
 
         public PseudoRandomGenerator(int seed)
@@ -20,7 +21,7 @@ namespace GalaxyLogicGame
 
         public double Next()
         {
-            double x = Math.Sin(this.seed) * 100 + 0.3;
+            double x = Math.Sin(this.seed) * 1000;
             double result = Math.Round(x - Math.Floor(x), 3);  // (0.0,1.0)
             this.seed = result;  // for next call
             return result;
@@ -28,7 +29,7 @@ namespace GalaxyLogicGame
 
         public int Next(int max)
         {
-            double x = Math.Sin(this.seed) * 100 + 0.3;
+            double x = Math.Sin(this.seed) * 1000;
             double result = Math.Round(x - Math.Floor(x), 3);  // [0.0,1.0)
             this.seed = result;  // for next call
             return (int)(result * max);
@@ -36,13 +37,35 @@ namespace GalaxyLogicGame
 
         public int Next(int min, int max)
         {
-            double x = Math.Sin(this.seed) * 100 + 0.3;
+            double x = Math.Sin(this.seed) * 1000;
             double result = Math.Round(x - Math.Floor(x), 3);  // [0.0,1.0)
             this.seed = result;  // for next call
             max = max - min;
             return (int)(result * max) + min;
         }
+        */
 
+        private Random random;
+
+        public PseudoRandomGenerator(int seed)
+        {
+            this.random = new Random(seed);
+        }
+
+        public double Next()
+        {
+            return random.NextDouble();
+        }
+
+        public int Next(int max)
+        {
+            return random.Next(max);
+        }
+
+        public int Next(int min, int max)
+        {
+            return random.Next(min, max);
+        }
     }
 }
 

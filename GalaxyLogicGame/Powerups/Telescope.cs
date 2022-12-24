@@ -45,7 +45,7 @@ namespace GalaxyLogicGame.Powerups
 
             // add something (Maybe)
         }
-        public bool Equiped { get => Preferences.Get("org.tizen.myApp.challenge3", false); set { Preferences.Set("kindleEquiped", value); } } // change to false
-        public bool Owned { get => Preferences.Get("kindleOwned", true); set { Preferences.Set("kindleOwned", value); } } // change to false
+        public static bool Equiped { get => Preferences.Get("org.tizen.myApp.challenge3", false); set { Preferences.Set("kindleEquiped", value); } } // change to false
+        public static bool Owned { get => Preferences.Get("kindleOwned", true); set { Preferences.Set("kindleOwned", value); } } // change to false
     }
 }

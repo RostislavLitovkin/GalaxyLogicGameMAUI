@@ -113,20 +113,16 @@ namespace GalaxyLogicGame.Events
                 planet.TranslateTo((i - 1) * offsetBetweenPlanets, 0, 500, Easing.SpringOut);
                 await Task.Delay(200);
 
-
-
                 //adding clickable areas
                 BoxViewWithIndex area = new BoxViewWithIndex
                 {
                     Index = i,
                     BackgroundColor = Color.FromArgb("0000"),
-                    TranslationX = (i - 1) * offsetBetweenPlanets,
                 };
 
-                choiceLayout.Children.Add(area);
-                AbsoluteLayout.SetLayoutBounds(area, new Rect(0.5, 0.5, 80, 80));
-                AbsoluteLayout.SetLayoutFlags(area, AbsoluteLayoutFlags.PositionProportional);
+                AbsoluteLayout.SetLayoutBounds(area, new Rect(140 + ((i - 1) * offsetBetweenPlanets), 140, 80, 80));
                 area.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => await OnClicked(game, area.Index)) });
+                buttonsLayout.Children.Add(area);
             }
             await Task.Delay(350);
             protectiveLayout.IsVisible = false;

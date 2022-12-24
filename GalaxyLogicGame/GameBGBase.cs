@@ -7,7 +7,7 @@ namespace GalaxyLogicGame
         // all powerups
         public IPowerup[] AllPowerups =
         {
-            new KindlePowerup(),
+            new LightUpPowerup(),
             new Telescope(),
             new AtomicBomb()
         };

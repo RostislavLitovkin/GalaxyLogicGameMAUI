@@ -64,13 +64,11 @@
 
             
             <!-- keep this here "RAISED" -->
-            <!--
-            <watch:PowerupArrows x:Name="powerupArrows">
-                <watch:PowerupArrows.GestureRecognizers>
+            <powerups:PowerupArrows x:Name="powerupArrows">
+                <powerups:PowerupArrows.GestureRecognizers>
                     <TapGestureRecognizer Tapped="PowerupArrowsClicked"/>
-                </watch:PowerupArrows.GestureRecognizers>
-            </watch:PowerupArrows>
-            -->
+                </powerups:PowerupArrows.GestureRecognizers>
+            </powerups:PowerupArrows>
             
             <!-- Tady budou power-upy -->
             <powerups:PowerupsLayout x:Name="powerupsLayout"/>

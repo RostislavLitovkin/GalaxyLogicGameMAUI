@@ -28,6 +28,7 @@ namespace GalaxyLogicGame.Mobile
         private bool isTutorial = false;
 
         private bool powerupsAllowed = true;
+        private bool ownsPowerups = false;
         public GameBG()
         {
             NavigationPage.SetHasNavigationBar(this, false);
@@ -50,6 +51,7 @@ namespace GalaxyLogicGame.Mobile
             isTutorial = true;
             this.BackgroundColor = bg;
             powerupsLayout.IsVisible = false;
+            powerupsAllowed = false;
 
             Accelerometer.ReadingChanged += Loop;
             Functions.ScaleToScreen(this, mainLayout, 720);
@@ -247,8 +249,26 @@ namespace GalaxyLogicGame.Mobile
         {
             if (Functions.IsSquareScreen())
             {
-                powerupsLayout.IsVisible = false;
-                
+                mainLayout.Children.Remove(powerupsLayout);
+
+                if (AtomicBomb.Equiped)
+                {
+                    AtomicBomb atomicBomb = new AtomicBomb
+                    {
+                        BG = this,
+                    };
+                    powerups.Add(atomicBomb);
+                    ownsPowerups = true;
+                }
+                if (LightUpPowerup.Equiped)
+                {
+                    LightUpPowerup lightUp = new LightUpPowerup
+                    {
+                        BG = this,
+                    };
+                    powerups.Add(lightUp);
+                    ownsPowerups = true;
+                }
             }
             else
             {
@@ -261,7 +281,15 @@ namespace GalaxyLogicGame.Mobile
                     powerupsLayout.Children.Add(atomicBomb);
                     powerups.Add(atomicBomb);
                 }
-                    
+                if (LightUpPowerup.Equiped)
+                {
+                    LightUpPowerup lightUp = new LightUpPowerup
+                    {
+                        BG = this,
+                    };
+                    powerupsLayout.Children.Add(lightUp);
+                    powerups.Add(lightUp);
+                }
             }
         }
         public void StartLoop()
@@ -271,10 +299,16 @@ namespace GalaxyLogicGame.Mobile
             {
                 if (!looping)
                 {
+                    if (Functions.IsSquareScreen())
+                    {
+                        NoAccelerometerLoop();
+                        return;
+                    }
                     Accelerometer.Start(accelerometerSpeed);
                     looping = true;
                 }
-            } catch (FeatureNotSupportedException fnsEx)
+            }
+            catch (FeatureNotSupportedException fnsEx)
             {
                 NoAccelerometerLoop();
                 // Feature not supported on device
@@ -290,6 +324,9 @@ namespace GalaxyLogicGame.Mobile
             {
                 await Task.Delay(16);
 
+                UpdateTime(); // implement later
+                if (ownsPowerups) UpdatePowerupArrow();
+
                 if (astronaut != null) astronaut.Move();
 
                 if (game != null) game.LoopTick();
@@ -301,7 +338,7 @@ namespace GalaxyLogicGame.Mobile
         {
             if (astronaut != null) astronaut.Move();
             // time
-            //UpdateTime(); // implement later
+            UpdateTime(); // implement later
 
             // Background Image
             var data = e.Reading;
@@ -314,8 +351,7 @@ namespace GalaxyLogicGame.Mobile
             float yAverage = _positions.Average(item => item.y);
             AbsoluteLayout.SetLayoutBounds(backgroundImage, new Rect(0.5 - xAverage * 0.2, 0.5 + yAverage * 0.2, 480, 480));
 
-            //if (Preferences.Get("experimental", false)) UpdatePowerupArrow(); // implement later
-
+            if (ownsPowerups) UpdatePowerupArrow();
             // other animations
             if (game != null) game.LoopTick();
         }
@@ -382,17 +418,16 @@ namespace GalaxyLogicGame.Mobile
 
         private void UpdatePowerupArrow()
         {
-            /*
+            
             if (!powerupArrows.HasAppeared && time > 250)
             {
                 ChangeArrowVisibility(true);
                 powerupArrows.Play();
             }
-            */
         }
         private async Task ChangeArrowVisibility(bool visibility)
         {
-            /*
+            
             powerupArrows.HasAppeared = visibility;
 
             // animation
@@ -402,7 +437,7 @@ namespace GalaxyLogicGame.Mobile
             else await Task.WhenAll(
                 powerupArrows.FadeTo(0, 500),
                scoreLabel.FadeTo(1, 500));
-            */
+            
 
         }
         private async void PowerupArrowsClicked(object sender, EventArgs args)
@@ -413,6 +448,8 @@ namespace GalaxyLogicGame.Mobile
 
             await powerups.Appear(this);
             */
+            PowerupsWatchLayout powerupsWatchLayout = new PowerupsWatchLayout();
+            await powerupsWatchLayout.Appear(mainLayout, powerups);
         }
 
         public void ResetTime()
@@ -430,7 +467,7 @@ namespace GalaxyLogicGame.Mobile
 
         public async Task UpdateSaveThing()
         {
-            try
+            /*try
             {
                 var postData = new PostData { Moves = Preferences.Get("save", ""), Address = "XX" };
 
@@ -449,11 +486,18 @@ namespace GalaxyLogicGame.Mobile
 
                 // Setting references
                 //scoreLabel.Text = this.game.Score.ToString() + " - " + contentStream;
+
+
+
+
+                //var validation = await GameValidator.ValidateSaved(Preferences.Get("pubKey", "Failed"));
+
+                //scoreLabel.Text = this.game.Score.ToString() + " - " + validation.Score;
             }
             catch
             {
 
-            }
+            }*/
         }
         public void UpdateScore()
         {

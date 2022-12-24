@@ -9,14 +9,14 @@ namespace GalaxyLogicGame
 {
     internal class EthFunctions
     {
-
-        public static string GetEthereumContractAddress => "0x8F4B20a030401369B2e051829F2B81afACC3d0Bc";
+        public static string GetAtomicBombContractAddress => "0x8F4B20a030401369B2e051829F2B81afACC3d0Bc";
 
         public static string GetEthereumProvider => "https://goerli.optimism.io";
-        public static async Task<bool> CheckNFTOwnership(string pubKey)
+
+        public static async Task<bool> CheckAtomicBombNFTOwnership(string pubKey)
         {
-            bool ownership = 0 < await new Web3(GetEthereumProvider).Eth.ERC721.GetContractService(GetEthereumContractAddress).BalanceOfQueryAsync(pubKey);
-            if (ownership) Preferences.Set(GetEthereumContractAddress, ownership);
+            bool ownership = 0 < await new Web3(GetEthereumProvider).Eth.ERC721.GetContractService(GetAtomicBombContractAddress).BalanceOfQueryAsync(pubKey);
+            if (ownership) Preferences.Set(GetAtomicBombContractAddress, ownership);
             return ownership;
         }
     }
