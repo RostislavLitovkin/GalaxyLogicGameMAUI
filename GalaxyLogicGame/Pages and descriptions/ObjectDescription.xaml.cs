@@ -15,14 +15,14 @@ namespace GalaxyLogicGame
 
     partial class ObjectDescription : AbsoluteLayout
     {
-        private IButtonBG bg;
+        private View bg;
         public ObjectDescription()
         {
             InitializeComponent();
 
             if (true)//(Device.RuntimePlatform == Device.Tizen)
             {
-                bg = new ButtonBG { CornerRadius = 30, BackgroundColor = Color.FromHex("2f2f2f"), };
+                bg = new Frame { CornerRadius = 30, BackgroundColor = Color.FromHex("2f2f2f"), };
             }
             else
             {

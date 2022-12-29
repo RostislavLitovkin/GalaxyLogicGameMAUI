@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GalaxyLogicGame.CasualGame" WidthRequest="360" HeightRequest="360" MinimumHeightRequest="360" MinimumWidthRequest="360">
 
-
-
     <AbsoluteLayout x:Name="particleLayout" AbsoluteLayout.LayoutBounds="0,0, 360, 360">
         <BoxView/>
     </AbsoluteLayout>
@@ -36,10 +34,10 @@
     <AbsoluteLayout x:Name="clickableAreaLayout"
                     AbsoluteLayout.LayoutBounds="0, 0, 360, 360">
         <!-- "clickableArea" array -->
+        
     </AbsoluteLayout>
 
 
-    
 </galaxylogicgame:Game>
 
 

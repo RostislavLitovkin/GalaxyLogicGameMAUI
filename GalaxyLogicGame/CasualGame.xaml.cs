@@ -215,6 +215,7 @@ namespace GalaxyLogicGame
 
             if (BinaryActivated) temporaryPlanet.Binary.IsVisible = true;
 
+            temporaryPlanet.GestureRecognizers.Add(new DragGestureRecognizer { CanDrag = true });
             newPlanet = temporaryPlanet;
             atomsLayout.Children.Add(temporaryPlanet);
 
@@ -749,6 +750,154 @@ namespace GalaxyLogicGame
                 //AbsoluteLayout.SetLayoutFlags(b, AbsoluteLayoutFlags.PositionProportional);
 
                 clickableAreaLayout.Children.Add(area);
+                clickableAreas.Add(area);
+                area.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => await AreaClicked(area.Index)) });
+            }
+
+            Console.WriteLine("Areas added");
+
+            BoxViewWithIndex area2 = new BoxViewWithIndex
+            {
+                BackgroundColor = Color.FromArgb("0000"),
+            };
+            clickableAreas.Add(area2);
+            var gesture = new PanGestureRecognizer{ };
+            gesture.PanUpdated += PanGestureRecognizer_PanUpdated;
+            area2.GestureRecognizers.Add(gesture);
+            AbsoluteLayout.SetLayoutBounds(area2, new Rect(145, 145, 70, 70));
+            clickableAreaLayout.Children.Add(area2);
+        }
+
+        private Queue<(float x, float y)> _positions = new Queue<(float, float)>();
+
+        async void PanGestureRecognizer_PanUpdated(System.Object sender, Microsoft.Maui.Controls.PanUpdatedEventArgs e)
+        {
+            //debuggingLabel.Text = e.TotalX + "  " + (newPlanet != null);
+            //Console.WriteLine(e.TotalX + "  " + (newPlanet != null));
+            if (newPlanet != null)
+            {
+                /*if (e.StatusType == GestureStatus.Running)
+                {
+                    ((View)sender).TranslationX = e.TotalX;
+                    ((View)sender).TranslationY = e.TotalY;
+                }
+                else if (e.StatusType == Gestur)
+                    /*else
+                    {
+                        await ((View)sender).TranslateTo(0, 0, 250);
+                    }*/
+                if (e.StatusType == GestureStatus.Running)
+                {
+                    DisplayInfo displayInfo = DeviceDisplay.MainDisplayInfo;
+
+                    _positions.Enqueue(((float)e.TotalX, (float)e.TotalY));
+                    if (_positions.Count > 10)
+                        _positions.Dequeue();
+
+                    float xAverage = _positions.Average(item => item.x);
+                    float yAverage = _positions.Average(item => item.y);
+
+                    newPlanet.TranslationX = xAverage;
+                    newPlanet.TranslationY = yAverage;
+
+                    int distance = (int)Math.Sqrt(Math.Pow(xAverage, 2) + Math.Pow(yAverage, 2));
+
+                    if (distance > 110 && distance < 200)
+                    {
+                        double angle = ((Math.Atan2(xAverage, yAverage) + 2 * Math.PI) * 180) / Math.PI;
+
+                        int pos = (int)((angle - (offset) + 360) % 360 / (360 / atoms.Count));
+
+                        Console.WriteLine(angle.ToString());
+                        Console.WriteLine((pos % 360).ToString());
+
+                        //_positions = new Queue<(float, float)>();
+                        await PutBetweenPlanetPreview(pos);
+                    }
+                    else
+                    {
+                        await MoveAtoms();
+                    }
+                }
+                else if (e.StatusType == GestureStatus.Completed)
+                {
+                    float xAverage = _positions.Average(item => item.x);
+                    float yAverage = _positions.Average(item => item.y);
+
+                    int distance = (int)Math.Sqrt(Math.Pow(xAverage, 2) + Math.Pow(yAverage, 2));
+                    Console.WriteLine(distance.ToString());
+                    if (distance > 110 && distance < 200)
+                    {
+                        double angle = ((Math.Atan2(xAverage, yAverage) + 2 * Math.PI) * 180) / Math.PI;
+
+                        int pos = (int)((angle - (offset) + 360) % 360 / (360 / atoms.Count));
+
+                        Console.WriteLine(angle.ToString());
+                        Console.WriteLine((pos % 360).ToString());
+
+                        _positions = new Queue<(float, float)>();
+                        await AreaClicked(pos);
+                    }
+                    else {
+                        _positions = new Queue<(float, float)>();
+                        await newPlanet.TranslateTo(0, 0, 250);
+                    }
+                }
+            }
+        }
+
+        private async Task PutBetweenPlanetPreview(int index)
+        {
+            if (index < 0)
+            {
+                Console.WriteLine(index);
+                return;
+            }
+            // Calculating offset
+            double degrePreview = CirclePosition.CalculateDegre(atoms.Count + 1);
+            double degreClickedPreview = offset + degre / 2 + index * degre;
+            int tempIndexPreview = (atoms.Count + 1 - index - 1) % (atoms.Count + 1);
+            double offsetPreview = (degrePreview * tempIndexPreview + degreClickedPreview) % 360;
+
+
+            ArrayList positions = CirclePosition.GetCirclePositionsOffset(atoms.Count + 1, offsetPreview);
+
+            for (int i = 0; i < positions.Count; i++)
+            {
+                if (i < index + 1)
+                {
+                    //int tempi = (i + tempIndex) % positions.Count;
+
+                    Position p = (Position)positions[i];
+                    ((PlanetBase)atoms[i % atoms.Count]).TranslateTo(p.X, p.Y, (uint)delay);
+
+                    //((PlanetBase)atoms[i]).TranslationX = p.X;
+                    //((PlanetBase)atoms[i]).TranslationY = p.Y;
+                }
+                else if (i == index + 1)
+                {
+
+                }
+                /*else if (i > atoms.Count - 1)
+                {
+                    //int tempi = (i + tempIndex) % positions.Count;
+                    Position p = (Position)positions[i];
+                    //((PlanetBase)atoms[i]).TranslateTo(p.X, p.Y, (uint)delay);
+
+                    ((PlanetBase)atoms[0]).TranslationX = p.X;
+                    ((PlanetBase)atoms[0]).TranslationY = p.Y;
+                }*/
+                else
+                {
+
+                    //int tempi = (i + tempIndex) % positions.Count;
+                    Position p = (Position)positions[i];
+                    ((PlanetBase)atoms[(i - 1) % atoms.Count]).TranslateTo(p.X, p.Y, (uint)delay);
+
+
+                    //((PlanetBase)atoms[(i - 1)]).TranslationX = p.X;
+                    //((PlanetBase)atoms[(i - 1)]).TranslationY = p.Y;
+                }
             }
         }
 
@@ -990,9 +1139,10 @@ namespace GalaxyLogicGame
         public int NextPlanetsIndex { get; set; } = 0;
 
         public virtual bool BinaryActivated => false;
+
         //public int Score { get => score; set { score = value; } }
 
-        
+
         //public int Heighest { get => highest; }
     }
 }
