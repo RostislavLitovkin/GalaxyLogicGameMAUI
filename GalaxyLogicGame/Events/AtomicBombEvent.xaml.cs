@@ -13,7 +13,7 @@ using Microsoft.Maui.Controls;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class AtomicBombEvent : AbsoluteLayout, IEvent, IEventInfo
+    public partial class AtomicBombEvent : AbsoluteLayout, IEvent
     {
         public const string NAME = "AtomicBombEvent";
 

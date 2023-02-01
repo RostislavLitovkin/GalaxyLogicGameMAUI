@@ -9,7 +9,7 @@
         <AbsoluteLayout x:Name="mainLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 720" AbsoluteLayout.LayoutFlags="PositionProportional">
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 640" AbsoluteLayout.LayoutFlags="PositionProportional">
                 <AbsoluteLayout x:Name="backgroundLayout" AbsoluteLayout.LayoutBounds="0.5, 0.5, 720, 720" AbsoluteLayout.LayoutFlags="PositionProportional">
-                    <Image x:Name="backgroundImage" Source="galaxybackground.jpg"
+                    <Image x:Name="backgroundImage" Source="galaxy.png"
                            AbsoluteLayout.LayoutBounds="0.5, 0.5, 480, 480"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
                            Aspect="AspectFill"/>
@@ -76,14 +76,14 @@
 
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" x:Name="eventLayout" IsVisible="false"/>
 
-            <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 40, 40" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="White"
-                   TranslationX="140" TranslationY="-290" IsVisible="{OnPlatform Android=false}">
+            <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 40, 40" AbsoluteLayout.LayoutFlags="PositionProportional"
+                   TranslationX="140" TranslationY="-290" IsVisible="{OnPlatform Android=false}" Source="pause.png">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="Pause" />
                         </Image.GestureRecognizers>
             </Image>
 
-            <AbsoluteLayout x:Name="pauseScreen" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
+            <AbsoluteLayout x:Name="pauseScreen" AbsoluteLayout.LayoutBounds="0.5, 0.5, 2, 2" AbsoluteLayout.LayoutFlags="All"
                                 BackgroundColor="#AA000000" Opacity="0"
                                 >
                         <!-- For some reason was buggy and I had to put the contents underneath it -->

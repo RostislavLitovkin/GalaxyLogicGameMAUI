@@ -39,7 +39,7 @@ namespace GalaxyLogicGame.Powerups
             // add details page
         }
 
-        public static bool Equiped { get => Preferences.Get("lightUpEquiped", true); set { Preferences.Set("lightUpEquiped", value); } } // change to false
+        public static bool Equiped { get => Preferences.Get("lightUpEquiped", false); set { Preferences.Set("lightUpEquiped", value); } } // change to false
         public static bool Owned { get => Preferences.Get("lightUpOwned", true); set { Preferences.Set("lightUpOwned", value); } } // change to false
     }
 }

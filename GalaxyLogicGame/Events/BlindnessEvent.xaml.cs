@@ -13,7 +13,7 @@ using Microsoft.Maui.Layouts;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class BlindnessEvent : AbsoluteLayout, IEvent, IEventObject, IEventInfo
+    public partial class BlindnessEvent : AbsoluteLayout, IEvent, IEventObject
     {
         public const string NAME = "BlindnessEvent";
 
@@ -52,7 +52,7 @@ namespace GalaxyLogicGame.Events
             game.EventCounter = -5;
 
             // something more
-            await Functions.EventTitleAnimation(eventTitle, eventIcon, darken);
+            await Functions.EventTitleAnimationWithTutorial(eventTitle, eventIcon, darken, this);
             game.BG.HideAllEvents();
             game.BlindnessLayout.Children.Add(mainLayout);
             

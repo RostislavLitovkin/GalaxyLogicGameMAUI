@@ -15,7 +15,7 @@ using Microsoft.Maui.Layouts;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class Polymorph : AbsoluteLayout, IEvent, IEventInfo
+    public partial class Polymorph : AbsoluteLayout, IEvent
     {
         public const string NAME = "PolymorphEvent";
 
@@ -52,13 +52,10 @@ namespace GalaxyLogicGame.Events
             game.EventHappening = true;
             
             game.BG.ShowEvent(mainLayout);
-            
 
-            await Task.WhenAll(
-                Functions.EventTitleAnimation(eventTitle, eventIcon)
-                /*,choiceLayout.FadeTo(0.5, 500)*/
-                , darken.FadeTo(1, 500));
 
+            await Functions.EventTitleAnimationWithTutorialStayDarkened(eventTitle, eventIcon, darken, this);
+       
             game.BG.HideAllEvents();
             game.BG.LowerEventLayout.Children.Add(mainLayout);
 

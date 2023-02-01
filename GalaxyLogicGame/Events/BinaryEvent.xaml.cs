@@ -13,7 +13,7 @@ using Microsoft.Maui.Controls;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class BinaryEvent : AbsoluteLayout, IEvent, IEventObject, IEventInfo
+    public partial class BinaryEvent : AbsoluteLayout, IEvent, IEventObject
     {
         public const string NAME = "BinaryEvent";
 
@@ -57,10 +57,7 @@ namespace GalaxyLogicGame.Events
 
 
             // something more - IDK what actually
-            await Task.WhenAll(
-                Functions.EventTitleAnimation(eventTitle, eventIcon)
-                /*,choiceLayout.FadeTo(0.5, 500)*/
-                , darken.FadeTo(1, 500));
+            await Functions.EventTitleAnimationWithTutorialStayDarkened(eventTitle, eventIcon, darken, this);
 
             await choiceLayout.FadeTo(1, 500);
 

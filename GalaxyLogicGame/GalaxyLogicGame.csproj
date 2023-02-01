@@ -461,7 +461,6 @@
     <PackageReference Include="WalletConnect.NEthereum" Version="1.7.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
-    <PackageReference Include="Plugin.MauiMTAdmob" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>

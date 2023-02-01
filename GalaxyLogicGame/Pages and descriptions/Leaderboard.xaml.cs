@@ -12,10 +12,6 @@ public partial class Leaderboard : AbsoluteLayout
     static HttpClient client= new HttpClient();
 #endif
 
-
-
-
-
     public Leaderboard()
 	{
 		InitializeComponent();

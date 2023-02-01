@@ -9,7 +9,6 @@ using GalaxyLogicGame.Powerups;
 
 namespace GalaxyLogicGame
 {
-
     public partial class CasualGame : Game
     {
         private ArrayList atoms = new ArrayList(15);
@@ -756,6 +755,7 @@ namespace GalaxyLogicGame
 
             Console.WriteLine("Areas added");
 
+            
             BoxViewWithIndex area2 = new BoxViewWithIndex
             {
                 BackgroundColor = Color.FromArgb("0000"),
@@ -772,20 +772,8 @@ namespace GalaxyLogicGame
 
         async void PanGestureRecognizer_PanUpdated(System.Object sender, Microsoft.Maui.Controls.PanUpdatedEventArgs e)
         {
-            //debuggingLabel.Text = e.TotalX + "  " + (newPlanet != null);
-            //Console.WriteLine(e.TotalX + "  " + (newPlanet != null));
             if (newPlanet != null)
             {
-                /*if (e.StatusType == GestureStatus.Running)
-                {
-                    ((View)sender).TranslationX = e.TotalX;
-                    ((View)sender).TranslationY = e.TotalY;
-                }
-                else if (e.StatusType == Gestur)
-                    /*else
-                    {
-                        await ((View)sender).TranslateTo(0, 0, 250);
-                    }*/
                 if (e.StatusType == GestureStatus.Running)
                 {
                     DisplayInfo displayInfo = DeviceDisplay.MainDisplayInfo;
@@ -866,37 +854,17 @@ namespace GalaxyLogicGame
             {
                 if (i < index + 1)
                 {
-                    //int tempi = (i + tempIndex) % positions.Count;
-
                     Position p = (Position)positions[i];
                     ((PlanetBase)atoms[i % atoms.Count]).TranslateTo(p.X, p.Y, (uint)delay);
-
-                    //((PlanetBase)atoms[i]).TranslationX = p.X;
-                    //((PlanetBase)atoms[i]).TranslationY = p.Y;
                 }
                 else if (i == index + 1)
                 {
 
                 }
-                /*else if (i > atoms.Count - 1)
-                {
-                    //int tempi = (i + tempIndex) % positions.Count;
-                    Position p = (Position)positions[i];
-                    //((PlanetBase)atoms[i]).TranslateTo(p.X, p.Y, (uint)delay);
-
-                    ((PlanetBase)atoms[0]).TranslationX = p.X;
-                    ((PlanetBase)atoms[0]).TranslationY = p.Y;
-                }*/
                 else
                 {
-
-                    //int tempi = (i + tempIndex) % positions.Count;
                     Position p = (Position)positions[i];
                     ((PlanetBase)atoms[(i - 1) % atoms.Count]).TranslateTo(p.X, p.Y, (uint)delay);
-
-
-                    //((PlanetBase)atoms[(i - 1)]).TranslationX = p.X;
-                    //((PlanetBase)atoms[(i - 1)]).TranslationY = p.Y;
                 }
             }
         }

@@ -11,7 +11,7 @@ using Microsoft.Maui.Controls;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class ThreeInRowEvent : AbsoluteLayout, IEvent, IEventObject, IEventInfo
+    public partial class ThreeInRowEvent : AbsoluteLayout, IEvent, IEventObject
     {
         public const string NAME = "ThreeInRowEvent";
 
@@ -54,7 +54,7 @@ namespace GalaxyLogicGame.Events
 
             game.TIRNewPlanet();
 
-            await Functions.EventTitleAnimation(eventTitle, eventIcon, darken);
+            await Functions.EventTitleAnimationWithTutorial(eventTitle, eventIcon, darken, this);
             game.BG.HideAllEvents();
             game.BlindnessLayout.Children.Add(mainLayout);
             

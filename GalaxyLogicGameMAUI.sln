@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalaxyLogicGameMAUI", "GalaxyLogicGameMAUI\GalaxyLogicGameMAUI.csproj", "{9AB919C1-401B-479C-AF94-2E8CC9BB7A05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalaxyLogicGameMAUI", "GalaxyLogicGameMAUI\GalaxyLogicGameMAUI.csproj", "{9AB919C1-401B-479C-AF94-2E8CC9BB7A05}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalaxyLogicGameWearOS", "GalaxyLogicGameWearOS\GalaxyLogicGameWearOS.csproj", "{6476FBA1-8083-47F6-81FA-E364EA48F5D8}"
 EndProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		AtomicBombNFTMinter.sol = AtomicBombNFTMinter.sol
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzResponsiveDesign", "EzResponsiveDesign\EzResponsiveDesign.csproj", "{3969A6F7-B2B2-43F9-8C8C-A0601DE37881}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,10 @@ Global
 		{3152AE05-76E0-4309-9620-73F9C78606F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3152AE05-76E0-4309-9620-73F9C78606F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3152AE05-76E0-4309-9620-73F9C78606F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3969A6F7-B2B2-43F9-8C8C-A0601DE37881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3969A6F7-B2B2-43F9-8C8C-A0601DE37881}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3969A6F7-B2B2-43F9-8C8C-A0601DE37881}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3969A6F7-B2B2-43F9-8C8C-A0601DE37881}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

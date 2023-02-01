@@ -15,7 +15,7 @@ using Microsoft.Maui.Layouts;
 namespace GalaxyLogicGame.Events
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class BlueberriesEvent : AbsoluteLayout, IEvent, IEventObject, IEventInfo
+	public partial class BlueberriesEvent : AbsoluteLayout, IEvent, IEventObject
     {
         public const string NAME = "BlueberriesEvent";
         private bool eventHappening = true;
@@ -78,7 +78,7 @@ namespace GalaxyLogicGame.Events
             game.EventCounter = - duration + 1; // maybe change later
 
             game.BG.ShowEvent(mainLayout);
-            await Functions.EventTitleAnimation(eventTitle, eventIcon, darken);
+            await Functions.EventTitleAnimationWithTutorial(eventTitle, eventIcon, darken, this);
 
             for (int i = 0; i < 2; i++)
             {

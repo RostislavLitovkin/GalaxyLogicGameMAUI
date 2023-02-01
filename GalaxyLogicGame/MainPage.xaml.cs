@@ -40,9 +40,9 @@ namespace GalaxyLogicGame.Mobile
                 AbsoluteLayout.SetLayoutBounds(buttonLayout, new Rect(0.5, 0.5, 1, 1));
             }
 
-            Functions.ScaleToScreen(this, mainLayout);
-            Functions.FillHeight(mainLayout);
-            tutorialButtonsLayout.Scale = mainLayout.Scale;
+            Functions.ScaleToScreen(this, scaleLayout);
+            Functions.FillHeight(scaleLayout);
+            //tutorialButtonsLayout.Scale = mainLayout.Scale;
 
             starsLayout.Children.Add(stars);
 
@@ -51,6 +51,7 @@ namespace GalaxyLogicGame.Mobile
 
             if (!Preferences.Get("tutorialCompleted", false))
             {
+
                 /*tutorialButtonsLayout.TranslationX = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
 
                 tutorialLayout.IsVisible = true;
@@ -59,8 +60,7 @@ namespace GalaxyLogicGame.Mobile
                     await Task.Delay(500);
                     await tutorialButtonsLayout.TranslateTo(0, 0, 500, Easing.SpringOut);
                 });*/
-
-                //NavigateToGame(new GameBG(Color.FromHex("222")), new TutorialPlacingPlanets());
+                tutorialLayout.IsVisible = true;
             }
             else
             {
@@ -76,8 +76,8 @@ namespace GalaxyLogicGame.Mobile
             {
                 AbsoluteLayout.SetLayoutBounds(buttonLayout, new Rect(0.5, 0.5, 1, 1));
             }
-            Functions.ScaleToScreen(this, mainLayout);
-            Functions.FillHeight(mainLayout);
+            Functions.ScaleToScreen(this, scaleLayout);
+            Functions.FillHeight(scaleLayout);
         }
         private async Task Astronaut()
         {
@@ -96,7 +96,7 @@ namespace GalaxyLogicGame.Mobile
             await Task.WhenAll(
                 stars.TransitionUpIn(),
 
-                mainLayout.TranslateTo(0, -360 * ratio * mainLayout.Scale, 500, Easing.SinIn),
+                scaleLayout.TranslateTo(0, -360 * ratio * scaleLayout.Scale, 500, Easing.SinIn),
                 stars.TranslateTo(0, 360 * ratio, 500, Easing.SinIn),
                 //wallpaper.TranslateTo(0, -180, 500, Easing.SinIn),
                 wallpaper.FadeTo(0, 500, Easing.SinIn));
@@ -105,9 +105,6 @@ namespace GalaxyLogicGame.Mobile
             await Navigation.PushAsync(mainPage, false);
             await mainPage.TransitionIn();
             Navigation.RemovePage(this);
-
-            
-
         }
 
         private async void OnPlayClicked(object sender, EventArgs e)
@@ -148,25 +145,12 @@ namespace GalaxyLogicGame.Mobile
             //((Label)sender).Opacity = 1;
         }
 
-        private async void TranslateTest(object sender, EventArgs e)
+        private async void OnTutorialClicked(object sender, EventArgs e)
         {
-            await mainLayout.TranslateTo(0, -500, 500);
-            await mainLayout.TranslateTo(0, 0, 500);
-
-        }
-        private async void OnViewTutorialClicked(object sender, EventArgs e)
-        {
-            //CrossMTAdmob.Current.LoadInterstitial("ca-app-pub-1496107080258172/2983887804");
-            tutorialLayout.IsVisible = false;
             await NavigateToGame(new GameBG(Color.FromHex("222")), new TutorialPlacingPlanets());
-
-        }
-        private async void OnSkipTutorialClicked(object sender, EventArgs e)
-        {
-            Preferences.Set("tutorialCompleted", true);
-            await tutorialLayout.FadeTo(0, 500);
             tutorialLayout.IsVisible = false;
         }
+
         private async Task NavigateToGame(GameBG gameBG, CasualGame game)
         {
             if (clicked)
@@ -192,7 +176,7 @@ namespace GalaxyLogicGame.Mobile
             }
         }
 
-        private async void OnConnectCryptoClicked(object sender, EventArgs e)
+        /*private async void OnConnectCryptoClicked(object sender, EventArgs e)
         {
             //SolanaConnectPage page = new SolanaConnectPage(wallet);
             CryptoConnectPage page = new CryptoConnectPage(wallet);
@@ -203,7 +187,7 @@ namespace GalaxyLogicGame.Mobile
             await Task.WhenAll(
                 this.stars.TransitionUpIn(),
 
-                mainLayout.TranslateTo(0, -360 * ratio, 500, Easing.SinIn),
+                scaleLayout.TranslateTo(0, -360 * ratio * scaleLayout.Scale, 500, Easing.SinIn),
 
                 //wallpaper.TranslateTo(0, -180, 500, Easing.SinIn),
                 wallpaper.FadeTo(0, 500, Easing.SinIn));
@@ -213,15 +197,15 @@ namespace GalaxyLogicGame.Mobile
             await Navigation.PushAsync((Page)page, false);
             await page.TransitionIn();
 
-            mainLayout.TranslationX = 0;
-            mainLayout.TranslationY = 0;
+            scaleLayout.TranslationX = 0;
+            scaleLayout.TranslationY = 0;
             wallpaper.Opacity = 1;
 
             this.stars = new StarsParticlesLayout();
             starsLayout.Children.Add(this.stars);
 
             await page.Connect();
-        }
+        }*/
 
         public int Highscore { get { return Preferences.Get(HIGHSCORE, 0); } set { Preferences.Set(HIGHSCORE, value); highscoreLabel.Text = "Highscore: " + value; } }
         public string HighscoreLabel { get { return highscoreLabel.Text; } set { highscoreLabel.Text = value; } }

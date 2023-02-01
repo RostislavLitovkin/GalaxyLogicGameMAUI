@@ -24,10 +24,10 @@
            Text="Shooting star" TextColor="Yellow" FontAttributes="Bold" FontSize="24" HorizontalTextAlignment="Center"/>
 
     <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 360, 360" AbsoluteLayout.LayoutFlags="PositionProportional"
-                        x:Name="buttonsLayout">
+                        x:Name="buttonsLayout" IsVisible="false">
 
     </AbsoluteLayout>
 
     <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
-                    x:Name="protectiveLayout"/>
+                    x:Name="protectiveLayout" IsVisible="false"/>
 </AbsoluteLayout>

@@ -12,7 +12,7 @@ using Microsoft.Maui.Controls;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class WorldUpsideDownEvent : AbsoluteLayout, IEvent, IEventInfo
+    public partial class WorldUpsideDownEvent : AbsoluteLayout, IEvent
     {
         public const string NAME = "WorldUpsideDownEvent";
         public WorldUpsideDownEvent()
@@ -50,7 +50,7 @@ namespace GalaxyLogicGame.Events
         public async Task Appear(GameWithEvents game)
         {
             game.BG.ShowEvent(mainLayout);
-            await Functions.EventTitleAnimation(eventTitle, eventIcon, darken);
+            await Functions.EventTitleAnimationWithTutorial(eventTitle, eventIcon, darken, this);
 
             // merging
             int plusIndex = -1;

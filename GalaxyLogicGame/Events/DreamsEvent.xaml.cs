@@ -13,7 +13,7 @@ using Microsoft.Maui.Controls;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class DreamsEvent : AbsoluteLayout, IEvent, IEventObject, IEventInfo
+    public partial class DreamsEvent : AbsoluteLayout, IEvent, IEventObject
     {
         public const string NAME = "DreamsEvent";
 
@@ -87,7 +87,7 @@ namespace GalaxyLogicGame.Events
 
 
 
-            await Functions.EventTitleAnimation(eventTitle, eventIcon, darken);
+            await Functions.EventTitleAnimationWithTutorial(eventTitle, eventIcon, darken, this);
 
             game.BG.HideAllEvents();
             game.BlindnessLayout.Children.Add(this);

@@ -13,7 +13,7 @@ using Microsoft.Maui.Layouts;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class ShootingStarEvent : AbsoluteLayout, IEvent, IEventInfo
+    public partial class ShootingStarEvent : AbsoluteLayout, IEvent
     {
         public const string NAME = "ShootingStarEvent";
 
@@ -51,10 +51,9 @@ namespace GalaxyLogicGame.Events
 
 
             // something more
-            await Task.WhenAll(
-                Functions.EventTitleAnimation(eventTitle, eventIcon)
-                /*,choiceLayout.FadeTo(0.5, 500)*/
-                , darken.FadeTo(1, 500));
+            await Functions.EventTitleAnimationWithTutorialStayDarkened(eventTitle, eventIcon, darken, this);
+            protectiveLayout.IsVisible = true;
+            buttonsLayout.IsVisible = true;
 
             await choiceLayout.FadeTo(1, 500);
 

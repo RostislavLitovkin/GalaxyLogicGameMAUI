@@ -11,7 +11,7 @@ using Microsoft.Maui.Controls;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class ChristmasEvent : AbsoluteLayout, IEvent, IEventInfo
+    public partial class ChristmasEvent : AbsoluteLayout, IEvent
     {
         public const string NAME = "ChristmasEvent";
 
@@ -53,10 +53,9 @@ namespace GalaxyLogicGame.Events
 
 
             // something more
-            await Task.WhenAll(
-                Functions.EventTitleAnimation(eventTitle, eventIcon)
-                /*,choiceLayout.FadeTo(0.5, 500)*/
-                , darken.FadeTo(1, 500));
+            protectiveLayout.IsVisible = false;
+            await Functions.EventTitleAnimationWithTutorialStayDarkened(eventTitle, eventIcon, darken, this);
+            protectiveLayout.IsVisible = true;
 
             await choiceLayout.FadeTo(1, 500);
 

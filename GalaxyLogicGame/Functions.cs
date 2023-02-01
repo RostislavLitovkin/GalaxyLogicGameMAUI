@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using GalaxyLogicGame.Planet_objects;
+using GalaxyLogicGame.Events;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Layouts;
@@ -72,6 +73,105 @@ namespace GalaxyLogicGame
 
         //public static double CalculateRation() { }
 
+        /// <summary>
+        /// This method is used when you want to show a tutorial at the beggining
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="icon"></param>
+        /// <param name="darken"></param>
+        /// <param name="eventObject"></param>
+        /// <returns></returns>
+        public static async Task EventTitleAnimationWithTutorial(Label title, Image icon, AbsoluteLayout darken, IEvent eventObject)
+        {
+            await Task.WhenAll(
+                darken.FadeTo(1, 500),
+                title.FadeTo(1, 500),
+                icon.FadeTo(1, 500));
+            await Task.Delay(500);
+            icon.FadeTo(0, 500);
+            await Task.Delay(250);
+            if (Device.RuntimePlatform == Device.Tizen || IsSquareScreen())
+            {
+                await Task.WhenAll(
+                    title.TranslateTo(0, -150, 250, Easing.SinIn),
+                    title.ScaleTo(0.5, 250),
+                    darken.FadeTo(0, 250));
+            }
+            else
+            {
+                await Task.WhenAll(
+                    title.TranslateTo(0, 205, 500, Easing.SpringOut),
+                    title.ScaleTo(1.2, 500),
+                    darken.FadeTo(0, 250));
+            }
+            if (!Preferences.Get("EventTutorial" + eventObject.Name, false))
+            {
+                bool loop = true;
+                darken.Children.Add(eventObject.GetEventDescription);
+                await darken.FadeTo(1, 500);
+                darken.GestureRecognizers.Add(new TapGestureRecognizer
+                {
+                    Command = new Command(async () =>
+                    {
+                        await darken.FadeTo(0, 500);
+                        loop = false;
+                        Preferences.Set("EventTutorial" + eventObject.Name, true);
+                    })
+                });
+
+                while (loop)
+                {
+                    await Task.Delay(500);
+                }
+            }
+        }
+
+        public static async Task EventTitleAnimationWithTutorialStayDarkened(Label title, Image icon, AbsoluteLayout darken, IEvent eventObject)
+        {
+            await Task.WhenAll(
+                darken.FadeTo(1, 500),
+                title.FadeTo(1, 500),
+                icon.FadeTo(1, 500));
+            await Task.Delay(500);
+            icon.FadeTo(0, 500);
+            await Task.Delay(250);
+            if (Device.RuntimePlatform == Device.Tizen || IsSquareScreen())
+            {
+                await Task.WhenAll(
+                    title.TranslateTo(0, -150, 250, Easing.SinIn),
+                    title.ScaleTo(0.5, 250));
+            }
+            else
+            {
+                await Task.WhenAll(
+                    title.TranslateTo(0, 205, 500, Easing.SpringOut),
+                    title.ScaleTo(1.2, 500));
+            }
+            if (!Preferences.Get("EventTutorial" + eventObject.Name, false))
+            {
+                bool loop = true;
+                Pages_and_descriptions.EventDescription eventDescription = eventObject.GetEventDescription;
+                eventDescription.Opacity = 0;
+                darken.Children.Add(eventDescription);
+                await eventDescription.FadeTo(1, 500);
+                darken.GestureRecognizers.Add(new TapGestureRecognizer
+                {
+                    Command = new Command(async () =>
+                    {
+                        await eventDescription.FadeTo(0, 500);
+                        darken.Children.Remove(eventDescription);
+                        loop = false;
+                        Preferences.Set("EventTutorial" + eventObject.Name, true);
+                    })
+                });
+
+                while (loop)
+                {
+                    await Task.Delay(500);
+                }
+            }
+        }
+
         public static async Task EventTitleAnimation(Label title, Image icon, AbsoluteLayout darken)
         {
             await Task.WhenAll(
@@ -95,9 +195,8 @@ namespace GalaxyLogicGame
                     title.ScaleTo(1.2, 500),
                     darken.FadeTo(0, 250));
             }
-
-
         }
+
         public static void ScaleToScrollView(Page page, ScrollView scroll, Layout mainLayout)
         {
             Size size = scroll.ContentSize;
@@ -234,6 +333,27 @@ namespace GalaxyLogicGame
             return display.Height / display.Width;
         }
 
+        /*public static async Task EventTitleAnimationWithTutorial(Label title, Image icon, IEvent eventObject)
+        {
+            await Task.WhenAll(
+                title.FadeTo(1, 500),
+                icon.FadeTo(1, 500));
+            await Task.Delay(500);
+            icon.FadeTo(0, 500);
+            await Task.Delay(250);
+            if (Device.RuntimePlatform == Device.Tizen || IsSquareScreen())
+            {
+                await Task.WhenAll(
+                    title.TranslateTo(0, -150, 250, Easing.SinIn),
+                    title.ScaleTo(0.5, 250));
+            }
+            else
+            {
+                await Task.WhenAll(
+                    title.TranslateTo(0, 205, 500, Easing.SpringOut),
+                    title.ScaleTo(1.2, 500));
+            }
+        }*/
         public static async Task EventTitleAnimation(Label title, Image icon)
         {
             await Task.WhenAll(

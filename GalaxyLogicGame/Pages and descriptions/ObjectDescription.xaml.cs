@@ -15,11 +15,11 @@ namespace GalaxyLogicGame
 
     partial class ObjectDescription : AbsoluteLayout
     {
-        private View bg;
         public ObjectDescription()
         {
             InitializeComponent();
 
+            /*
             if (true)//(Device.RuntimePlatform == Device.Tizen)
             {
                 bg = new Frame { CornerRadius = 30, BackgroundColor = Color.FromHex("2f2f2f"), };
@@ -31,6 +31,7 @@ namespace GalaxyLogicGame
             mainLayout.Children.Insert(0, (View)bg);
             AbsoluteLayout.SetLayoutBounds((View)bg, new Rect(0, 0, 1, 1));
             AbsoluteLayout.SetLayoutFlags((View)bg, AbsoluteLayoutFlags.SizeProportional);
+            */
 
         }
         public string BlackholeSource { set { blackholeThumbnail.Source = value; } }

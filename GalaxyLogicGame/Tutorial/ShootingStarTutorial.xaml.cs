@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GalaxyLogicGame.Pages_and_descriptions;
 using GalaxyLogicGame.Particles;
+using GalaxyLogicGame.Events;
+using GalaxyLogicGame;
 using GalaxyLogicGame.Planet_objects;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using GalaxyLogicGame.Types;
 
 namespace GalaxyLogicGame.Tutorial
 {
 
     public partial class ShootingStarTutorial : AbsoluteLayout
     {
-
         private bool eventHappening = true;
         private PlanetBase[] planetsChoice = new PlanetBase[3];
         public ShootingStarTutorial()
@@ -113,6 +116,7 @@ namespace GalaxyLogicGame.Tutorial
                 game.Clicked = true;
             }
         }
+
         public bool EventHappening { get => eventHappening; }
 
     }

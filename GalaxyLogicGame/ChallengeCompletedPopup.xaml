@@ -17,7 +17,7 @@
            TextColor="White"
            FontFamily="SamsungOne"
            FontSize="24"/>
-        <Image Source="challengecompleted.png" TranslationX="200"
+        <Image Source="challengecompleted.png" TranslationX="200" Opacity="0"
            x:Name="completedSticker"/>
     </AbsoluteLayout>
 </AbsoluteLayout>

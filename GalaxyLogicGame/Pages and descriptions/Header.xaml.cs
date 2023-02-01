@@ -24,6 +24,13 @@ namespace GalaxyLogicGame.Pages_and_descriptions
                 AbsoluteLayout.SetLayoutBounds(backButton, new Rect(0, 80, 360, 60));
                 backButton.FontSize = 60;
             }
+            else if (DevicePlatform.Android == DeviceInfo.Platform)
+            {
+                HeightRequest = 110;
+                AbsoluteLayout.SetLayoutBounds(this, new Rect(0, 0, 360, 110));
+                AbsoluteLayout.SetLayoutBounds(title, new Rect(0.5, 0.7, 260, 40));
+                AbsoluteLayout.SetLayoutBounds(backButton, new Rect(0, 50, 360, 60));
+            }
         }
         public bool InvertColors { set
             {
@@ -36,7 +43,18 @@ namespace GalaxyLogicGame.Pages_and_descriptions
             } }
         public string TitleText { set { title.Text = value; } }
         public string SmallTitleText { set { smallTitle.Text = value; smallTitle.IsVisible = true;
-                if (!Functions.IsSquareScreen()) AbsoluteLayout.SetLayoutBounds(title, new Rect(0.5, 0.2, 260, 40));
+                if (!Functions.IsSquareScreen()) {
+                    if (DevicePlatform.Android == DeviceInfo.Platform)
+                    {
+                        AbsoluteLayout.SetLayoutBounds(title, new Rect(0.5, 0.55, 260, 40));
+                        AbsoluteLayout.SetLayoutBounds(smallTitle, new Rect(0.5, 0.9, 260, 20));
+                        AbsoluteLayout.SetLayoutBounds(backButton, new Rect(0, 70, 360, 60));
+                    }
+                    else
+                    {
+                        AbsoluteLayout.SetLayoutBounds(title, new Rect(0.5, 0.2, 260, 40));
+                    }
+                }
             } }
         public Color TitleColor { set { title.TextColor = value; } }
         //public Color TitleColor { set { title.TextColor = value; } }

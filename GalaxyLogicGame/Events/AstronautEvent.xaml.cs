@@ -12,7 +12,7 @@ using Microsoft.Maui.Controls;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class AstronautEvent : AbsoluteLayout, IEvent, IEventInfo
+    public partial class AstronautEvent : AbsoluteLayout, IEvent
     {
         public const string NAME = "AstrounautEvent";
         public AstronautEvent()
@@ -42,10 +42,9 @@ namespace GalaxyLogicGame.Events
 
             game.BG.ShowEvent(mainLayout);
 
+            await Functions.EventTitleAnimationWithTutorial(eventTitle, eventIcon, darken, this);
             Astronaut astronaut = new Astronaut();
             astronaut.Appear(game.BG);
-
-            await Functions.EventTitleAnimation(eventTitle, eventIcon, darken);
             await Task.Delay(500);
             await this.FadeTo(0, 500);
             game.BG.HideAllEvents();

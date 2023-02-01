@@ -32,7 +32,8 @@ namespace GalaxyLogicGame
 
             await Task.Delay(500);
 
-            await completedSticker.TranslateTo(0, 0, 250, Easing.SpringOut);
+            await Task.WhenAll(completedSticker.TranslateTo(0, 0, 250, Easing.SpringOut),
+                completedSticker.FadeTo(1, 250, Easing.SpringOut));
 
             await Task.Delay(2000);
 

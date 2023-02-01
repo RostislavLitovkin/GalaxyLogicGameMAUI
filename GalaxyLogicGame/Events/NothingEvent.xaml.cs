@@ -10,7 +10,7 @@ using Microsoft.Maui.Controls;
 namespace GalaxyLogicGame.Events
 {
 
-    public partial class NothingEvent : AbsoluteLayout, IEvent, IEventInfo
+    public partial class NothingEvent : AbsoluteLayout, IEvent
     {
         public const string NAME = "Nothing";
 
@@ -39,7 +39,7 @@ namespace GalaxyLogicGame.Events
         public async Task Appear(GameWithEvents game)
         {
             //game.BG.ShowEvent(mainLayout);
-            //await Functions.EventTitleAnimation(eventTitle, eventIcon, darken);
+            //await Functions.EventTitleAnimation(eventTitle, eventIcon, darken, this);
 
             //game.BG.HideAllEvents();
         }

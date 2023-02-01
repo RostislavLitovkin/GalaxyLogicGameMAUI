@@ -29,6 +29,7 @@ namespace GalaxyLogicGame.Mobile
 
         private bool powerupsAllowed = true;
         private bool ownsPowerups = false;
+
         public GameBG()
         {
             NavigationPage.SetHasNavigationBar(this, false);
@@ -55,6 +56,7 @@ namespace GalaxyLogicGame.Mobile
 
             Accelerometer.ReadingChanged += Loop;
             Functions.ScaleToScreen(this, mainLayout, 720);
+
         }
         private void OnDisplaySizeChanged(object sender, EventArgs args)
         {
@@ -299,11 +301,6 @@ namespace GalaxyLogicGame.Mobile
             {
                 if (!looping)
                 {
-                    if (Functions.IsSquareScreen())
-                    {
-                        NoAccelerometerLoop();
-                        return;
-                    }
                     Accelerometer.Start(accelerometerSpeed);
                     looping = true;
                 }
