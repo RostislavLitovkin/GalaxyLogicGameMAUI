@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
@@ -17,6 +17,9 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Update="App.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
@@ -447,6 +450,9 @@
 	  <MauiXaml Update="Powerups\PowerupsWatchLayout.xaml">
 	    <SubType></SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages and descriptions\PolkadotConnectPage.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 
@@ -461,11 +467,22 @@
     <PackageReference Include="WalletConnect.NEthereum" Version="1.7.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="Plutonication" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="CommunityToolkit.Maui" />
     <None Remove="Microsoft.AspNet.WebApi.Client" />
     <None Remove="Plugin.MauiMTAdmob" />
+    <None Remove="Plutonication" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
+    <PackageReference Include="ZXing.Net.Maui" Version="0.1.0-preview.5" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios'">
+    <PackageReference Include="ZXing.Net.Maui" Version="0.1.0-preview.5" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">
+    <PackageReference Include="ZXing.Net.Maui" Version="0.1.0-preview.5" />
   </ItemGroup>
 </Project>

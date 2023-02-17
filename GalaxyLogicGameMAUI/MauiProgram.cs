@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using GalaxyLogicGame.Mobile;
+using ZXing.Net.Maui;
 
 namespace GalaxyLogicGameMAUI;
 
@@ -10,6 +11,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseBarcodeReader()
             .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("SamsungOne700.ttf", "SamsungOne");

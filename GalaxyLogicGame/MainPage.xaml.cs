@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaxyLogicGame.Pages_and_descriptions;
+using GalaxyLogicGame.Pagesanddescriptions;
+
 using GalaxyLogicGame.Particles;
 using GalaxyLogicGame.Tutorial;
 //using MarcTron.Plugin;
@@ -206,6 +208,37 @@ namespace GalaxyLogicGame.Mobile
 
             await page.Connect();
         }*/
+
+        private async void OnConnectPolkadotClicked(object sender, EventArgs e)
+        {
+            //SolanaConnectPage page = new SolanaConnectPage(wallet);
+            PolkadotConnectPage page = new PolkadotConnectPage(wallet);
+
+            DisplayInfo display = DeviceDisplay.MainDisplayInfo;
+            double ratio = display.Height / display.Width > 1 ? display.Height / display.Width : 1;
+
+            await Task.WhenAll(
+                this.stars.TransitionUpIn(),
+
+                scaleLayout.TranslateTo(0, -360 * ratio * scaleLayout.Scale, 500, Easing.SinIn),
+
+                //wallpaper.TranslateTo(0, -180, 500, Easing.SinIn),
+                wallpaper.FadeTo(0, 500, Easing.SinIn));
+
+            starsLayout.Children.Remove(this.stars);
+            page.AssignStars(stars);
+            await Navigation.PushAsync((Page)page, false);
+            await page.TransitionIn();
+
+            scaleLayout.TranslationX = 0;
+            scaleLayout.TranslationY = 0;
+            wallpaper.Opacity = 1;
+
+            this.stars = new StarsParticlesLayout();
+            starsLayout.Children.Add(this.stars);
+
+            await page.Connect();
+        }
 
         public int Highscore { get { return Preferences.Get(HIGHSCORE, 0); } set { Preferences.Set(HIGHSCORE, value); highscoreLabel.Text = "Highscore: " + value; } }
         public string HighscoreLabel { get { return highscoreLabel.Text; } set { highscoreLabel.Text = value; } }
