@@ -16,7 +16,7 @@ Despite this, I am very proud of what I was able to accomplish.
 ### Platforms supported:
 
 - Android
-- WearOS (not fully optimised yet)
+- WearOS
 - iOS, ipadOS
 
 #### Can be supported, but are untested:
