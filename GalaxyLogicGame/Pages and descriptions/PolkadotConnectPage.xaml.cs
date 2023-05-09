@@ -101,9 +101,8 @@ public partial class PolkadotConnectPage : ContentPage
         try
         {
             AccessCredentials ac = new AccessCredentials(
-                address: IPAddress.Parse("192.168.177.143"),
+                address: PlutoManager.GetMyIpAddress(),
                 port: 8080,
-                key: "samplePassword",
                 icon: "https://rostislavlitovkin.pythonanywhere.com/logo",
                 name: "Galaxy Logic Game"
             );
