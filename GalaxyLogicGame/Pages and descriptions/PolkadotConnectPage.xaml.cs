@@ -6,21 +6,29 @@ using System.Net;
 using Newtonsoft.Json;
 using System.Text;
 using CommunityToolkit.Maui.Alerts;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
+using Substrate.NetApi;
+using ZXing.Net.Maui.Controls;
+using Substrate.NetApi.Model.Types.Base;
+using Substrate.NetApi.Attributes;
+using Substrate.NetApi.Model.Types.Metadata.V14;
+using static Substrate.NetApi.Model.Meta.Storage;
+using Substrate.NetApi.Model.Types.Primitive;
+using Nethereum.JsonRpc.Client;
+using Newtonsoft.Json.Linq;
 
 namespace GalaxyLogicGame.Pagesanddescriptions;
 
 public partial class PolkadotConnectPage : ContentPage
 {
     private StarsParticlesLayout stars;
-    PlutoEventManager manager = new PlutoEventManager();
-    private string account;
-    private readonly string contractAddress = EthFunctions.GetAtomicBombContractAddress;
-    private readonly string providerAddress = EthFunctions.GetEthereumProvider;
+    private SubstrateClient substrateClient;
+    private string pubkey;
     private bool clicked = true;
     private WalletPreview wallet;
     private bool walletConnectClicked = false;
+    private BuyPowerupTemplate template;
+    private U32 collectionId = new U32(7);
+
     public PolkadotConnectPage(WalletPreview wallet)
     {
         NavigationPage.SetHasNavigationBar(this, false);
@@ -33,6 +41,18 @@ public partial class PolkadotConnectPage : ContentPage
         Functions.FillHeight(scaleLayout);
 
         SizeChanged += OnDisplaySizeChanged;
+
+        template = new BuyPowerupTemplate();
+        template.NetworkLabel.TextColor = Color.FromArgb("ff0000");
+        template.NetworkLabel.Text = "Rockmine";
+
+        template.PriceLabel.Text = "Mint for 1 ROC";
+        template.PriceLabel.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => { await OnMintClicked(); }) });
+
+        template.AddPowerupDescription(new AtomicBombEvent().GetEventDescription);
+        template.IsVisible = false;
+
+        mainStackLayout.Children.Add(template);
     }
 
     private void OnDisplaySizeChanged(object sender, EventArgs args)
@@ -40,7 +60,7 @@ public partial class PolkadotConnectPage : ContentPage
         Functions.ScaleToScreen(this, scaleLayout);
         Functions.FillHeight(scaleLayout);
     }
-    public void AssignStars(Particles.StarsParticlesLayout stars)
+    public void AssignStars(StarsParticlesLayout stars)
     {
         this.stars = stars;
         starsLayout.Children.Add(stars);
@@ -60,22 +80,33 @@ public partial class PolkadotConnectPage : ContentPage
 
     public async Task Connect()
     {
-        if (Preferences.ContainsKey("pubKey") && false)
+        // Create a client that connects to the RPC node
+        substrateClient = new SubstrateClient(
+            new Uri("wss://rococo-asset-hub-rpc.polkadot.io"),
+            Substrate.NetApi.Model.Extrinsics.ChargeTransactionPayment.Default());
+
+        await substrateClient.ConnectAsync();
+
+        Console.WriteLine("Connected to rococo");
+
+        if (Preferences.ContainsKey("pubKey"))
         {
             try
             {
                 if (await CheckNFTs())
                 {
+                    Console.WriteLine("NFT owned ^^");
                     await ShowNFTs();
                 }
                 else
                 {
-                    
+                    OfferConnectingNewWallet();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+
                 NoInternetError();
             }
         }
@@ -85,131 +116,74 @@ public partial class PolkadotConnectPage : ContentPage
     private async Task<bool> CheckNFTs()
     {
         ClearMainStackLayout();
-        mainStackLayout.Children.Add(new Image
-        {
-            Source = "checkingnfts.png",
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center,
-            WidthRequest = 270,
-            HeightRequest = 270
-        });
-        return await EthFunctions.CheckAtomicBombNFTOwnership(Preferences.Get("pubKey", ""));
+        checkingNfts.IsVisible = true;
+
+        Console.WriteLine("Checking");
+        // Actual checking
+        CancellationToken token = CancellationToken.None;
+
+        var account32 = new AccountId32();
+        account32.Create(Utils.GetPublicKeyFrom(Preferences.Get("pubKey", "")));
+
+        var keyBytes = RequestGenerator.GetStorageKeyBytesHash("Nfts", "Account");
+
+        var temp = keyBytes.Concat(HashExtension.Hash(Hasher.BlakeTwo128Concat, account32.Encode()));
+        byte[] prefix = temp.Concat(HashExtension.Hash(Hasher.BlakeTwo128, collectionId.Encode())).ToArray();
+
+        byte[] startKey = new byte[0] { };
+
+        Console.WriteLine(Utils.Bytes2HexString(prefix));
+
+
+        var keysPaged = await substrateClient.State.GetKeysPagedAtAsync(prefix, 1, startKey, string.Empty, token);
+
+        return keysPaged != null && keysPaged.Any();
     }
     private async Task OfferConnectingNewWallet()
     {
         ClearMainStackLayout();
         try
         {
-            AccessCredentials ac = new AccessCredentials(
-                address: IPAddress.Parse("192.168.177.143"),
-                port: 8080,
-                key: "samplePassword",
-                icon: "https://rostislavlitovkin.pythonanywhere.com/logo",
-                name: "Galaxy Logic Game"
-            );
-
-            ac.Address = TestIpFinding();
-
-            qrLayout.IsVisible = true;
-
-            qrLayout.Children.Add(new ZXing.Net.Maui.Controls.BarcodeGeneratorView
+            // Access credentials are used to show correct info to the wallet.
+            AccessCredentials ac = new AccessCredentials
             {
-                Format = ZXing.Net.Maui.BarcodeFormat.QrCode,
-                Value = ac.ToUri().ToString(),
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center,
-                WidthRequest = 250,
-                HeightRequest = 250
-            });
-
-
-            await Task.Delay(500);
-            Console.WriteLine("QR?");
-
-            manager.ListenSafeAsync(ac.Key, ac.Port).GetAwaiter().GetResult();
-
-            qrLayout.IsVisible = false;
-
-
-            manager.ConnectionEstablished += () =>
-            {
-                Console.WriteLine("Connectin Established! :)");
+                Url = "wss://plutonication-53tvi.ondigitalocean.app/plutonication",
+                Name = "Galaxy Logic Game",
+                Icon = "https://rostislavlitovkin.pythonanywhere.com/logo",
+                Key = AccessCredentials.GenerateKey(),
             };
 
-            manager.ConnectionRefused += () =>
-            {
-                Console.WriteLine("Connectin Refused! :(");
-            };
-
-
-            manager.MessageReceived += () => {
-                Console.WriteLine("message received!");
-
-                // Pop oldest message from message queue
-                PlutoMessage msg = manager.IncomingMessages.Dequeue();
-
-                // Based on MessageCode process you message
-                switch (msg.Identifier)
+            await PlutonicationDAppClient.InitializeAsync(
+                ac,
+                pubkey =>
                 {
-                    case MessageCode.Success:
-                        Console.WriteLine("Code: '{0}'. public key delivered!", msg.Identifier);
-                        break;
-                    case MessageCode.PublicKey:
-                        Preferences.Set("pubKey", msg.CustomDataToString());
-                        wallet.Load();
-                        break;
+                    Console.WriteLine(pubkey);
+                    Preferences.Set("pubKey", pubkey);
 
-                    default:
-                        Console.WriteLine("Unknown code: " + msg.Identifier);
-                        break;
-                }
-            };
+                    // This has to run on the main thread
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        header.SmallTitleText = "Connected: " + pubkey.Substring(0, 6) + "..";
+                        checkingNfts.IsVisible = true;
 
+                        await wallet.Load();
 
-            //linkLabel.Text = walletConnect.URI; // good for debugging
-            if (Functions.IsSquareScreen() || walletConnectClicked || true)
-            {
-                
-                await manager.SetupReceiveLoopAsync();
-            }
-            else
-            {
-                try
-                {
-                    Uri uri = ac.ToUri();
-                    await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
-                }
-                catch (Exception ex)
-                {
-                    OfferDownloadingWallet();
-                }
-            }
-            /*
-            await Task.Delay(2000);
-            
+                        if (await CheckNFTs())
+                        {
+                            await ShowNFTs();
+                        }
+                        else
+                        {
+                            OfferMinting();
+                        }
 
-            mainStackLayout.Children.Add(new Image
-            {
-                Source = "checkingnfts.png",
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center,
-                WidthRequest = 270,
-                HeightRequest = 270
-            });
-            //AddLabelToStackLayout("Connected to: " + account.Substring(0, 6) + "..");
+                        logOutButton.IsVisible = true;
+                    });
+                },
+                substrateClient);
 
-
-            AddLogOutButton();
-
-            if (await CheckNFTs())
-            {
-                await ShowNFTs();
-            }
-            else
-            {
-                OfferMinting();
-            }
-            */
+            qrCodeLayout.IsVisible = true;
+            qrCode.Value = ac.ToUri().ToString();
         }
         catch (Exception ex)
         {
@@ -218,134 +192,56 @@ public partial class PolkadotConnectPage : ContentPage
         }
     }
 
-    public static IPAddress GetMyIpAddress()
-    {
-        string hostName = Dns.GetHostName();
-        IPAddress[] ipAddresses = Dns.GetHostEntry(hostName).AddressList;
-        var ip = ipAddresses.Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).Where(x =>
-        {
-            var nums = x.ToString().Split(".");
-            int first = Int32.Parse(nums[0]);
-            int second = Int32.Parse(nums[1]);
-            return (
-                first == 192 && second == 168)
-            || (first == 172 && ((second >= 16) && (second <= 31))
-            );
-        }).FirstOrDefault();
-        return ip;
-    }
-
+    // unused for now
     private async Task OfferDownloadingWallet()
     {
         mainStackLayout.Children.Add(new WalletDownloadThumbnail
         {
-            Icon = "metamask.png",
-            Title = "Metamask",
-            Description = "The most popular Ethereum wallet",
-            Link = "https://play.google.com/store/apps/details?id=io.metamask",
-            ConnectWalletMethod = OfferConnectingNewWallet,
-        });
-
-        mainStackLayout.Children.Add(new WalletDownloadThumbnail
-        {
             Icon = "",
-            Title = "Wallet connect",
+            Title = "PlutoWallet",
             Description = "Universal way to connect all Ethereum wallets",
             ConnectWalletMethod = ShowWalletConnectQRCode,
         });
-        /*
-       var walletConnectThumbnail = new WalletDownloadThumbnail
-       {
-           Icon = "walletconnecticon.png",
-           Title = "Wallet connect",
-           Description = "Connect your wallet securely via QR code",
-           ConnectWalletMethod = OfferConnectingNewWallet,
-       };
-
-       walletConnectThumbnail.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => {
-           walletConnectClicked = true;
-           await OfferConnectingNewWallet();
-       }) });
-       mainStackLayout.Children.Add(walletConnectThumbnail);
-        */
-
-
     }
+
     private void OfferMinting()
     {
         ClearMainStackLayout();
 
-        BuyPowerupTemplate template = new BuyPowerupTemplate();
-        template.NetworkLabel.TextColor = Color.FromArgb("ff0000");
-        template.NetworkLabel.Text = "Optimism testnet";
+        template.IsVisible = true;
 
-        template.PriceLabel.Text = "Mint for 0 Eth";
-        template.PriceLabel.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => { await OnMintClicked(); }) });
-
-        template.AddPowerupDescription(new AtomicBombEvent().GetEventDescription);
-
-        mainStackLayout.Children.Add(template);
+        logOutButton.IsVisible = true;
     }
     private async Task ShowNFTs()
     {
         ClearMainStackLayout();
 
         TokenInfoTemplate template = new TokenInfoTemplate();
-        template.ContractAddressLabel.Text = contractAddress.Substring(0, 20) + "..";
-        template.ContractAddressLabel.GestureRecognizers.Add(new TapGestureRecognizer
-        {
-            Command = new Command(async () => {
-                if (Functions.IsSquareScreen()) { qrCodeLayout.IsVisible = true; await qrCodeLayout.FadeTo(1, 500); }
-                else if (template.ContractAddressLabel.Text != "Copied to clipboard")
-                {
-                    await Clipboard.Default.SetTextAsync(contractAddress);
-
-                    template.ContractAddressLabel.Text = "Copied to clipboard";
-
-                    var toast = Toast.Make("Copied to clipboard");
-                    await toast.Show();
-
-                    template.ContractAddressLabel.Text = contractAddress.Substring(0, 20) + "..";
-                }
-            })
-        });
-
-        string[] address = { contractAddress };
-        try
-        {
-            //var thing = await tempWeb3.Eth.ERC721.GetContractService(contractAddress).Owner; //tempWeb3.Eth.ERC721.GetAllTokenIdsOfOwnerUsingTokenOfOwnerByIndexAndMultiCallAsync(Preferences.Get("pubKey", "Failed"), address);
-            //template.TokenIdLabel.Text = "Token ID: " + thing[0];
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Token ID not loaded");
-            Console.WriteLine(ex.Message);
-            template.TokenIdLabel.Text = "Token ID not loaded";
-            template.TokenIdLabel.TextColor = Color.FromArgb("bbb");
-        }
+        template.ContractAddressLabel.Text = "Powerup";
 
         template.AddPowerupDescription(new AtomicBombEvent().GetEventDescription);
         mainStackLayout.Children.Add(template);
 
         mainStackLayout.Children.Add(new BoxView { HeightRequest = 10 });
 
-        AddLogOutButton();
+        logOutButton.IsVisible = true;
+
     }
     private void NoInternetError()
     {
         ClearMainStackLayout();
-        mainStackLayout.Children.Add(new Image
-        {
-            Source = "nointernet.png",
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center,
-            WidthRequest = 270,
-            HeightRequest = 270
-        });
+        noInternet.IsVisible = true;
     }
     private void ClearMainStackLayout()
     {
-        if (mainStackLayout.Children.Count > 0) mainStackLayout.Children.Clear();
+        checkingNfts.IsVisible = false;
+        noInternet.IsVisible = false;
+        qrCodeLayout.IsVisible = false;
+        logOutButton.IsVisible = false;
+        checkYourWallet.IsVisible = false;
+        template.IsVisible = false;
+
+        //if (mainStackLayout.Children.Count > 0) mainStackLayout.Children.Clear();
     }
     private void AddLabelToStackLayout(string txt)
     {
@@ -359,21 +255,7 @@ public partial class PolkadotConnectPage : ContentPage
             FontSize = 40
         });
     }
-    private void AddLogOutButton()
-    {
-        Label logOutButton = new Label
-        {
-            Text = "Log out",
-            TextColor = Color.FromArgb("FF8B0000"),
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center,
-            FontAttributes = FontAttributes.Bold,
-            FontFamily = "BigNoodleTitling",
-            FontSize = 40
-        };
-        logOutButton.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => { await OnLogOutClicked(); }) });
-        mainStackLayout.Children.Add(logOutButton);
-    }
+
     private async Task OnMintClicked()
     {
         ClearMainStackLayout();
@@ -388,17 +270,60 @@ public partial class PolkadotConnectPage : ContentPage
     }
     public async Task MintNFT()
     {
+        try
+        {
+            checkYourWallet.IsVisible = true;
+
+            // Find the next id
+            string sParameters = RequestGenerator.GetStorage("Nfts", "Collection", Substrate.NetApi.Model.Meta.Storage.Type.Map, new Substrate.NetApi.Model.Meta.Storage.Hasher[] {
+                        Substrate.NetApi.Model.Meta.Storage.Hasher.BlakeTwo128}, new Substrate.NetApi.Model.Types.IType[] {
+                        collectionId});
+            var result = await substrateClient.GetStorageAsync<CollectionDetails>(sParameters, CancellationToken.None);
+
+            EnumMultiAddress mint_to = new EnumMultiAddress();
+            var account32 = new AccountId32();
+            account32.Create(Utils.GetPublicKeyFrom(Preferences.Get("pubKey", "")));
+            mint_to.Create(MultiAddress.Id, account32);
+
+            System.Collections.Generic.List<byte> parameters = new List<byte>();
+
+            // collectionId
+            parameters.AddRange(collectionId.Encode());
+            // itemId
+            parameters.AddRange(result != null ? result.Items.Encode() : new U32(0).Encode());
+
+            // mintTo
+            parameters.AddRange(mint_to.Encode());
+
+            // witnessData
+            parameters.AddRange(new byte[0] { });
+
+            await PlutonicationDAppClient.SendPayloadAsync(52, 3, parameters.ToArray());
+
+            while (!await CheckNFTs())
+            {
+                await Task.Delay(7000);
+            }
+
+            await ShowNFTs();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error when trying to connect to the Plutonication?");
+
+            Console.WriteLine(ex.Message);
+
+            if (await CheckNFTs())
+            {
+                await ShowNFTs();
+            }
+
+            else OfferMinting();
+        }
 
     }
-    
-    public class PostData
-    {
-        public string URI { get; set; }
-        public string FileName { get; set; }
 
-    }
-
-    private async Task OnLogOutClicked()
+    private async void OnLogOutClicked(System.Object sender, System.EventArgs e)
     {
         Preferences.Remove("pubKey");
 
@@ -407,7 +332,7 @@ public partial class PolkadotConnectPage : ContentPage
         await wallet.Load();
         await Connect();
     }
-    
+
     private async Task ShowWalletConnectQRCode()
     {
         walletConnectClicked = true;
@@ -421,38 +346,361 @@ public partial class PolkadotConnectPage : ContentPage
         qrCodeLayout.IsVisible = false;
     }
 
-    private string TestIpFinding()
+    // Helper function
+    public async Task<JArray> GetKeysPagedAtAsync(byte[] keyPrefix, uint pageCount, byte[] startKey, string blockHash, CancellationToken token)
+    {
+        var fullParams = new List<object>(4)
+            {
+                Utils.Bytes2HexString(keyPrefix),
+                pageCount,
+            };
+
+        if (startKey != null)
+        {
+            fullParams.Add(Utils.Bytes2HexString(startKey));
+        }
+
+        if (!string.IsNullOrEmpty(blockHash))
+        {
+            fullParams.Add(blockHash);
+        }
+
+        return await substrateClient.InvokeAsync<JArray>("state_getKeysPaged", fullParams.ToArray(), token);
+    }
+
+
+
+
+    /// <summary>
+    /// >> 0 - Composite[sp_core.crypto.AccountId32]
+    /// </summary>
+    [SubstrateNodeType(TypeDefEnum.Composite)]
+    public sealed class AccountId32 : BaseType
     {
 
-        var result = new List<IPAddress>();
-        try
+        /// <summary>
+        /// >> value
+        /// </summary>
+        private Arr32U8 _value;
+
+        public Arr32U8 Value
         {
-            var upAndNotLoopbackNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces().Where(n => n.NetworkInterfaceType != NetworkInterfaceType.Loopback
-                                                                                                          && n.OperationalStatus == OperationalStatus.Up);
-
-            foreach (var networkInterface in upAndNotLoopbackNetworkInterfaces)
+            get
             {
-                var iPInterfaceProperties = networkInterface.GetIPProperties();
-
-                var unicastIpAddressInformation = iPInterfaceProperties.UnicastAddresses.FirstOrDefault(u => u.Address.AddressFamily == AddressFamily.InterNetwork);
-                if (unicastIpAddressInformation == null) continue;
-
-                result.Add(unicastIpAddressInformation.Address);
-
+                return this._value;
+            }
+            set
+            {
+                this._value = value;
             }
         }
-        catch (Exception ex)
+
+        public override string TypeName()
         {
-            Console.WriteLine($"Unable to find IP: {ex.Message}");
+            return "AccountId32";
         }
 
-        string allIpInfo = string.Empty;
-        foreach (var item in result)
+        public override byte[] Encode()
         {
-            allIpInfo += item.ToString() + "---";
+            var result = new List<byte>();
+            result.AddRange(Value.Encode());
+            return result.ToArray();
         }
-        return result.FirstOrDefault()?.ToString();
-        //Test2 = PlutoManager.GetMyIpAddress().ToString();
 
+        public override void Decode(byte[] byteArray, ref int p)
+        {
+            var start = p;
+            Value = new Arr32U8();
+            Value.Decode(byteArray, ref p);
+            TypeSize = p - start;
+        }
+    }
+
+    /// <summary>
+    /// >> 1 - Array
+    /// </summary>
+    [SubstrateNodeType(TypeDefEnum.Array)]
+    public sealed class Arr32U8 : BaseType
+    {
+
+        private Substrate.NetApi.Model.Types.Primitive.U8[] _value;
+
+        public override int TypeSize
+        {
+            get
+            {
+                return 32;
+            }
+        }
+
+        public Substrate.NetApi.Model.Types.Primitive.U8[] Value
+        {
+            get
+            {
+                return this._value;
+            }
+            set
+            {
+                this._value = value;
+            }
+        }
+
+        public override string TypeName()
+        {
+            return string.Format("[{0}; {1}]", new Substrate.NetApi.Model.Types.Primitive.U8().TypeName(), this.TypeSize);
+        }
+
+        public override byte[] Encode()
+        {
+            var result = new List<byte>();
+            foreach (var v in Value) { result.AddRange(v.Encode()); };
+            return result.ToArray();
+        }
+
+        public override void Decode(byte[] byteArray, ref int p)
+        {
+            var start = p;
+            var array = new Substrate.NetApi.Model.Types.Primitive.U8[TypeSize];
+            for (var i = 0; i < array.Length; i++) { var t = new Substrate.NetApi.Model.Types.Primitive.U8(); t.Decode(byteArray, ref p); array[i] = t; };
+            var bytesLength = p - start;
+            Bytes = new byte[bytesLength];
+            System.Array.Copy(byteArray, start, Bytes, 0, bytesLength);
+            Value = array;
+        }
+
+        public void Create(Substrate.NetApi.Model.Types.Primitive.U8[] array)
+        {
+            Value = array;
+            Bytes = Encode();
+        }
+    }
+
+    /// <summary>
+    /// >> 348 - Composite[pallet_nfts.types.CollectionDetails]
+    /// </summary>
+    [SubstrateNodeType(TypeDefEnum.Composite)]
+    public sealed class CollectionDetails : BaseType
+    {
+
+        /// <summary>
+        /// >> owner
+        /// </summary>
+        private AccountId32 _owner;
+
+        /// <summary>
+        /// >> owner_deposit
+        /// </summary>
+        private Substrate.NetApi.Model.Types.Primitive.U128 _ownerDeposit;
+
+        /// <summary>
+        /// >> items
+        /// </summary>
+        private Substrate.NetApi.Model.Types.Primitive.U32 _items;
+
+        /// <summary>
+        /// >> item_metadatas
+        /// </summary>
+        private Substrate.NetApi.Model.Types.Primitive.U32 _itemMetadatas;
+
+        /// <summary>
+        /// >> item_configs
+        /// </summary>
+        private Substrate.NetApi.Model.Types.Primitive.U32 _itemConfigs;
+
+        /// <summary>
+        /// >> attributes
+        /// </summary>
+        private Substrate.NetApi.Model.Types.Primitive.U32 _attributes;
+
+        public AccountId32 Owner
+        {
+            get
+            {
+                return this._owner;
+            }
+            set
+            {
+                this._owner = value;
+            }
+        }
+
+        public Substrate.NetApi.Model.Types.Primitive.U128 OwnerDeposit
+        {
+            get
+            {
+                return this._ownerDeposit;
+            }
+            set
+            {
+                this._ownerDeposit = value;
+            }
+        }
+
+        public Substrate.NetApi.Model.Types.Primitive.U32 Items
+        {
+            get
+            {
+                return this._items;
+            }
+            set
+            {
+                this._items = value;
+            }
+        }
+
+        public Substrate.NetApi.Model.Types.Primitive.U32 ItemMetadatas
+        {
+            get
+            {
+                return this._itemMetadatas;
+            }
+            set
+            {
+                this._itemMetadatas = value;
+            }
+        }
+
+        public Substrate.NetApi.Model.Types.Primitive.U32 ItemConfigs
+        {
+            get
+            {
+                return this._itemConfigs;
+            }
+            set
+            {
+                this._itemConfigs = value;
+            }
+        }
+
+        public Substrate.NetApi.Model.Types.Primitive.U32 Attributes
+        {
+            get
+            {
+                return this._attributes;
+            }
+            set
+            {
+                this._attributes = value;
+            }
+        }
+
+        public override string TypeName()
+        {
+            return "CollectionDetails";
+        }
+
+        public override byte[] Encode()
+        {
+            var result = new List<byte>();
+            result.AddRange(Owner.Encode());
+            result.AddRange(OwnerDeposit.Encode());
+            result.AddRange(Items.Encode());
+            result.AddRange(ItemMetadatas.Encode());
+            result.AddRange(ItemConfigs.Encode());
+            result.AddRange(Attributes.Encode());
+            return result.ToArray();
+        }
+
+        public override void Decode(byte[] byteArray, ref int p)
+        {
+            var start = p;
+            Owner = new AccountId32();
+            Owner.Decode(byteArray, ref p);
+            OwnerDeposit = new Substrate.NetApi.Model.Types.Primitive.U128();
+            OwnerDeposit.Decode(byteArray, ref p);
+            Items = new Substrate.NetApi.Model.Types.Primitive.U32();
+            Items.Decode(byteArray, ref p);
+            ItemMetadatas = new Substrate.NetApi.Model.Types.Primitive.U32();
+            ItemMetadatas.Decode(byteArray, ref p);
+            ItemConfigs = new Substrate.NetApi.Model.Types.Primitive.U32();
+            ItemConfigs.Decode(byteArray, ref p);
+            Attributes = new Substrate.NetApi.Model.Types.Primitive.U32();
+            Attributes.Decode(byteArray, ref p);
+            TypeSize = p - start;
+        }
+    }
+
+    public enum MultiAddress
+    {
+
+        Id = 0,
+
+        Index = 1,
+
+        Raw = 2,
+
+        Address32 = 3,
+
+        Address20 = 4,
+    }
+
+    /// <summary>
+    /// >> 197 - Variant[sp_runtime.multiaddress.MultiAddress]
+    /// </summary>
+    public sealed class EnumMultiAddress : BaseEnumExt<MultiAddress, AccountId32, Substrate.NetApi.Model.Types.Base.BaseCom<Substrate.NetApi.Model.Types.Base.BaseTuple>, Substrate.NetApi.Model.Types.Base.BaseVec<Substrate.NetApi.Model.Types.Primitive.U8>, Arr32U8, Arr20U8>
+    {
+    }
+
+
+    /// <summary>
+    /// >> 74 - Array
+    /// </summary>
+    [SubstrateNodeType(TypeDefEnum.Array)]
+    public sealed class Arr20U8 : BaseType
+    {
+
+        private Substrate.NetApi.Model.Types.Primitive.U8[] _value;
+
+        public override int TypeSize
+        {
+            get
+            {
+                return 20;
+            }
+        }
+
+        public Substrate.NetApi.Model.Types.Primitive.U8[] Value
+        {
+            get
+            {
+                return this._value;
+            }
+            set
+            {
+                this._value = value;
+            }
+        }
+
+        public override string TypeName()
+        {
+            return string.Format("[{0}; {1}]", new Substrate.NetApi.Model.Types.Primitive.U8().TypeName(), this.TypeSize);
+        }
+
+        public override byte[] Encode()
+        {
+            var result = new List<byte>();
+            foreach (var v in Value) { result.AddRange(v.Encode()); };
+            return result.ToArray();
+        }
+
+        public override void Decode(byte[] byteArray, ref int p)
+        {
+            var start = p;
+            var array = new Substrate.NetApi.Model.Types.Primitive.U8[TypeSize];
+            for (var i = 0; i < array.Length; i++) { var t = new Substrate.NetApi.Model.Types.Primitive.U8(); t.Decode(byteArray, ref p); array[i] = t; };
+            var bytesLength = p - start;
+            Bytes = new byte[bytesLength];
+            System.Array.Copy(byteArray, start, Bytes, 0, bytesLength);
+            Value = array;
+        }
+
+        public void Create(Substrate.NetApi.Model.Types.Primitive.U8[] array)
+        {
+            Value = array;
+            Bytes = Encode();
+        }
+
+
+        
     }
 }
