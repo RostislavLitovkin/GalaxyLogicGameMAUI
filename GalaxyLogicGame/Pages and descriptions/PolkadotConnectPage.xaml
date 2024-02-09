@@ -14,12 +14,12 @@
             <ScrollView x:Name="scroll" AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All" HorizontalScrollBarVisibility="Never" Orientation="Vertical">
                 <AbsoluteLayout x:Name="mainLayout" AbsoluteLayout.LayoutBounds="0, 0, 360, AutoSize"  TranslationY="180" Opacity="0">
                     <StackLayout x:Name="stackLayout" AbsoluteLayout.LayoutBounds="0, 0, 360, AutoSize">
-                        <pages_and_descriptions:Header TitleText="Connect NFTs" SmallTitleText="using: Rococo testnet" x:Name="header" />
+                        <pages_and_descriptions:Header TitleText="Connect Wallet" x:Name="header" />
 
                         <BoxView HeightRequest="10"/>
 
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="360" MinimumHeightRequest = "195"
-                                     x:Name="mainStackLayout">
+                                     x:Name="old_mainStackLayout">
 
                             <Image Source="checkingnfts.png"
                                    x:Name="checkingNfts" IsVisible="false"
@@ -56,17 +56,58 @@
                 </AbsoluteLayout>
             </ScrollView>
             <AbsoluteLayout AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1"  AbsoluteLayout.LayoutFlags="All" x:Name="qrCodeLayout" BackgroundColor="#88000000" IsVisible="false" Opacity="1">
+                <ScrollView AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1"  AbsoluteLayout.LayoutFlags="All">
+                    <VerticalStackLayout Spacing="10"
+                                         HeightRequest="445">
+                        <Label
+                            Margin="0, 10, 0, 0"
+                            HeightRequest="20"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            x:Name="qrLabel"
+                            FontFamily="SamsungOne" >
+                            
 
-                <controls:BarcodeGeneratorView
-                                   Margin="3" Format="QrCode"
+                        </Label>
+                        <controls:BarcodeGeneratorView
+                                   Format="QrCode"
                                    x:Name="qrCode"
-                                   AbsoluteLayout.LayoutBounds="0.5, 0.5, 270, 270" AbsoluteLayout.LayoutFlags="PositionProportional"
+                                   AbsoluteLayout.LayoutBounds="0.5, 0.5, 270, 270"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                                   WidthRequest="270" HeightRequest="270"
                                    HorizontalOptions="Center" VerticalOptions="Center"
-                                   HeightRequest="270" WidthRequest="270" />
+                                   Margin="45, 5, 45, 35"
+                                    >
+                            <controls:BarcodeGeneratorView.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnQRCodeLayoutClicked"/>
+                            </controls:BarcodeGeneratorView.GestureRecognizers>
 
-                <AbsoluteLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnQRCodeLayoutClicked"/>
-                </AbsoluteLayout.GestureRecognizers>
+                        </controls:BarcodeGeneratorView>
+
+                        <AbsoluteLayout
+                            HeightRequest="85"
+                            WidthRequest="320">
+                            <pages_and_descriptions:WalletDownloadThumbnail
+                                Icon = "plutowalleticonwhite"
+                                Title = "PlutoWallet"
+                                Description = "Download this secure wallet for signing into decentralised apps."
+                                x:Name="walletDownloadThumbnail"
+                            >
+                                
+                            </pages_and_descriptions:WalletDownloadThumbnail>
+
+                            <AbsoluteLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                                            AbsoluteLayout.LayoutFlags="SizeProportional">
+                                <AbsoluteLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnOfferDownloadingWalletClicked" />
+                                </AbsoluteLayout.GestureRecognizers>
+                            </AbsoluteLayout>
+                        </AbsoluteLayout>
+                        
+
+                    </VerticalStackLayout>
+
+                </ScrollView>
             </AbsoluteLayout> 
         </AbsoluteLayout>
     </AbsoluteLayout>

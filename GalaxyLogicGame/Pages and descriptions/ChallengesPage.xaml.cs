@@ -8,7 +8,7 @@ using GalaxyLogicGame.Particles;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 
-[assembly: ExportFont("SamsungOne700.ttf", Alias = "SamsungOne")]
+[assembly: ExportFont("samsungone700.ttf", Alias = "SamsungOne")]
 
 namespace GalaxyLogicGame
 {

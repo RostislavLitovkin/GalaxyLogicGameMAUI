@@ -32,7 +32,7 @@
 	
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\galaxylogo360.png" Color="#2b2b2b" />
+		<MauiIcon Include="Resources\AppIcon\galaxylogo360.png" Color="#2b2b2b" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\galaxylogogray.jpg" Color="#2b2b2b" BaseSize="128,128" />
@@ -58,6 +58,12 @@
 	  <ProjectReference Include="..\GalaxyLogicGame\GalaxyLogicGame.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Resources\Images\googleplay.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <BundleResource Include="Resources\Images\googleplay.png" />
+	</ItemGroup>
     <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
 		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
 		<CodesignEntitlement>Entitlements.plist</CodesignEntitlement>
@@ -67,6 +73,9 @@
 		<TcpPort>58181</TcpPort>
 	</PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
     </PropertyGroup>
 </Project>

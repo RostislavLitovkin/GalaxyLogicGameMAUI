@@ -20,6 +20,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Update="App.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
@@ -112,9 +115,6 @@
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages and descriptions\CreditsPage.xaml.cs">
-	    <DependentUpon>%(Filename)</DependentUpon>
-	  </Compile>
-	  <Compile Update="Pages and descriptions\CryptoConnectPage.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages and descriptions\DevelopmentInfoThumbnail.xaml.cs">
@@ -315,9 +315,6 @@
 	  <MauiXaml Update="Pages and descriptions\CreditsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages and descriptions\CryptoConnectPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Pages and descriptions\DevelopmentInfoThumbnail.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -467,8 +464,7 @@
     <PackageReference Include="WalletConnect.NEthereum" Version="1.7.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
-    <PackageReference Include="Plutonication" Version="2.0.6" />
-    <PackageReference Include="Substrate.NET.API" Version="0.9.7" />
+    <PackageReference Include="Plutonication" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

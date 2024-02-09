@@ -8,7 +8,7 @@ These files will be deployed with you package and will be accessible using Essen
 
 	async Task LoadMauiAsset()
 	{
-		using var stream = await FileSystem.OpenAppPackageFileAsync("AboutAssets.txt");
+		using var stream = await FileSystem.OpenAppPackageFileAsync("aboutassets.txt");
 		using var reader = new StreamReader(stream);
 
 		var contents = reader.ReadToEnd();

@@ -6,14 +6,34 @@
                 HorizontalOptions="Center">
     <Button AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
         BackgroundColor="#2f2f2f" CornerRadius="30" IsEnabled="False"/>
+
     <AbsoluteLayout AbsoluteLayout.LayoutBounds="0, 0, 85, 85">
-        <Image x:Name="icon"
-           Aspect="AspectFit"
-           AbsoluteLayout.LayoutBounds=".5, .5, 60, 60" AbsoluteLayout.LayoutFlags="PositionProportional"/>
+        <Border Padding="0"
+            AbsoluteLayout.LayoutBounds=".5, .5, 60, 60"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            Grid.Column="0"
+            StrokeThickness="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="Black"
+                        Offset="0,2" 
+                        Radius="3"
+                        Opacity="0.1" />
+
+            </Border.Shadow>
+
+            <AbsoluteLayout>
+
+                <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1" AbsoluteLayout.LayoutFlags="All"
+                    x:Name="icon" Aspect="AspectFill" />
+            </AbsoluteLayout>
+        </Border>
     </AbsoluteLayout>
 
     <AbsoluteLayout AbsoluteLayout.LayoutBounds="85, 0, 170, 85">
-
         <Label x:Name="title" FontSize="20" FontAttributes="Bold" FontFamily="SamsungOne" TextColor="White" VerticalOptions="CenterAndExpand"
                AbsoluteLayout.LayoutBounds="5, 5, 160, AutoSize"/>
         <Label x:Name="description" FontSize="12" FontAttributes="None" FontFamily="SamsungOne" TextColor="White" VerticalOptions="CenterAndExpand"
@@ -25,7 +45,5 @@
            Aspect="AspectFit"
            AbsoluteLayout.LayoutBounds=".5, .5, 30, 30" AbsoluteLayout.LayoutFlags="PositionProportional"/>
     </AbsoluteLayout>
-    <AbsoluteLayout.GestureRecognizers>
-        <TapGestureRecognizer Tapped="OnClicked" />
-    </AbsoluteLayout.GestureRecognizers>
+    
 </AbsoluteLayout>

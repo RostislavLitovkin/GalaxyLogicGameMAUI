@@ -14,7 +14,7 @@ public static class MauiProgram
 			.UseBarcodeReader()
             .ConfigureFonts(fonts =>
 			{
-				fonts.AddFont("SamsungOne700.ttf", "SamsungOne");
+				fonts.AddFont("samsungone700.ttf", "SamsungOne");
 				fonts.AddFont("bignoodletitling.ttf", "BigNoodleTitling");
 
             })

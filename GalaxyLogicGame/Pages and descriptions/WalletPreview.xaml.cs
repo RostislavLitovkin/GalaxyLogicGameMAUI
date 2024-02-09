@@ -16,9 +16,10 @@ public partial class WalletPreview : AbsoluteLayout
             try
             {
                 label.Text = "Checking NFTs";
-                if (await EthFunctions.CheckAtomicBombNFTOwnership(Preferences.Get("pubKey", "Failed")))
+                //if (await EthFunctions.CheckAtomicBombNFTOwnership(Preferences.Get("pubKey", "Failed")))
+                if (true)
                 {
-                    label.Text = Preferences.Get("pubKey", "Failed").Substring(0, 6) + "..";
+                    label.Text = Text;
                     owns = true;
                 }
                 else
@@ -31,11 +32,13 @@ public partial class WalletPreview : AbsoluteLayout
             catch
             {
                 owns = false;
-                label.Text = Preferences.Get("pubKey", "Failed").Substring(0, 6) + "..";
+                label.Text = Text;
             }
-
         }
         else { label.Text = "Connect wallet"; owns = false; }
     }
+
+    private string Text => "Connected to: \n" + Preferences.Get("pubKey", "Failed").Substring(0, 6) + "..";
+
     public bool Owns => owns;
 }

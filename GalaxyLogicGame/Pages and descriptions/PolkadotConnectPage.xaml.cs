@@ -15,19 +15,21 @@ using static Substrate.NetApi.Model.Meta.Storage;
 using Substrate.NetApi.Model.Types.Primitive;
 using Nethereum.JsonRpc.Client;
 using Newtonsoft.Json.Linq;
+using Substrate.NetApi.Model.Types;
 
 namespace GalaxyLogicGame.Pagesanddescriptions;
 
 public partial class PolkadotConnectPage : ContentPage
 {
     private StarsParticlesLayout stars;
-    private SubstrateClient substrateClient;
+    //private SubstrateClient substrateClient;
     private string pubkey;
     private bool clicked = true;
     private WalletPreview wallet;
+    private Account account;
     private bool walletConnectClicked = false;
-    private BuyPowerupTemplate template;
-    private U32 collectionId = new U32(7);
+    //private BuyPowerupTemplate template;
+    //private U32 collectionId = new U32(7);
 
     public PolkadotConnectPage(WalletPreview wallet)
     {
@@ -42,7 +44,7 @@ public partial class PolkadotConnectPage : ContentPage
 
         SizeChanged += OnDisplaySizeChanged;
 
-        template = new BuyPowerupTemplate();
+        /*template = new BuyPowerupTemplate();
         template.NetworkLabel.TextColor = Color.FromArgb("ff0000");
         template.NetworkLabel.Text = "Rockmine";
 
@@ -52,7 +54,7 @@ public partial class PolkadotConnectPage : ContentPage
         template.AddPowerupDescription(new AtomicBombEvent().GetEventDescription);
         template.IsVisible = false;
 
-        mainStackLayout.Children.Add(template);
+        mainStackLayout.Children.Add(template);*/
     }
 
     private void OnDisplaySizeChanged(object sender, EventArgs args)
@@ -81,13 +83,11 @@ public partial class PolkadotConnectPage : ContentPage
     public async Task Connect()
     {
         // Create a client that connects to the RPC node
-        substrateClient = new SubstrateClient(
+        /*substrateClient = new SubstrateClient(
             new Uri("wss://rococo-asset-hub-rpc.polkadot.io"),
             Substrate.NetApi.Model.Extrinsics.ChargeTransactionPayment.Default());
 
-        await substrateClient.ConnectAsync();
-
-        Console.WriteLine("Connected to rococo");
+        await substrateClient.ConnectAsync();*/
 
         if (Preferences.ContainsKey("pubKey"))
         {
@@ -120,6 +120,7 @@ public partial class PolkadotConnectPage : ContentPage
 
         Console.WriteLine("Checking");
         // Actual checking
+        /*
         CancellationToken token = CancellationToken.None;
 
         var account32 = new AccountId32();
@@ -134,56 +135,79 @@ public partial class PolkadotConnectPage : ContentPage
 
         Console.WriteLine(Utils.Bytes2HexString(prefix));
 
-
-        var keysPaged = await substrateClient.State.GetKeysPagedAtAsync(prefix, 1, startKey, string.Empty, token);
+        var keysPaged = await substrateClient.State.GetKeysPagedAsync(prefix, 1, startKey, string.Empty, token);
 
         return keysPaged != null && keysPaged.Any();
+        */
+        return false;
     }
     private async Task OfferConnectingNewWallet()
     {
         ClearMainStackLayout();
+
         try
         {
             // Access credentials are used to show correct info to the wallet.
             AccessCredentials ac = new AccessCredentials
             {
-                Url = "wss://plutonication-53tvi.ondigitalocean.app/plutonication",
+                Url = "wss://plutonication-acnha.ondigitalocean.app/",
                 Name = "Galaxy Logic Game",
                 Icon = "https://rostislavlitovkin.pythonanywhere.com/logo",
-                Key = AccessCredentials.GenerateKey(),
             };
 
-            await PlutonicationDAppClient.InitializeAsync(
-                ac,
-                pubkey =>
-                {
-                    Console.WriteLine(pubkey);
-                    Preferences.Set("pubKey", pubkey);
-
-                    // This has to run on the main thread
-                    MainThread.BeginInvokeOnMainThread(async () =>
+            Task.Run(async () =>
+            {
+                this.account = await PlutonicationDAppClient.InitializeAsync(
+                    ac,
+                    pubkey =>
                     {
-                        header.SmallTitleText = "Connected: " + pubkey.Substring(0, 6) + "..";
-                        checkingNfts.IsVisible = true;
+                        Preferences.Set("pubKey", pubkey);
 
-                        await wallet.Load();
-
-                        if (await CheckNFTs())
+                        // This has to run on the main thread
+                        MainThread.BeginInvokeOnMainThread(async () =>
                         {
-                            await ShowNFTs();
-                        }
-                        else
-                        {
-                            OfferMinting();
-                        }
+                            header.SmallTitleText = "Connected to: " + pubkey.Substring(0, 6) + "..";
+                            checkingNfts.IsVisible = true;
 
-                        logOutButton.IsVisible = true;
+                            await wallet.Load();
+
+                            /*
+                            if (await CheckNFTs())
+                            {
+                                await ShowNFTs();
+                            }
+                            else
+                            {
+                                OfferMinting();
+                            }
+                            */
+
+                            // logOutButton.IsVisible = true;
+
+                            // Pop async
+                            await Navigation.PopAsync();
+                        });
                     });
-                },
-                substrateClient);
+                });
 
-            qrCodeLayout.IsVisible = true;
-            qrCode.Value = ac.ToUri().ToString();
+            bool supportsUri = await Launcher.Default.CanOpenAsync("plutonication:");
+
+            if (supportsUri)
+            {
+
+                bool plutonicationOpened = await Launcher.Default.TryOpenAsync(ac.ToUri());
+
+                if (plutonicationOpened)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                qrLabel.Text = "Scan with wallet";
+                qrCodeLayout.IsVisible = true;
+                qrCode.Value = ac.ToUri().ToString();
+            }
         }
         catch (Exception ex)
         {
@@ -193,29 +217,35 @@ public partial class PolkadotConnectPage : ContentPage
     }
 
     // unused for now
-    private async Task OfferDownloadingWallet()
+    private async void OnOfferDownloadingWalletClicked(System.Object sender, System.EventArgs e)
     {
-        mainStackLayout.Children.Add(new WalletDownloadThumbnail
+        string downloadLink = "https://play.google.com/store/apps/details?id=com.rostislavlitovkin.plutowallet";
+
+        bool opened = await Launcher.Default.TryOpenAsync(downloadLink);
+
+        if (opened)
         {
-            Icon = "",
-            Title = "PlutoWallet",
-            Description = "Universal way to connect all Ethereum wallets",
-            ConnectWalletMethod = ShowWalletConnectQRCode,
-        });
+            return;
+        }
+
+        qrLabel.Text = "Download on Google Play";
+        qrCode.Value = downloadLink;
     }
 
     private void OfferMinting()
     {
         ClearMainStackLayout();
 
-        template.IsVisible = true;
+        //template.IsVisible = true;
 
         logOutButton.IsVisible = true;
     }
+
     private async Task ShowNFTs()
     {
         ClearMainStackLayout();
 
+        /*
         TokenInfoTemplate template = new TokenInfoTemplate();
         template.ContractAddressLabel.Text = "Powerup";
 
@@ -223,6 +253,8 @@ public partial class PolkadotConnectPage : ContentPage
         mainStackLayout.Children.Add(template);
 
         mainStackLayout.Children.Add(new BoxView { HeightRequest = 10 });
+
+        */
 
         logOutButton.IsVisible = true;
 
@@ -233,17 +265,18 @@ public partial class PolkadotConnectPage : ContentPage
         noInternet.IsVisible = true;
     }
     private void ClearMainStackLayout()
-    {
+    { 
         checkingNfts.IsVisible = false;
         noInternet.IsVisible = false;
         qrCodeLayout.IsVisible = false;
         logOutButton.IsVisible = false;
         checkYourWallet.IsVisible = false;
-        template.IsVisible = false;
+        //template.IsVisible = false;    
 
         //if (mainStackLayout.Children.Count > 0) mainStackLayout.Children.Clear();
     }
-    private void AddLabelToStackLayout(string txt)
+
+    /*private void AddLabelToStackLayout(string txt)
     {
         mainStackLayout.Children.Add(new Label
         {
@@ -254,7 +287,7 @@ public partial class PolkadotConnectPage : ContentPage
             WidthRequest = 270,
             FontSize = 40
         });
-    }
+    }*/
 
     private async Task OnMintClicked()
     {
@@ -275,6 +308,7 @@ public partial class PolkadotConnectPage : ContentPage
             checkYourWallet.IsVisible = true;
 
             // Find the next id
+            /*
             string sParameters = RequestGenerator.GetStorage("Nfts", "Collection", Substrate.NetApi.Model.Meta.Storage.Type.Map, new Substrate.NetApi.Model.Meta.Storage.Hasher[] {
                         Substrate.NetApi.Model.Meta.Storage.Hasher.BlakeTwo128}, new Substrate.NetApi.Model.Types.IType[] {
                         collectionId});
@@ -298,8 +332,8 @@ public partial class PolkadotConnectPage : ContentPage
             // witnessData
             parameters.AddRange(new byte[0] { });
 
-            await PlutonicationDAppClient.SendPayloadAsync(52, 3, parameters.ToArray());
-
+            //await PlutonicationDAppClient.SendPayloadAsync(52, 3, parameters.ToArray());
+            */
             while (!await CheckNFTs())
             {
                 await Task.Delay(7000);
@@ -342,13 +376,16 @@ public partial class PolkadotConnectPage : ContentPage
 
     private async void OnQRCodeLayoutClicked(object sender, EventArgs e)
     {
-        await qrCodeLayout.FadeTo(0, 500);
-        qrCodeLayout.IsVisible = false;
+        await Navigation.PopAsync();
+
+        //await qrCodeLayout.FadeTo(0, 500);
+        //qrCodeLayout.IsVisible = false;
     }
 
     // Helper function
-    public async Task<JArray> GetKeysPagedAtAsync(byte[] keyPrefix, uint pageCount, byte[] startKey, string blockHash, CancellationToken token)
+    /*public async Task<JArray> GetKeysPagedAtAsync(byte[] keyPrefix, uint pageCount, byte[] startKey, string blockHash, CancellationToken token)
     {
+        
         var fullParams = new List<object>(4)
             {
                 Utils.Bytes2HexString(keyPrefix),
@@ -367,6 +404,8 @@ public partial class PolkadotConnectPage : ContentPage
 
         return await substrateClient.InvokeAsync<JArray>("state_getKeysPaged", fullParams.ToArray(), token);
     }
+    */
+
 
 
 
@@ -699,8 +738,5 @@ public partial class PolkadotConnectPage : ContentPage
             Value = array;
             Bytes = Encode();
         }
-
-
-        
     }
 }
